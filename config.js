@@ -5,7 +5,7 @@
  */
 
 export default {
-  title: 'React Static Boilerplate',
-  description: 'Static website generator for React.js web applications.',
+  title: 'Frontend Flashcards',
+  description: 'For studying stuff. Indeed, for learning stuff.',
   googleAnalyticsId: 'UA-XXXXX-X',
 };
