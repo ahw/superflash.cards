@@ -10,6 +10,7 @@ import Card from '../components/Card';
 import Deck from '../components/Deck';
 import Request from 'superagent';
 import _ from 'underscore';
+import '../store/store.js';
 
 export default class extends Component {
 
