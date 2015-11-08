@@ -1,43 +1,78 @@
-import { combineReducers } from 'redux';
-// import * as reducers from './reducers';
-function getId(card) {
-  return (card.question + card.answer).replace(/[^a-zA-Z]/g, "");
+import {
+  ADD_CARD,
+  UPDATE_LAST_SEEN_TIMESTAMP
+} from '../actions'
+import { combineReducers } from 'redux'
+// import crypto from 'crypto'
+// import * as reducers from './reducers'
+
+function generateId(card) {
+  return (card.question + card.answer).replace(/[^a-zA-Z]/g, "_")
+  // let sha = crypto.createHash('sha1');
+  // sha.update(card.question + card.answer);
+  // let id = sha.digest('hex');
+  // return id
 }
 
-function cards(state = {}, action) {
-  switch (action.type) {
-    case 'UPDATE_LAST_SEEN_TIMESTAMP':
-      // TODO: Could just update with action.payload
-      let updatedCard = Object.assign({}, state[action.payload.id], {lastSeenTimestamp: action.payload.lastSeenTimestamp});
-      let updatedCards = Object.assign({}, state, {[action.payload.id]: updatedCard});
-      return updatedCards;
-    case 'ADD_CARD':
-      // TODO: Could just update with action.payload
-      let updatedCards1 = Object.assign({}, state, {[getId(action.payload.card)]: action.payload.card});
-      return updatedCards1;
-    default:
-      return state;
+function deckEntitiesReducer(deckEntities = {}, action) {
+
+  if (action.type === ADD_CARD) {
+    let deck = action.payload.deck
+    if (deck && deckEntities[deck]) {
+      return deckEntities // Deck already exists
+    } else if (deck) {
+      // Create a new deck entity
+      return Object.assign({}, deckEntities, {[deck]: deck})
+    } else {
+      return deckEntities
+    }
+  } else {
+    // Adding a new card is the only time we'd have to update decks
+    return deckEntities
   }
 }
 
-function decks(state = {}, action) {
-  switch (action.type) {
-    case 'ADD_CARD':
-      if (state[action.payload.card.deck]) {
-        // Append this card id to the deck list
-        return Object.assign({}, state, {[action.payload.card.deck]: [...state[action.payload.card.deck], getId(action.payload.card)]});
-      } else {
-        // Initialize this deck with an array of 1 card
-        return Object.assign({}, state, {[action.payload.card.deck]: [getId(action.payload.card)]});
+function cardEntitiesReducer(cardEntities = {}, action) {
+  if (action.type === ADD_CARD) {
+    let id = generateId(action.payload)
+    let card = Object.assign({}, action.payload, {id: id})
+    return Object.assign({}, cardEntities, {[id]: card})
+  }
+
+  // Assert: nothing required
+  return cardEntities
+}
+
+function decksReducer(decks = {}, action) {
+  if (action.type === ADD_CARD) {
+    if (decks[action.payload.deck]) {
+      let updatedCardList = [...decks[action.payload.deck].cardIds, generateId(action.payload)]
+      let updatedDeck = Object.assign({}, decks[action.payload.deck], {cardIds: updatedCardList})
+      return Object.assign({}, decks, {[action.payload.deck]: updatedDeck})
+    } else {
+      // Initialize a new deck with an array of 1 card
+      let newDeck = {
+        cardIds: [generateId(action.payload)],
+        nextCardIndex: 0
       }
-    default:
-      return state;
+      return Object.assign({}, decks, {[action.payload.deck]: newDeck})
+    }
+  } else {
+    // Assert: nothing to do
+    return decks
   }
 }
 
-const flashCardsReducer = combineReducers({
-  cards,
-  decks
-});
+function entitiesReducer(entities = {}, action) {
+  return {
+    decks: deckEntitiesReducer(entities.decks, action),
+    cards: cardEntitiesReducer(entities.cards, action)
+  }
+}
 
-export default flashCardsReducer;
+const rootReducer = combineReducers({
+  entities: entitiesReducer,
+  decks: decksReducer
+})
+
+export default rootReducer
