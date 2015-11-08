@@ -6,6 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import config from '../../config';
+import moment from 'moment';
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ export default class Card extends React.Component {
   }
 
   flipCard() {
+    this.props.onFlip();
     this.setState({
       isShowingQuestion: !this.state.isShowingQuestion
     });
@@ -37,15 +39,17 @@ export default class Card extends React.Component {
 
   render() {
     return (
-      <div onClick={this.flipCard.bind(this)}>
+      <div style={{fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray', backgroundColor: this.state.isShowingQuestion ? '#eee' : 'white'}} onClick={this.flipCard.bind(this)}>
         <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
         <p>{this.state.isShowingQuestion ? this.props.question : this.props.answer}</p>
-        <i>Last seen: {this.state.lastSeen === null ? 'never' : this.state.lastSeen}</i>
-        <i>{this.id}</i>
+
+        <div style={{fontSize:10, color:'gray'}}>
+          Last seen: {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}
+        </div>
       </div>
     );
   }
 }
 
 // Card.propTypes = { initialCount: React.PropTypes.number };
-Card.defaultProps = { lastSeen: null, isShowingQuestion: true };
+Card.defaultProps = { lastSeen: null, isShowingQuestion: true, onFlip: function() {} };

@@ -9,9 +9,9 @@ import './Layout.scss';
 import Navigation from '../Navigation';
 
 function Layout({ children }) {
+  // {{ /* <Navigation /> */ }}
   return (
     <div className="Layout">
-      <Navigation />
       {children}
     </div>
   );

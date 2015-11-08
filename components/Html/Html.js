@@ -19,6 +19,7 @@ function Html({ title, description, body, debug }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="apple-touch-icon" href="apple-touch-icon.png" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+        <link rel="icon" href="cards-stack-32x32.png" />
         <script src={'/app.js?' + new Date().getTime()} />
       </head>
       <body>
