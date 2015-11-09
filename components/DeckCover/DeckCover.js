@@ -38,7 +38,7 @@ export default class DeckCover extends React.Component {
     });
 
     return (
-      <div style={{fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray'}} onTouchStart={function() {}} onClick={this.props.onClick}>
+      <div className="DeckCover" style={{flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray'}} onTouchStart={function() {}} onClick={this.props.onClick}>
         <h1 style={{marginTop:0}}>{this.props.name}</h1>
         <div style={{fontSize:10, color:'gray'}}>
           {this.props.cardIds.filter((cardId) => { let card = this.props.cards[cardId]; return !!card.lastSeen; }).length}/{this.props.cardIds.length} seen

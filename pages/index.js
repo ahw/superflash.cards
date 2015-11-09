@@ -84,8 +84,9 @@ class App extends Component {
           cardIds={this.props.decks[deckId].cardIds}/>)
       })
 
+      
       return (
-        <div>
+        <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'stretch', alignContent: 'stretch'}}>
           {allCardsLink}
           {deckCovers}
         </div>
