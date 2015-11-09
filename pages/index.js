@@ -31,47 +31,28 @@ class App extends Component {
 
   render() {
     if (this.props.selectedDeck) {
-      let newestTimestamp = 0
-      let oldestTimestamp = Date.now()
-      let leastRecentlySeenCard = null
-      let mostRecentlySeenCard = null
-      let firstNullCard = null
 
-      let cards = this.props.decks[this.props.selectedDeck].cardIds.map(cardId => {
-        let card = this.props.entities.cards[cardId]
-
-        if (card.lastSeen && card.lastSeen > newestTimestamp) {
-          newestTimestamp = card.lastSeen
-          mostRecentlySeenCard = card
-        }
-
-        if (card.lastSeen && card.lastSeen < oldestTimestamp) {
-          oldestTimestamp = card.lastSeen
-          leastRecentlySeenCard = card
-        }
-
-        if (card.lastSeen === null && firstNullCard === null) {
-          firstNullCard = card
-        }
-
-        // onFlip={() => {card.lastSeen = Date.now(); window.localStorage.setItem(card.id, JSON.stringify(card)); this.forceUpdate()}}
-        // onSeen={() => {card.lastSeen = Date.now(); this.forceUpdate();}}
-        // onFlip={this.props.dispatch(Actions.markAsSeen(card.id))}
-        // onFlip={console.log.bind(console, 'Card@onFlip')}
-        return (<Card
-          key={card.id}
-          onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
-          onSeen={console.log.bind(console, 'Card@onSeen')}
-          onAnsweredCorrectly={console.log.bind(console, 'Card@onAnsweredCorrectly')}
-          onAnsweredIncorrectly={console.log.bind(console, 'Card@onAnsweredIncorrectly')}
-          {...card} />
-        )
-      })
+      let deckId = this.props.selectedDeck
+      let deck = this.props.decks[deckId]
+      let card = this.props.entities.cards[deck.cardIds[deck.nextCardIndex]]
 
       return (
         <div>
           <AllCardsButton onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}/>
-          {cards}
+          <Card
+            key={card.id}
+            onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
+            onSeen={console.log.bind(console, 'Card@onSeen')}
+            onAnsweredCorrectly={() => {
+              this.props.dispatch(Actions.markAnsweredRight(card.id))
+              this.props.dispatch(Actions.nextCard(deckId))
+            }}
+            onAnsweredIncorrectly={() => {
+              this.props.dispatch(Actions.markAnsweredWrong(card.id))
+              this.props.dispatch(Actions.nextCard(deckId))
+            }}
+            onSkip={() => {this.props.dispatch(Actions.nextCard(deckId))}}
+            {...card} />
         </div>
       )
 

@@ -53,5 +53,3 @@ export default class DeckCover extends React.Component {
     );
   }
 }
-
-// Card.propTypes = { initialCount: React.PropTypes.number };

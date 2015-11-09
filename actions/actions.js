@@ -5,6 +5,7 @@ export const UPDATE_CARD                = 'UPDATE_CARD'
 export const UPDATE_CARD_ANSWERED_RIGHT = 'UPDATE_CARD_ANSWERED_RIGHT'
 export const UPDATE_CARD_ANSWERED_WRONG = 'UPDATE_CARD_ANSWERED_WRONG'
 export const UPDATE_CARD_MARK_AS_SEEN   = 'UPDATE_CARD_MARK_AS_SEEN'
+export const UPDATE_NEXT_CARD_INDEX     = 'UPDATE_NEXT_CARD_INDEX'
 export const FETCH_CARDS                = 'FETCH_CARDS'
 export const FETCH_CARDS_SUCCESS        = 'FETCH_CARDS_SUCCESS'
 export const FETCH_CARDS_FAIL           = 'FETCH_CARDS_FAIL'
@@ -35,6 +36,15 @@ export function updateCard(id, cardData) {
     payload: {
       id,
       cardData: Object.assign(cardData, {lastUpdated: Date.now()})
+    }
+  }
+}
+
+export function nextCard(deckId) {
+  return {
+    type: UPDATE_NEXT_CARD_INDEX,
+    payload: {
+      deckId
     }
   }
 }

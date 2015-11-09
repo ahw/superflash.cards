@@ -48,6 +48,9 @@ export default class Card extends React.Component {
           <br/>
           Answered wrongly: {this.props.numWrongAnswers ? this.props.numWrongAnswers : 0} times
         </div>
+        <a style={{padding:5}} onClick={this.props.onSkip}>Skip</a>
+        <a style={{padding:5}} onClick={this.props.onAnsweredIncorrectly}>Wrong</a>
+        <a style={{padding:5}} onClick={this.props.onAnsweredCorrectly}>Right</a>
       </div>
     );
   }

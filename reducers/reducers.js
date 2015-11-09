@@ -6,6 +6,7 @@ import {
   UPDATE_CARD_ANSWERED_RIGHT,
   UPDATE_CARD_ANSWERED_WRONG,
   UPDATE_SELECTED_DECK,
+  UPDATE_NEXT_CARD_INDEX
 } from '../actions'
 import { combineReducers } from 'redux'
 // import crypto from 'crypto'
@@ -32,7 +33,12 @@ function deckEntitiesReducer(deckEntities = {}, action) {
 function cardEntitiesReducer(cardEntities = {}, action) {
   if (action.type === ADD_CARD) {
     let id = generateId(action.payload)
-    let card = Object.assign({}, action.payload, {id: id, lastSeen: null})
+    let card = Object.assign({}, action.payload, {
+      id: id,
+      numRightAnswers: 0,
+      numWrongAnswers: 0,
+      lastSeen: null
+    })
     return Object.assign({}, cardEntities, {[id]: card})
   }
 
@@ -67,6 +73,7 @@ function cardEntitiesReducer(cardEntities = {}, action) {
       lastWrongAnswerTimestamp: lastUpdated,
       lastUpdated: lastUpdated
     })
+    return Object.assign({}, cardEntities, {[id]: card})
   }
 
   // Assert: nothing required
@@ -89,10 +96,16 @@ function decksReducer(decks = {}, action) {
       }
       return Object.assign({}, decks, {[action.payload.deck]: newDeck})
     }
-  } else {
-    // Assert: nothing to do
-    return decks
   }
+  
+  if (action.type === UPDATE_NEXT_CARD_INDEX) {
+    let nextIndex = (decks[action.payload.deckId].nextCardIndex + 1) % decks[action.payload.deckId].cardIds.length
+    let updatedDeck = Object.assign({}, decks[action.payload.deckId], {nextCardIndex: nextIndex})
+    return Object.assign({}, decks, {[action.payload.deckId]: updatedDeck})
+  }
+  
+  // Assert: nothing to do
+  return decks
 }
 
 function entitiesReducer(entities = {}, action) {
