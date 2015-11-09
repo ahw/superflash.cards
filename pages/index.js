@@ -9,6 +9,7 @@ import { Provider, connect } from 'react-redux'
 import Store from '../store/store.js'
 import * as Actions from '../actions'
 
+import AllCardsButton from '../components/buttons/AllCardsButton'
 import Card from '../components/Card'
 import DeckCover from '../components/DeckCover'
 
@@ -29,7 +30,6 @@ class App extends Component {
   }
 
   render() {
-    let allCardsLink = (<a className="Navigation-link" style={{display:'block', border:'1px solid black', backgroundColor:'white', position:'fixed', top:0, right:0, padding:10}} onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}} href="#">All Decks</a>)
     if (this.props.selectedDeck) {
       let newestTimestamp = 0
       let oldestTimestamp = Date.now()
@@ -70,7 +70,7 @@ class App extends Component {
 
       return (
         <div>
-          {allCardsLink}
+          <AllCardsButton onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}/>
           {cards}
         </div>
       )
