@@ -43,6 +43,10 @@ export default class Card extends React.Component {
 
         <div style={{fontSize:10, color:'gray'}}>
           Last seen: {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}
+          <br/>
+          Answered correctly: {this.props.numRightAnswers ? this.props.numRightAnswers : 0} times
+          <br/>
+          Answered wrongly: {this.props.numWrongAnswers ? this.props.numWrongAnswers : 0} times
         </div>
       </div>
     );

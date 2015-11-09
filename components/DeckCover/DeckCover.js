@@ -18,7 +18,7 @@ export default class DeckCover extends React.Component {
     let oldestTimestamp = Date.now();
     let mostRecentlySeenCard = null;
     let leastRecentlySeenCard = null;
-    let firstNullCard = null;
+    let numNeverSeen = 0
 
     this.props.cardIds.forEach((cardId) => {
       let card = this.props.cards[cardId]
@@ -32,8 +32,8 @@ export default class DeckCover extends React.Component {
         leastRecentlySeenCard = card;
       }
 
-      if (card.lastSeen === null && firstNullCard === null) {
-        firstNullCard = card;
+      if (card.lastSeen === null) {
+        ++numNeverSeen
       }
     });
 
@@ -47,7 +47,7 @@ export default class DeckCover extends React.Component {
           <br/>
           Most recent seen {mostRecentlySeenCard === null ? 'never' : moment().to(mostRecentlySeenCard.lastSeen)}
           <br/>
-          Oldest seen {leastRecentlySeenCard === null ? 'never' : moment().to(leastRecentlySeenCard.lastSeen)}
+          {numNeverSeen > 0 ? numNeverSeen + ' never seen' : ""}
         </div>
       </div>
     );
