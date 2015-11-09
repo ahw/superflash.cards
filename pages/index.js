@@ -56,9 +56,11 @@ class App extends Component {
 
         // onFlip={() => {card.lastSeen = Date.now(); window.localStorage.setItem(card.id, JSON.stringify(card)); this.forceUpdate()}}
         // onSeen={() => {card.lastSeen = Date.now(); this.forceUpdate();}}
+        // onFlip={this.props.dispatch(Actions.markAsSeen(card.id))}
+        // onFlip={console.log.bind(console, 'Card@onFlip')}
         return (<Card
           key={card.id}
-          onFlip={console.log.bind(console, 'Card@onFlip')}
+          onFlip={this.props.dispatch(Actions.markAsSeen(card.id))}
           onSeen={console.log.bind(console, 'Card@onSeen')}
           onAnsweredCorrectly={console.log.bind(console, 'Card@onAnsweredCorrectly')}
           onAnsweredIncorrectly={console.log.bind(console, 'Card@onAnsweredIncorrectly')}
@@ -87,7 +89,6 @@ class App extends Component {
       
       return (
         <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'stretch', alignContent: 'stretch'}}>
-          {allCardsLink}
           {deckCovers}
         </div>
       )

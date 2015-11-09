@@ -10,16 +10,26 @@
     "cards": {
       "8466545c8405fff5dd531c20166538284aec27e6": {
         "id": "8466545c8405fff5dd531c20166538284aec27e6",
+        "deck": "javascript",
         "question": "What is event bubbling?",
         "answer": "The processs whereby events...",
-        "deck": "javascript",
+        "numRightAnswers": 3,
+        "numWrongAnswers": 1,
+        "lastRightAnswerTimestamp": 13123123123,
+        "lastWrongAnswerTimestamp": 12313123123,
+        "lastUpdated": 1447012023613,
         "lastSeen": 1447012023613
       },
       "aee39e846b3e41342eec9ad9586b705fb48d1756": {
         "id": "aee39e846b3e41342eec9ad9586b705fb48d1756",
+        "deck": "javascript",
         "question": "What is event delegation?",
         "answer": "The pattern of listening...",
-        "deck": "javascript",
+        "numRightAnswers": 3,
+        "numWrongAnswers": 1,
+        "lastRightAnswerTimestamp": 13123123123,
+        "lastWrongAnswerTimestamp": 12313123123,
+        "lastUpdated": 1447012023613,
         "lastSeen": 1447012023793
       }
     },

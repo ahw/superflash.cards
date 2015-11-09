@@ -1,8 +1,10 @@
 import {
   generateId,
   ADD_CARD,
+  UPDATE_CARD,
+  UPDATE_CARD_ANSWERED_RIGHT,
+  UPDATE_CARD_ANSWERED_WRONG,
   UPDATE_SELECTED_DECK,
-  UPDATE_LAST_SEEN_TIMESTAMP
 } from '../actions'
 import { combineReducers } from 'redux'
 // import crypto from 'crypto'
@@ -31,6 +33,33 @@ function cardEntitiesReducer(cardEntities = {}, action) {
     let id = generateId(action.payload)
     let card = Object.assign({}, action.payload, {id: id, lastSeen: null})
     return Object.assign({}, cardEntities, {[id]: card})
+  }
+
+  if (action.type === UPDATE_CARD) {
+    let id = action.payload.id
+    let card = Object.assign({}, cardEntities[id], action.payload.cardData)
+    return Object.assign({}, cardEntities, {[id]: card})
+  }
+
+  if (action.type === UPDATE_CARD_ANSWERED_RIGHT) {
+    let id = action.payload.id
+    let lastUpdated = action.payload.lastUpdated
+    let card = Object.assign({}, cardEntities[id], {
+      numRightAnswers: cardEntities[id].numRightAnswers + 1,
+      lastRightAnswerTimestamp: lastUpdated,
+      lastUpdated: lastUpdated
+    })
+    return Object.assign({}, cardEntities, {[id]: card})
+  }
+
+  if (action.type === UPDATE_CARD_ANSWERED_WRONG) {
+    let id = action.payload.id
+    let lastUpdated = action.payload.lastUpdated
+    let card = Object.assign({}, cardEntities[id], {
+      numWrongAnswers: cardEntities[id].numWrongAnswers + 1,
+      lastWrongAnswerTimestamp: lastUpdated,
+      lastUpdated: lastUpdated
+    })
   }
 
   // Assert: nothing required

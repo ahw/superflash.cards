@@ -11,10 +11,8 @@ import moment from 'moment';
 export default class Card extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      isShowingQuestion: props.isShowingQuestion,
-      lastSeen: props.lastSeen
+      isShowingQuestion: !!props.isShowingQuestion,
     };
   }
 
