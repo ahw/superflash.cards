@@ -2,6 +2,7 @@ import {
   generateId,
   ADD_CARD,
   UPDATE_CARD,
+  UPDATE_CARD_MARK_AS_SEEN,
   UPDATE_CARD_ANSWERED_RIGHT,
   UPDATE_CARD_ANSWERED_WRONG,
   UPDATE_SELECTED_DECK,
@@ -38,6 +39,12 @@ function cardEntitiesReducer(cardEntities = {}, action) {
   if (action.type === UPDATE_CARD) {
     let id = action.payload.id
     let card = Object.assign({}, cardEntities[id], action.payload.cardData)
+    return Object.assign({}, cardEntities, {[id]: card})
+  }
+
+  if (action.type === UPDATE_CARD_MARK_AS_SEEN) {
+    let id = action.payload.id
+    let card = Object.assign({}, cardEntities[id], {lastSeen: action.payload.timestamp, lastUpdated: action.payload.timestamp})
     return Object.assign({}, cardEntities, {[id]: card})
   }
 

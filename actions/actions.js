@@ -4,6 +4,7 @@ export const ADD_CARD                   = 'ADD_CARD'
 export const UPDATE_CARD                = 'UPDATE_CARD'
 export const UPDATE_CARD_ANSWERED_RIGHT = 'UPDATE_CARD_ANSWERED_RIGHT'
 export const UPDATE_CARD_ANSWERED_WRONG = 'UPDATE_CARD_ANSWERED_WRONG'
+export const UPDATE_CARD_MARK_AS_SEEN   = 'UPDATE_CARD_MARK_AS_SEEN'
 export const FETCH_CARDS                = 'FETCH_CARDS'
 export const FETCH_CARDS_SUCCESS        = 'FETCH_CARDS_SUCCESS'
 export const FETCH_CARDS_FAIL           = 'FETCH_CARDS_FAIL'
@@ -39,14 +40,12 @@ export function updateCard(id, cardData) {
 }
 
 export function markAsSeen(id) {
-  debugger
-  // TODO: Why is this failing?
-  let now = Date.now()
+  let timestamp = Date.now()
   return {
-    type: UPDATE_CARD,
+    type: UPDATE_CARD_MARK_AS_SEEN,
     payload: {
       id,
-      cardData: {lastUpdated: now, lastSeen: now}
+      timestamp
     }
   }
 }

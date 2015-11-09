@@ -60,7 +60,7 @@ class App extends Component {
         // onFlip={console.log.bind(console, 'Card@onFlip')}
         return (<Card
           key={card.id}
-          onFlip={this.props.dispatch(Actions.markAsSeen(card.id))}
+          onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
           onSeen={console.log.bind(console, 'Card@onSeen')}
           onAnsweredCorrectly={console.log.bind(console, 'Card@onAnsweredCorrectly')}
           onAnsweredIncorrectly={console.log.bind(console, 'Card@onAnsweredIncorrectly')}
