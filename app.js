@@ -10,13 +10,16 @@ import ReactDOM from 'react-dom';
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import Location from './core/Location';
 import Layout from './components/Layout';
+import { Provider, connect } from 'react-redux'
+import Store from './store/store.js'
+import * as Actions from './actions'
 
 const routes = {}; // Auto-generated on build. See tools/lib/routes-loader.js
 
 const route = async (path, callback) => {
   const handler = routes[path] || routes['/404'];
   const component = await handler();
-  await callback(<Layout>{React.createElement(component)}</Layout>);
+  await callback(<Provider store={Store}><Layout>{React.createElement(component)}</Layout></Provider>);
 };
 
 function run() {

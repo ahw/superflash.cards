@@ -4,130 +4,101 @@
  * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
  */
 
-import React, { Component } from 'react';
-import crypto from 'crypto';
-import Card from '../components/Card';
-import Deck from '../components/Deck';
-import Request from 'superagent';
-import _ from 'underscore';
-import '../store/store.js';
+import React, { Component } from 'react'
+import { Provider, connect } from 'react-redux'
+import Store from '../store/store.js'
+import * as Actions from '../actions'
 
-export default class extends Component {
+import Card from '../components/Card'
+import DeckCover from '../components/DeckCover'
+
+class App extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      cardsByCategory: {}
+      entities: {},
+      decks: {},
+      selectedDeck: null
     }
   }
 
   componentDidMount() {
-    Request
-      // .get('https://docs.google.com/spreadsheets/d/1NsOHF4qDMybMc7pwqFAAyf0mTUtwpCSAn8Jhl_cNQ6c/pub?output=tsv')
-      .get('https://spreadsheets.google.com/feeds/list/1NsOHF4qDMybMc7pwqFAAyf0mTUtwpCSAn8Jhl_cNQ6c/od6/public/values?alt=json')
-      .end((error, response) => {
-        if (error) {
-          return console.error(error);
-        }
-
-        let cardsByCategory = {};
-        let cardsById = {};
-
-        response.body.feed.entry.forEach((entry) => {
-          let card = {
-            question: entry.gsx$question.$t,
-            answer: entry.gsx$answer.$t
-          };
-
-          let sha = crypto.createHash('sha1');
-          sha.update(card.question + card.answer);
-          let id = sha.digest('hex');
-          card.id = id;
-
-          try {
-            _.extend(card, JSON.parse(window.localStorage.getItem(card.id)));
-          } catch(e) {
-          }
-
-          // Push to cardsByCategory
-          let categories = entry.gsx$tag.$t.split(',').map((tag) => { return tag.trim(); });
-          categories.forEach((category) => {
-            if (cardsByCategory[category]) {
-              cardsByCategory[category].push(card);
-            } else {
-              cardsByCategory[category] = [card];
-            }
-          });
-
-          // Push to cardsById
-          cardsById[card.id] = card;
-        });
-        
-        this.setState({cardsByCategory});
-      });
-    console.log('Component has mounted');
+    let googleSheetId = '1NsOHF4qDMybMc7pwqFAAyf0mTUtwpCSAn8Jhl_cNQ6c'
+    this.props.dispatch(Actions.fetchCards(googleSheetId))
   }
 
   render() {
-    let allCardsLink = (<a className="Navigation-link" style={{display:'block', border:'1px solid black', backgroundColor:'white', position:'fixed', top:0, right:0, padding:10}} onClick={() => {this.setState({selectedCategory: null})}} href="#">All Decks</a>);
-    if (this.state.selectedCategory) {
-      let newestTimestamp = 0;
-      let oldestTimestamp = Date.now();
-      let leastRecentlySeenCard = null;
-      let mostRecentlySeenCard = null;
-      let firstNullCard = null;
+    let allCardsLink = (<a className="Navigation-link" style={{display:'block', border:'1px solid black', backgroundColor:'white', position:'fixed', top:0, right:0, padding:10}} onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}} href="#">All Decks</a>)
+    if (this.props.selectedDeck) {
+      let newestTimestamp = 0
+      let oldestTimestamp = Date.now()
+      let leastRecentlySeenCard = null
+      let mostRecentlySeenCard = null
+      let firstNullCard = null
 
-      let cards = this.state.cardsByCategory[this.state.selectedCategory].map(card => {
+      let cards = this.props.decks[this.props.selectedDeck].cardIds.map(cardId => {
+        let card = this.props.entities.cards[cardId]
 
         if (card.lastSeen && card.lastSeen > newestTimestamp) {
-          newestTimestamp = card.lastSeen;
-          mostRecentlySeenCard = card;
+          newestTimestamp = card.lastSeen
+          mostRecentlySeenCard = card
         }
 
         if (card.lastSeen && card.lastSeen < oldestTimestamp) {
-          oldestTimestamp = card.lastSeen;
-          leastRecentlySeenCard = card;
+          oldestTimestamp = card.lastSeen
+          leastRecentlySeenCard = card
         }
 
         if (card.lastSeen === null && firstNullCard === null) {
-          firstNullCard = card;
+          firstNullCard = card
         }
 
+        // onFlip={() => {card.lastSeen = Date.now(); window.localStorage.setItem(card.id, JSON.stringify(card)); this.forceUpdate()}}
+        // onSeen={() => {card.lastSeen = Date.now(); this.forceUpdate();}}
         return (<Card
           key={card.id}
-          onFlip={() => {card.lastSeen = Date.now(); window.localStorage.setItem(card.id, JSON.stringify(card)); this.forceUpdate();}}
-          onSeen={() => {card.lastSeen = Date.now(); this.forceUpdate();}}
-          onAnsweredCorrectly={() => {}}
-          onAnsweredIncorrectly={() => {}}
-          {...card} />);
-      });
+          onFlip={console.log.bind(console, 'Card@onFlip')}
+          onSeen={console.log.bind(console, 'Card@onSeen')}
+          onAnsweredCorrectly={console.log.bind(console, 'Card@onAnsweredCorrectly')}
+          onAnsweredIncorrectly={console.log.bind(console, 'Card@onAnsweredIncorrectly')}
+          {...card} />
+        )
+      })
 
       return (
         <div>
           {allCardsLink}
           {cards}
         </div>
-      );
+      )
 
     } else {
 
-      let decks = Object.keys(this.state.cardsByCategory).map(category => {
-        console.log(category);
-        return (<Deck
-          key={category}
-          onClick={() => {this.setState({selectedCategory: category})}}
-          category={category}
-          cards={this.state.cardsByCategory[category]}/>);
-      });
+      let deckCovers = Object.keys(this.props.decks).map(deckId => {
+        return (<DeckCover
+          key={deckId}
+          onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(deckId))}}
+          name={deckId}
+          cards={this.props.entities.cards}
+          cardIds={this.props.decks[deckId].cardIds}/>)
+      })
 
       return (
         <div>
           {allCardsLink}
-          {decks}
+          {deckCovers}
         </div>
-      );
+      )
     }
 
   }
 
 }
+
+function select(state) {
+  return state
+}
+
+// Wrap the component to inject dispatch and state into it
+export default connect(select)(App)

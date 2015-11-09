@@ -1,18 +1,12 @@
 import {
+  generateId,
   ADD_CARD,
+  UPDATE_SELECTED_DECK,
   UPDATE_LAST_SEEN_TIMESTAMP
 } from '../actions'
 import { combineReducers } from 'redux'
 // import crypto from 'crypto'
 // import * as reducers from './reducers'
-
-function generateId(card) {
-  return (card.question + card.answer).replace(/[^a-zA-Z]/g, "_")
-  // let sha = crypto.createHash('sha1');
-  // sha.update(card.question + card.answer);
-  // let id = sha.digest('hex');
-  // return id
-}
 
 function deckEntitiesReducer(deckEntities = {}, action) {
 
@@ -35,7 +29,7 @@ function deckEntitiesReducer(deckEntities = {}, action) {
 function cardEntitiesReducer(cardEntities = {}, action) {
   if (action.type === ADD_CARD) {
     let id = generateId(action.payload)
-    let card = Object.assign({}, action.payload, {id: id})
+    let card = Object.assign({}, action.payload, {id: id, lastSeen: null})
     return Object.assign({}, cardEntities, {[id]: card})
   }
 
@@ -45,14 +39,16 @@ function cardEntitiesReducer(cardEntities = {}, action) {
 
 function decksReducer(decks = {}, action) {
   if (action.type === ADD_CARD) {
+    let cardId = generateId(action.payload)
+
     if (decks[action.payload.deck]) {
-      let updatedCardList = [...decks[action.payload.deck].cardIds, generateId(action.payload)]
+      let updatedCardList = [...decks[action.payload.deck].cardIds, cardId]
       let updatedDeck = Object.assign({}, decks[action.payload.deck], {cardIds: updatedCardList})
       return Object.assign({}, decks, {[action.payload.deck]: updatedDeck})
     } else {
       // Initialize a new deck with an array of 1 card
       let newDeck = {
-        cardIds: [generateId(action.payload)],
+        cardIds: [cardId],
         nextCardIndex: 0
       }
       return Object.assign({}, decks, {[action.payload.deck]: newDeck})
@@ -70,9 +66,17 @@ function entitiesReducer(entities = {}, action) {
   }
 }
 
+function selectedDeckReducer(selectedDeck = null, action) {
+  if (action.type === UPDATE_SELECTED_DECK) {
+    return action.payload
+  }
+  return selectedDeck
+}
+
 const rootReducer = combineReducers({
   entities: entitiesReducer,
-  decks: decksReducer
+  decks: decksReducer,
+  selectedDeck: selectedDeckReducer
 })
 
 export default rootReducer
