@@ -74,7 +74,7 @@ export default class Card extends React.Component {
       margin: 0,
       padding: 10,
       // paddingTop: 20,
-      background: '#DDF5FF',
+      background: this.state.isShowingQuestion ? 'white' : '#DDF5FF',
       // height: screen.height,
       height: window.document.documentElement.clientHeight - 20, // to account for padding
       color: this.state.isShowingQuestion ? 'black' : answerColor
