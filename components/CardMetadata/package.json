@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "CardMetadata",
+  "main": "./CardMetadata.js"
+}

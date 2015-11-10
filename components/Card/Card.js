@@ -9,6 +9,8 @@ import config from '../../config';
 import moment from 'moment';
 import BlockButton from '../buttons/BlockButton'
 import ProgressMeter from '../progress-meter'
+import CardMetadata from '../CardMetadata'
+import CardHelpDirections from '../CardHelpDirections'
 
 let answerColor = '#0678FE'
 
@@ -66,19 +68,27 @@ export default class Card extends React.Component {
   }
 
   render() {
+    let style = {
+      cursor: 'pointer',
+      fontFamily:'Monospace',
+      margin: 0,
+      padding: 10,
+      // paddingTop: 20,
+      // background: '#FEF83C',
+      // height: screen.height,
+      height: window.document.documentElement.clientHeight - 20, // to account for padding
+      color: this.state.isShowingQuestion ? 'black' : answerColor
+    }
+
+    // <CardHelpDirections />
+
     return (
-      <div style={{cursor: 'pointer', fontFamily:'Monospace', margin:10, color: this.state.isShowingQuestion ? 'black' : answerColor}} onClick={this.flipCard.bind(this)}>
-          <ProgressMeter color="black" height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
+      <div style={style} onClick={this.flipCard.bind(this)}>
+          <ProgressMeter color={this.state.isShowingQuestion ? 'black' : answerColor} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
           <p>{this.state.isShowingQuestion ? this.props.question : this.props.answer}</p>
 
-          <div style={{fontSize:10, color: this.state.isShowingQuestion ? 'gray' : answerColor}}>
-            Last seen: {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}
-            <br/>
-            Answered correctly: {this.props.numRightAnswers ? this.props.numRightAnswers : 0} times
-            <br/>
-            Answered wrongly: {this.props.numWrongAnswers ? this.props.numWrongAnswers : 0} times
-          </div>
+          <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
       </div>
     );
   }

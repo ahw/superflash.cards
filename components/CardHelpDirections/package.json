@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "CardHelpDirections",
+  "main": "./CardHelpDirections.js"
+}
