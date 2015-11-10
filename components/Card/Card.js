@@ -55,7 +55,7 @@ export default class Card extends React.Component {
   // <BlockButton theme='flip' onClick={this.flipCard.bind(this)}>Flip</BlockButton>
 
   componentDidMount() {
-    console.log('Card mounted')
+    if (window.iNoBounce) window.iNoBounce.enable()
     this._keyDownListener = this.onKeyDown.bind(this)
     document.addEventListener('keydown', this._keyDownListener)
   }

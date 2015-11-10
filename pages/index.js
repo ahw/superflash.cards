@@ -16,6 +16,7 @@ injectTapEventPlugin()
 import AllCardsButton from '../components/buttons/AllCardsButton'
 import Card from '../components/Card'
 import DeckCover from '../components/DeckCover'
+import DeckList from '../components/DeckList'
 
 class App extends Component {
 
@@ -66,8 +67,6 @@ class App extends Component {
         this.props.dispatch(Actions.updateSelectedDeck(null))
       }
 
-      // <AllCardsButton onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}/>
-
       return (
         <div>
           <Swipeable
@@ -89,28 +88,13 @@ class App extends Component {
           </Swipeable>
         </div>
       )
-
     } else {
-
-      let deckCovers = Object.keys(this.props.decks).map(deckId => {
-        return (<DeckCover
-          key={deckId}
-          onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(deckId))}}
-          name={deckId}
-          cards={this.props.entities.cards}
-          cardIds={this.props.decks[deckId].cardIds}/>)
-      })
-
-      
-      return (
-        <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'stretch', alignContent: 'stretch'}}>
-          {deckCovers}
-        </div>
-      )
+      return <DeckList
+        onSelectDeck={(deckId) => {this.props.dispatch(Actions.updateSelectedDeck(deckId))}}
+        decks={this.props.decks}
+        cardEntities={this.props.entities.cards}/>
     }
-
   }
-
 }
 
 function select(state) {
