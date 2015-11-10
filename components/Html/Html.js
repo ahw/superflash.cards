@@ -24,7 +24,7 @@ function Html({ title, description, body, debug }) {
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: body }} />
-        <GoogleAnalytics />
+        {/* <GoogleAnalytics /> */}
       </body>
     </html>
   );

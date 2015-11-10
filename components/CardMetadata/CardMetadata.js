@@ -18,6 +18,15 @@ export default class CardMetadata extends React.Component {
     Object.assign(style, this.props.style)
     return (
       <div style={style}>
+        <strong>&gt;</strong> know
+        <br/>
+        <strong>&lt;</strong> don't know
+        <br/>
+        <strong>^</strong> back
+        <br/>
+        <strong>V</strong> skip
+        <br/>
+        <br/>
         Last seen: {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}
         <br/>
         Answered correctly: {this.props.numRightAnswers ? this.props.numRightAnswers : 0} times

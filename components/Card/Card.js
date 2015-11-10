@@ -12,7 +12,7 @@ import ProgressMeter from '../progress-meter'
 import CardMetadata from '../CardMetadata'
 import CardHelpDirections from '../CardHelpDirections'
 
-let answerColor = '#0678FE'
+let answerColor = 'rgb(0, 62, 136)' // #0678FE'
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -43,10 +43,10 @@ export default class Card extends React.Component {
 
   onKeyDown(e) {
     console.log('Got keydown', e)
-    if (e.keyIdentifier === 'Left') this.props.onBackToAllDecks()
-    else if (e.keyIdentifier === 'Down') this.props.onAnsweredIncorrectly()
-    else if (e.keyIdentifier === 'Up') this.props.onAnsweredCorrectly()
-    else if (e.keyIdentifier === 'Right') this.props.onSkip()
+    if (e.keyIdentifier === 'Up') this.props.onBackToAllDecks()
+    else if (e.keyIdentifier === 'Left') this.props.onAnsweredIncorrectly()
+    else if (e.keyIdentifier === 'Right') this.props.onAnsweredCorrectly()
+    else if (e.keyIdentifier === 'Down') this.props.onSkip()
     else if (e.keyCode === 32) this.flipCard() // SPACE
     else this.flipCard()
   }
@@ -74,7 +74,7 @@ export default class Card extends React.Component {
       margin: 0,
       padding: 10,
       // paddingTop: 20,
-      // background: '#FEF83C',
+      background: '#DDF5FF',
       // height: screen.height,
       height: window.document.documentElement.clientHeight - 20, // to account for padding
       color: this.state.isShowingQuestion ? 'black' : answerColor
