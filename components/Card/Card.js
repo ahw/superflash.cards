@@ -81,12 +81,14 @@ export default class Card extends React.Component {
     }
 
     // <CardHelpDirections />
+    let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
+    let dangerousHtml = {__html: text.replace(/\s\s/g, '<br/><br/>')}
 
     return (
       <div style={style} onClick={this.flipCard.bind(this)}>
           <ProgressMeter color={this.state.isShowingQuestion ? 'black' : answerColor} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
-          <p style={{position: 'absolute', top: '35%', transform: 'translateY(-50%)', width: '80%', left: '10%'}}>{this.state.isShowingQuestion ? this.props.question : this.props.answer}</p>
+          <p dangerouslySetInnerHTML={dangerousHtml} style={{position: 'absolute', top: '35%', transform: 'translateY(-50%)', width: '80%', left: '10%'}}/>
 
           <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
       </div>
