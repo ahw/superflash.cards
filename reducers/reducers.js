@@ -58,6 +58,7 @@ function cardEntitiesReducer(cardEntities = {}, action) {
     let id = action.payload.id
     let lastUpdated = action.payload.lastUpdated
     let card = Object.assign({}, cardEntities[id], {
+      lastAnsweredRight: true,
       numRightAnswers: cardEntities[id].numRightAnswers + 1,
       lastRightAnswerTimestamp: lastUpdated,
       lastUpdated: lastUpdated
@@ -69,6 +70,7 @@ function cardEntitiesReducer(cardEntities = {}, action) {
     let id = action.payload.id
     let lastUpdated = action.payload.lastUpdated
     let card = Object.assign({}, cardEntities[id], {
+      lastAnsweredRight: false,
       numWrongAnswers: cardEntities[id].numWrongAnswers + 1,
       lastWrongAnswerTimestamp: lastUpdated,
       lastUpdated: lastUpdated

@@ -20,6 +20,7 @@ function Html({ title, description, body, debug }) {
         <link rel="apple-touch-icon" href="apple-touch-icon.png" />
         <link rel="icon" href="cards-stack-32x32.png" />
         <script src='3p-libraries/inobounce.js' />
+        <script src='3p-libraries/fastclick.js' />
         <script src={'app.js?' + new Date().getTime()} />
       </head>
       <body>

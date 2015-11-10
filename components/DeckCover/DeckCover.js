@@ -39,17 +39,17 @@ export default class DeckCover extends React.Component {
 
     // <br/>
     // {numSeen < this.props.cardIds.length ? this.props.cardIds.length - numSeen + ' never seen' : ""}
-    let numRightAnswers = this.props.cardIds.filter((cardId) => { return !!this.props.cards[cardId].numRightAnswers }).length
-    let numWrongAnswers = this.props.cardIds.filter((cardId) => { return !!this.props.cards[cardId].numWrongAnswers }).length
+    let numRightAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === true }).length
+    let numWrongAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === false}).length
 
+    // {this.props.cardIds.filter((cardId) => { return !!this.props.cards[cardId].lastSeen }).length}/{this.props.cardIds.length} seen
+    // <br/>
     return (
       <div className="DeckCover" style={{cursor: 'pointer', flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10}} onTouchStart={function() {}} onClick={this.props.onClick}>
         <h1 style={{marginTop:0, marginBottom:5}}>{this.props.name}</h1>
         <ProgressMeter style={{marginBottom: 4}} color="green" height={4} complete={numRightAnswers/this.props.cardIds.length}/>
         <ProgressMeter style={{marginBottom: 4}} color="#c00" height={4} complete={numWrongAnswers/this.props.cardIds.length}/>
         <div style={{fontSize:10, color:'gray'}}>
-          {this.props.cardIds.filter((cardId) => { return !!this.props.cards[cardId].lastSeen }).length}/{this.props.cardIds.length} seen
-          <br/>
           {numRightAnswers}/{this.props.cardIds.length} answered rightly
           <br/>
           {numWrongAnswers}/{this.props.cardIds.length} answered wrongly

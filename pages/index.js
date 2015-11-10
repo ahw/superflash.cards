@@ -32,6 +32,7 @@ class App extends Component {
   componentDidMount() {
     let googleSheetId = '1NsOHF4qDMybMc7pwqFAAyf0mTUtwpCSAn8Jhl_cNQ6c'
     this.props.dispatch(Actions.fetchCards(googleSheetId))
+    window.FastClick.attach(document.body)
   }
 
   render() {

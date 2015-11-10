@@ -74,7 +74,7 @@ export default class Card extends React.Component {
       margin: 0,
       padding: 10,
       // paddingTop: 20,
-      background: this.state.isShowingQuestion ? 'white' : '#DDF5FF',
+      // background: this.state.isShowingQuestion ? 'white' : '#DDF5FF',
       // height: screen.height,
       height: window.document.documentElement.clientHeight - 20, // to account for padding
       color: this.state.isShowingQuestion ? 'black' : answerColor
@@ -86,7 +86,7 @@ export default class Card extends React.Component {
       <div style={style} onClick={this.flipCard.bind(this)}>
           <ProgressMeter color={this.state.isShowingQuestion ? 'black' : answerColor} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
-          <p>{this.state.isShowingQuestion ? this.props.question : this.props.answer}</p>
+          <p style={{position: 'absolute', top: '35%', transform: 'translateY(-50%)', width: '80%', left: '10%'}}>{this.state.isShowingQuestion ? this.props.question : this.props.answer}</p>
 
           <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
       </div>
