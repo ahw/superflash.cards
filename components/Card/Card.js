@@ -7,6 +7,8 @@
 import React, { PropTypes } from 'react';
 import config from '../../config';
 import moment from 'moment';
+import BlockButton from '../buttons/BlockButton'
+import ProgressMeter from '../progress-meter'
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -37,7 +39,8 @@ export default class Card extends React.Component {
 
   render() {
     return (
-      <div style={{fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray', backgroundColor: this.state.isShowingQuestion ? '#eee' : 'white'}} onClick={this.flipCard.bind(this)}>
+      <div style={{cursor: 'pointer', fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray', color: this.state.isShowingQuestion ? 'black' : '#0678FE'}} onClick={this.flipCard.bind(this)}>
+        <ProgressMeter color="gray" height={10} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
         <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
         <p>{this.state.isShowingQuestion ? this.props.question : this.props.answer}</p>
 
@@ -48,9 +51,10 @@ export default class Card extends React.Component {
           <br/>
           Answered wrongly: {this.props.numWrongAnswers ? this.props.numWrongAnswers : 0} times
         </div>
-        <a style={{padding:5}} onClick={this.props.onSkip}>Skip</a>
-        <a style={{padding:5}} onClick={this.props.onAnsweredIncorrectly}>Wrong</a>
-        <a style={{padding:5}} onClick={this.props.onAnsweredCorrectly}>Right</a>
+        <BlockButton theme='wrong' style={{width: '50%'}} onClick={this.props.onAnsweredIncorrectly}>Wrong</BlockButton>
+        <BlockButton theme='right' style={{width: '50%'}} onClick={this.props.onAnsweredCorrectly}>Right</BlockButton>
+        <BlockButton theme='skip' onClick={this.props.onSkip}>Skip</BlockButton>
+        <BlockButton theme='flip' onClick={this.flipCard.bind(this)}>Flip</BlockButton>
       </div>
     );
   }

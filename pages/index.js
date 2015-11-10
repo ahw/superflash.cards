@@ -41,6 +41,8 @@ class App extends Component {
           <AllCardsButton onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}/>
           <Card
             key={card.id}
+            cardIndex={deck.nextCardIndex}
+            totalCards={deck.cardIds.length}
             onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
             onSeen={console.log.bind(console, 'Card@onSeen')}
             onAnsweredCorrectly={() => {

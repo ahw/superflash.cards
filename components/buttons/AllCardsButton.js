@@ -4,13 +4,11 @@ let style = {
     display: 'block',
     border: '1px solid black',
     backgroundColor: 'white',
-    position: 'fixed',
-    top: 0,
-    right: 0,
     padding: 10,
     textDecoration: 'none',
     color: 'black',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    textAlign: 'center'
 }
 
 export default class AllCardsButton extends Component {

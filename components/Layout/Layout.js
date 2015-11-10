@@ -11,7 +11,7 @@ import Navigation from '../Navigation';
 function Layout({ children }) {
   // {{ /* <Navigation /> */ }}
   return (
-    <div className="Layout">
+    <div className="Layout" onTouchStart={() => { window.hasTouch = true }}>
       {children}
     </div>
   );
