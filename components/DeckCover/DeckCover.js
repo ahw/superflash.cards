@@ -44,7 +44,7 @@ export default class DeckCover extends React.Component {
 
     return (
       <div className="DeckCover" style={{flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray'}} onTouchStart={function() {}} onClick={this.props.onClick}>
-        <h1 style={{marginTop:0}}>{this.props.name}</h1>
+        <h1 style={{marginTop:0, marginBottom:5}}>{this.props.name}</h1>
         <ProgressMeter style={{marginBottom: 4}} color="green" height={8} complete={numRightAnswers/this.props.cardIds.length}/>
         <ProgressMeter style={{marginBottom: 4}} color="#c00" height={8} complete={numWrongAnswers/this.props.cardIds.length}/>
         <div style={{fontSize:10, color:'gray'}}>

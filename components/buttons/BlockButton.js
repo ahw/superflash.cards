@@ -6,18 +6,18 @@ export default class BlockButton extends Component {
   }
 
   onClick(e) {
-    // if (window.hasTouch) {
-    //   // Assert: has already been handled by touchStart
-    //   console.log('Ignoring "click" event because it was already handled by touchStart')
-    //   e.preventDefault()
-    //   return
-    // }
+    if (window.hasTouch) {
+      // Assert: has already been handled by touchStart
+      console.log('Ignoring "click" event because it was already handled by touchStart')
+      e.preventDefault()
+      return
+    }
 
     return this.props.onClick.apply(this, arguments)
   }
 
-  onTouchStart() {
-    // return this.props.onClick.apply(this, arguments)
+  onTouchTap() {
+    return this.props.onClick.apply(this, arguments)
   }
 
   render() {
@@ -66,7 +66,7 @@ export default class BlockButton extends Component {
     }
 
     return (
-      <div style={parentStyle} onTouchStart={this.onTouchStart.bind(this)} onClick={this.onClick.bind(this)}>
+      <div style={parentStyle} onTouchTap={this.onTouchTap.bind(this)} onClick={this.onClick.bind(this)}>
         <span style={childStyle}>{this.props.children}</span>
       </div>
     )

@@ -8,6 +8,10 @@ import React, { Component } from 'react'
 import { Provider, connect } from 'react-redux'
 import Store from '../store/store.js'
 import * as Actions from '../actions'
+// import Swiper from 'react-swiper'
+import Swipeable from 'react-swipeable'
+import injectTapEventPlugin from 'react-tap-event-plugin'
+injectTapEventPlugin()
 
 import AllCardsButton from '../components/buttons/AllCardsButton'
 import Card from '../components/Card'
@@ -36,25 +40,54 @@ class App extends Component {
       let deck = this.props.decks[deckId]
       let card = this.props.entities.cards[deck.cardIds[deck.nextCardIndex]]
 
+      function onFlip() {
+        this.props.dispatch(Actions.markAsSeen(card.id))
+      }
+
+      function onSeen() {
+        console.log.bind(console, 'Card@onSeen')
+      }
+
+      function onAnsweredCorrectly() {
+        this.props.dispatch(Actions.markAnsweredRight(card.id))
+        this.props.dispatch(Actions.nextCard(deckId))
+      }
+
+      function onAnsweredIncorrectly() {
+        this.props.dispatch(Actions.markAnsweredWrong(card.id))
+        this.props.dispatch(Actions.nextCard(deckId))
+      }
+
+      function onSkip() {
+        this.props.dispatch(Actions.nextCard(deckId))
+      }
+
+      // <AllCardsButton onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}/>
+
       return (
         <div>
-          <AllCardsButton onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}/>
-          <Card
-            key={card.id}
-            cardIndex={deck.nextCardIndex}
-            totalCards={deck.cardIds.length}
-            onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
-            onSeen={console.log.bind(console, 'Card@onSeen')}
-            onAnsweredCorrectly={() => {
-              this.props.dispatch(Actions.markAnsweredRight(card.id))
-              this.props.dispatch(Actions.nextCard(deckId))
-            }}
-            onAnsweredIncorrectly={() => {
-              this.props.dispatch(Actions.markAnsweredWrong(card.id))
-              this.props.dispatch(Actions.nextCard(deckId))
-            }}
-            onSkip={() => {this.props.dispatch(Actions.nextCard(deckId))}}
-            {...card} />
+          <Swipeable
+            onSwipedDown={onSkip.bind(this)}
+            onSwipedLeft={onAnsweredIncorrectly.bind(this)}
+            onSwipedRight={onAnsweredCorrectly.bind(this)}
+            onSwipedUp={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}>
+            <Card
+              key={card.id}
+              cardIndex={deck.nextCardIndex}
+              totalCards={deck.cardIds.length}
+              onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
+              onSeen={console.log.bind(console, 'Card@onSeen')}
+              onAnsweredCorrectly={() => {
+                this.props.dispatch(Actions.markAnsweredRight(card.id))
+                this.props.dispatch(Actions.nextCard(deckId))
+              }}
+              onAnsweredIncorrectly={() => {
+                this.props.dispatch(Actions.markAnsweredWrong(card.id))
+                this.props.dispatch(Actions.nextCard(deckId))
+              }}
+              onSkip={() => {this.props.dispatch(Actions.nextCard(deckId))}}
+              {...card} />
+          </Swipeable>
         </div>
       )
 
