@@ -1,4 +1,5 @@
 import Request from 'superagent'
+import crypto from 'crypto'
 
 export const ADD_CARD                   = 'ADD_CARD'
 export const UPDATE_CARD                = 'UPDATE_CARD'
@@ -13,7 +14,10 @@ export const FETCH_CARDS_DONE           = 'FETCH_CARDS_DONE'
 export const UPDATE_SELECTED_DECK       = 'UPDATE_SELECTED_DECK'
 
 export function generateId(card) {
-  return (card.question + card.answer).replace(/[^a-zA-Z]/g, "_")
+  let shasum = crypto.createHash('sha1')
+  shasum.update(card.question + card.answer)
+  // return (card.question + card.answer).replace(/[^a-zA-Z]/g, "_")
+  return shasum.digest('hex').substr(0, 16)
 }
 
 export function updateSelectedDeck(deckId) {
@@ -105,6 +109,7 @@ export function fetchCards(googleSheetId) {
         return dispatch(fetchCardsFail(error, googleSheetId))
       }
 
+      let cardIds = []
       response.body.feed.entry.forEach(entry => {
         let card = {
           question: entry.gsx$question.$t,
@@ -114,14 +119,22 @@ export function fetchCards(googleSheetId) {
         }
 
         let id = generateId(card)
+        cardIds.push(id)
         try {
+          // Augment with any data we've saved from localStorage
           Object.assign(card, JSON.parse(window.localStorage.getItem(id)))
-          console.log('Successfully got card from local storage')
+          console.log('Successfully got card ' + id + ' from local storage')
         } catch(e) {}
 
         dispatch(addCard(card))
       })
-      dispatch(fetchCardsSuccess(googleSheetId))
+      try {
+        window.localStorage.setItem('CARD_IDS', JSON.stringify(cardIds))
+        console.log('Set card ids list to localStorage', 'CARD_IDS')
+        dispatch(fetchCardsSuccess(googleSheetId))
+      } catch(e) {
+        dispatch(fetchCardsFail(e, googleSheetId))
+      }
       dispatch(fetchCardsDone(googleSheetId))
     })
   }
