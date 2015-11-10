@@ -39,14 +39,35 @@ export default class Card extends React.Component {
     });
   }
 
+  onKeyDown(e) {
+    console.log('Got keydown', e)
+    if (e.keyIdentifier === 'Left') this.props.onBackToAllDecks()
+    else if (e.keyIdentifier === 'Down') this.props.onAnsweredIncorrectly()
+    else if (e.keyIdentifier === 'Up') this.props.onAnsweredCorrectly()
+    else if (e.keyIdentifier === 'Right') this.props.onSkip()
+    else if (e.keyCode === 32) this.flipCard() // SPACE
+    else this.flipCard()
+  }
+
   // <BlockButton theme='wrong' style={{width: '50%'}} onClick={this.props.onAnsweredIncorrectly}>Wrong</BlockButton>
   // <BlockButton theme='right' style={{width: '50%'}} onClick={this.props.onAnsweredCorrectly}>Right</BlockButton>
   // <BlockButton theme='skip' onClick={this.props.onSkip}>Skip</BlockButton>
   // <BlockButton theme='flip' onClick={this.flipCard.bind(this)}>Flip</BlockButton>
 
+  componentDidMount() {
+    console.log('Card mounted')
+    this._keyDownListener = this.onKeyDown.bind(this)
+    document.addEventListener('keydown', this._keyDownListener)
+  }
+
+  componentWillUnmount() {
+    console.log('Card will unmount')
+    document.removeEventListener('keydown', this._keyDownListener)
+  }
+
   render() {
     return (
-      <div style={{cursor: 'pointer', fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray', color: this.state.isShowingQuestion ? 'black' : answerColor}} onClick={this.flipCard.bind(this)}>
+      <div style={{cursor: 'pointer', fontFamily:'Monospace', margin:10, color: this.state.isShowingQuestion ? 'black' : answerColor}} onClick={this.flipCard.bind(this)}>
           <ProgressMeter color="black" height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
           <p>{this.state.isShowingQuestion ? this.props.question : this.props.answer}</p>

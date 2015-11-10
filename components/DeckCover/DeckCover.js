@@ -43,10 +43,10 @@ export default class DeckCover extends React.Component {
     let numWrongAnswers = this.props.cardIds.filter((cardId) => { return !!this.props.cards[cardId].numWrongAnswers }).length
 
     return (
-      <div className="DeckCover" style={{flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10, padding:10, border:'1px dotted gray'}} onTouchStart={function() {}} onClick={this.props.onClick}>
+      <div className="DeckCover" style={{flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10, padding:10, border:'1px solid #d4d4d4'}} onTouchStart={function() {}} onClick={this.props.onClick}>
         <h1 style={{marginTop:0, marginBottom:5}}>{this.props.name}</h1>
-        <ProgressMeter style={{marginBottom: 4}} color="green" height={8} complete={numRightAnswers/this.props.cardIds.length}/>
-        <ProgressMeter style={{marginBottom: 4}} color="#c00" height={8} complete={numWrongAnswers/this.props.cardIds.length}/>
+        <ProgressMeter style={{marginBottom: 4}} color="green" height={4} complete={numRightAnswers/this.props.cardIds.length}/>
+        <ProgressMeter style={{marginBottom: 4}} color="#c00" height={4} complete={numWrongAnswers/this.props.cardIds.length}/>
         <div style={{fontSize:10, color:'gray'}}>
           {this.props.cardIds.filter((cardId) => { return !!this.props.cards[cardId].lastSeen }).length}/{this.props.cardIds.length} seen
           <br/>

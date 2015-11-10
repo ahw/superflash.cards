@@ -62,6 +62,10 @@ class App extends Component {
         this.props.dispatch(Actions.nextCard(deckId))
       }
 
+      function onBackToAllDecks() {
+        this.props.dispatch(Actions.updateSelectedDeck(null))
+      }
+
       // <AllCardsButton onClick={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}/>
 
       return (
@@ -70,23 +74,18 @@ class App extends Component {
             onSwipedDown={onSkip.bind(this)}
             onSwipedLeft={onAnsweredIncorrectly.bind(this)}
             onSwipedRight={onAnsweredCorrectly.bind(this)}
-            onSwipedUp={() => {this.props.dispatch(Actions.updateSelectedDeck(null))}}>
-            <Card
-              key={card.id}
-              cardIndex={deck.nextCardIndex}
-              totalCards={deck.cardIds.length}
-              onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
-              onSeen={console.log.bind(console, 'Card@onSeen')}
-              onAnsweredCorrectly={() => {
-                this.props.dispatch(Actions.markAnsweredRight(card.id))
-                this.props.dispatch(Actions.nextCard(deckId))
-              }}
-              onAnsweredIncorrectly={() => {
-                this.props.dispatch(Actions.markAnsweredWrong(card.id))
-                this.props.dispatch(Actions.nextCard(deckId))
-              }}
-              onSkip={() => {this.props.dispatch(Actions.nextCard(deckId))}}
-              {...card} />
+            onSwipedUp={onBackToAllDecks.bind(this)}>
+              <Card
+                key={card.id}
+                cardIndex={deck.nextCardIndex}
+                totalCards={deck.cardIds.length}
+                onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
+                onSeen={console.log.bind(console, 'Card@onSeen')}
+                onAnsweredCorrectly={onAnsweredCorrectly.bind(this)}
+                onAnsweredIncorrectly={onAnsweredIncorrectly.bind(this)}
+                onSkip={onSkip.bind(this)}
+                onBackToAllDecks={onBackToAllDecks.bind(this)}
+                {...card} />
           </Swipeable>
         </div>
       )
