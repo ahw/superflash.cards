@@ -8,10 +8,12 @@ import React, { Component } from 'react'
 import { Provider, connect } from 'react-redux'
 import Store from '../store/store.js'
 import * as Actions from '../actions'
-// import Swiper from 'react-swiper'
 import Swipeable from 'react-swipeable'
-import injectTapEventPlugin from 'react-tap-event-plugin'
-injectTapEventPlugin()
+import url from 'url'
+
+// TODO: Is this being used?
+// import injectTapEventPlugin from 'react-tap-event-plugin'
+// injectTapEventPlugin()
 
 import AllCardsButton from '../components/buttons/AllCardsButton'
 import Card from '../components/Card'
@@ -30,7 +32,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let googleSheetId = '1NsOHF4qDMybMc7pwqFAAyf0mTUtwpCSAn8Jhl_cNQ6c'
+    let query = url.parse(window.location.toString(), true).query
+    let googleSheetId = query.id || '1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U'
     this.props.dispatch(Actions.fetchCards(googleSheetId))
     window.FastClick.attach(document.body)
   }
