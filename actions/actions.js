@@ -6,7 +6,8 @@ export const UPDATE_CARD                = 'UPDATE_CARD'
 export const UPDATE_CARD_ANSWERED_RIGHT = 'UPDATE_CARD_ANSWERED_RIGHT'
 export const UPDATE_CARD_ANSWERED_WRONG = 'UPDATE_CARD_ANSWERED_WRONG'
 export const UPDATE_CARD_MARK_AS_SEEN   = 'UPDATE_CARD_MARK_AS_SEEN'
-export const UPDATE_NEXT_CARD_INDEX     = 'UPDATE_NEXT_CARD_INDEX'
+export const GOTO_NEXT_CARD_INDEX       = 'GOTO_NEXT_CARD_INDEX'
+export const GOTO_CARD_INDEX            = 'GOTO_CARD_INDEX'
 export const FETCH_CARDS                = 'FETCH_CARDS'
 export const FETCH_CARDS_SUCCESS        = 'FETCH_CARDS_SUCCESS'
 export const FETCH_CARDS_FAIL           = 'FETCH_CARDS_FAIL'
@@ -44,14 +45,25 @@ export function updateCard(id, cardData) {
   }
 }
 
-export function nextCard(deckId) {
+export function gotoNextCard(deckId) {
   return {
-    type: UPDATE_NEXT_CARD_INDEX,
+    type: GOTO_NEXT_CARD_INDEX,
     payload: {
       deckId
     }
   }
 }
+
+export function gotoCardIndex(deckId, cardIndex) {
+  return {
+    type: GOTO_CARD_INDEX,
+    payload: {
+      deckId,
+      cardIndex
+    }
+  }
+}
+
 
 export function markAsSeen(id) {
   let timestamp = Date.now()
@@ -114,7 +126,7 @@ export function fetchCards(googleSheetId) {
         let card = {
           question: entry.gsx$question.$t,
           answer: entry.gsx$answer.$t,
-          deck: entry.gsx$tag.$t.toLowerCase(),
+          deck: entry.gsx$tag.$t.toLowerCase() || 'unknown',
           lastUpdated: Date.now()
         }
 
@@ -123,7 +135,7 @@ export function fetchCards(googleSheetId) {
         try {
           // Augment with any data we've saved from localStorage
           Object.assign(card, JSON.parse(window.localStorage.getItem(id)))
-          console.log('Successfully got card ' + id + ' from local storage')
+          // console.log('Successfully got card ' + id + ' from local storage')
         } catch(e) {}
 
         dispatch(addCard(card))

@@ -6,7 +6,8 @@ import {
   UPDATE_CARD_ANSWERED_RIGHT,
   UPDATE_CARD_ANSWERED_WRONG,
   UPDATE_SELECTED_DECK,
-  UPDATE_NEXT_CARD_INDEX
+  GOTO_NEXT_CARD_INDEX,
+  GOTO_CARD_INDEX
 } from '../actions'
 import { combineReducers } from 'redux'
 // import crypto from 'crypto'
@@ -100,12 +101,19 @@ function decksReducer(decks = {}, action) {
     }
   }
   
-  if (action.type === UPDATE_NEXT_CARD_INDEX) {
+  if (action.type === GOTO_NEXT_CARD_INDEX) {
     let nextIndex = (decks[action.payload.deckId].nextCardIndex + 1) % decks[action.payload.deckId].cardIds.length
     let updatedDeck = Object.assign({}, decks[action.payload.deckId], {nextCardIndex: nextIndex})
     return Object.assign({}, decks, {[action.payload.deckId]: updatedDeck})
   }
   
+  if (action.type === GOTO_CARD_INDEX) {
+    // In case cardIndex is out of range, take the mod of the number of cards
+    let nextIndex = action.payload.cardIndex % decks[action.payload.deckId].cardIds.length
+    let updatedDeck = Object.assign({}, decks[action.payload.deckId], {nextCardIndex: nextIndex})
+    return Object.assign({}, decks, {[action.payload.deckId]: updatedDeck})
+  }
+
   // Assert: nothing to do
   return decks
 }

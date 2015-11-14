@@ -55,16 +55,16 @@ class App extends Component {
 
       function onAnsweredCorrectly() {
         this.props.dispatch(Actions.markAnsweredRight(card.id))
-        this.props.dispatch(Actions.nextCard(deckId))
+        this.props.dispatch(Actions.gotoNextCard(deckId))
       }
 
       function onAnsweredIncorrectly() {
         this.props.dispatch(Actions.markAnsweredWrong(card.id))
-        this.props.dispatch(Actions.nextCard(deckId))
+        this.props.dispatch(Actions.gotoNextCard(deckId))
       }
 
       function onSkip() {
-        this.props.dispatch(Actions.nextCard(deckId))
+        this.props.dispatch(Actions.gotoNextCard(deckId))
       }
 
       function onBackToAllDecks() {

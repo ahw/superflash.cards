@@ -42,7 +42,7 @@ export default class Card extends React.Component {
   }
 
   onKeyDown(e) {
-    console.log('Got keydown', e)
+    // console.log('Got keydown', e)
     if (e.keyIdentifier === 'Up') this.props.onBackToAllDecks()
     else if (e.keyIdentifier === 'Left') this.props.onAnsweredIncorrectly()
     else if (e.keyIdentifier === 'Right') this.props.onAnsweredCorrectly()
@@ -63,7 +63,7 @@ export default class Card extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('Card will unmount')
+    // console.log('Card will unmount')
     document.removeEventListener('keydown', this._keyDownListener)
   }
 
