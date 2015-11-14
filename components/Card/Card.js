@@ -11,8 +11,26 @@ import BlockButton from '../buttons/BlockButton'
 import ProgressMeter from '../progress-meter'
 import CardMetadata from '../CardMetadata'
 import CardHelpDirections from '../CardHelpDirections'
+// import './Card.scss';
+// import CustomProgressBar from '../CustomProgressBar'
 
 let answerColor = 'rgb(0, 62, 136)' // #0678FE'
+let clientWidth = window.document.documentElement.clientWidth
+function linearTransform(domain, range, x) {
+  // rise / run
+  let slope = (range[1] - range[0]) / (domain[1] - domain[0])
+  // b = y - mx
+  var intercept = range[0] - slope * domain[0];
+  if (typeof x === "number") {
+      // If a domain value was provided, return the transformed result
+      return slope * x + intercept;
+  } else {
+      // If no domain value was provided, return a function
+      return (x) => { return slope * x + intercept }
+  }
+}
+
+let getLightness = linearTransform([0, 1], [100, 25])
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -41,6 +59,28 @@ export default class Card extends React.Component {
     });
   }
 
+  onTouchStart(e) {
+    let {clientX:x, clientY:y} = e.targetTouches[0]
+      this.setState({
+        lastTouchStart: {x, y}
+      })
+  }
+
+  onTouchMove(e) {
+    let {clientX:x, clientY:y} = e.targetTouches[0]
+    let lastTouchStart = this.state.lastTouchStart
+    let deltaXRatio = (x - lastTouchStart.x) / clientWidth
+    // let hslValue = `hsl(${hue}, 100%, ${getLightness(Math.abs(deltaXRatio))}%)`
+    let rgbaValue = deltaXRatio > 0 ? `rgba(0, 128, 0, ${Math.abs(deltaXRatio)})` : `rgba(204, 0, 0, ${Math.abs(deltaXRatio)})`
+    document.body.style.backgroundColor = rgbaValue
+    // document.body.style.opacity = Math.abs(deltaXRatio)
+  }
+
+  onTouchEnd(e) {
+    document.body.style.backgroundColor = 'white'
+    // document.body.style.opacity = 1
+  }
+
   onKeyDown(e) {
     // console.log('Got keydown', e)
     if (e.keyIdentifier === 'Up') this.props.onBackToAllDecks()
@@ -50,11 +90,6 @@ export default class Card extends React.Component {
     else if (e.keyCode === 32) this.flipCard() // SPACE
     else this.flipCard()
   }
-
-  // <BlockButton theme='wrong' style={{width: '50%'}} onClick={this.props.onAnsweredIncorrectly}>Wrong</BlockButton>
-  // <BlockButton theme='right' style={{width: '50%'}} onClick={this.props.onAnsweredCorrectly}>Right</BlockButton>
-  // <BlockButton theme='skip' onClick={this.props.onSkip}>Skip</BlockButton>
-  // <BlockButton theme='flip' onClick={this.flipCard.bind(this)}>Flip</BlockButton>
 
   componentDidMount() {
     if (window.iNoBounce) window.iNoBounce.enable()
@@ -69,6 +104,7 @@ export default class Card extends React.Component {
 
   render() {
     let style = {
+      transition: '1s',
       cursor: 'pointer',
       fontFamily:'Monospace',
       margin: 0,
@@ -89,7 +125,7 @@ export default class Card extends React.Component {
     let dangerousHtml = {__html: text}
 
     return (
-      <div style={style} onClick={this.flipCard.bind(this)}>
+      <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
           <ProgressMeter color={this.state.isShowingQuestion ? 'black' : answerColor} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
           <p dangerouslySetInnerHTML={dangerousHtml} style={{position: 'absolute', top: '35%', transform: 'translateY(-50%)', width: '80%', left: '10%'}}/>

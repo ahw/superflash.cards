@@ -42,8 +42,6 @@ export default class DeckCover extends React.Component {
     let numRightAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === true }).length
     let numWrongAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === false}).length
 
-    // {this.props.cardIds.filter((cardId) => { return !!this.props.cards[cardId].lastSeen }).length}/{this.props.cardIds.length} seen
-    // <br/>
     return (
       <div className="DeckCover" style={{cursor: 'pointer', flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10}} onTouchStart={function() {}} onClick={this.props.onClick}>
         <h1 style={{marginTop:0, marginBottom:5}}>{this.props.name}</h1>
