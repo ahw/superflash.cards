@@ -8,6 +8,7 @@ import React, { PropTypes } from 'react'
 import config from '../../config'
 import moment from 'moment'
 import ProgressMeter from '../progress-meter'
+// import CustomProgressBar from '../CustomProgressBar'
 
 export default class DeckCover extends React.Component {
   constructor(props) {
@@ -41,6 +42,16 @@ export default class DeckCover extends React.Component {
     // {numSeen < this.props.cardIds.length ? this.props.cardIds.length - numSeen + ' never seen' : ""}
     let numRightAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === true }).length
     let numWrongAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === false}).length
+    // let divisions = [{
+    //     name: 'right',
+    //     num: numRightAnswers,
+    //     style: {background: 'green'}
+    // }, {
+    //   name: 'wrong',
+    //   num: numWrongAnswers,
+    //   style: {background: '#c00'}
+    // }]
+    // <CustomProgressBar style={{marginBottom: 4, height:4}} divisions={divisions}/>
 
     return (
       <div className="DeckCover" style={{cursor: 'pointer', flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10}} onTouchStart={function() {}} onClick={this.props.onClick}>
