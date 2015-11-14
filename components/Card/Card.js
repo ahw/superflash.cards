@@ -82,7 +82,11 @@ export default class Card extends React.Component {
 
     // <CardHelpDirections />
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
-    let dangerousHtml = {__html: text.replace(/\s\s/g, '<br/><br/>')}
+    text = text
+            .replace(/\s\s/g, '<br/><br/>')
+            .replace(/\\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+            .replace(/\\n/g, '<br/>')
+    let dangerousHtml = {__html: text}
 
     return (
       <div style={style} onClick={this.flipCard.bind(this)}>
