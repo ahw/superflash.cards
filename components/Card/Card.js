@@ -70,19 +70,15 @@ export default class Card extends React.Component {
     let {clientX:x, clientY:y} = e.targetTouches[0]
     let lastTouchStart = this.state.lastTouchStart
     let deltaXRatio = (x - lastTouchStart.x) / clientWidth
-    // let hslValue = `hsl(${hue}, 100%, ${getLightness(Math.abs(deltaXRatio))}%)`
     let rgbaValue = deltaXRatio > 0 ? `rgba(0, 128, 0, ${Math.abs(deltaXRatio)})` : `rgba(204, 0, 0, ${Math.abs(deltaXRatio)})`
     document.body.style.backgroundColor = rgbaValue
-    // document.body.style.opacity = Math.abs(deltaXRatio)
   }
 
   onTouchEnd(e) {
     document.body.style.backgroundColor = 'white'
-    // document.body.style.opacity = 1
   }
 
   onKeyDown(e) {
-    // console.log('Got keydown', e)
     if (e.keyIdentifier === 'Up') this.props.onBackToAllDecks()
     else if (e.keyIdentifier === 'Left') this.props.onAnsweredIncorrectly()
     else if (e.keyIdentifier === 'Right') this.props.onAnsweredCorrectly()
@@ -98,7 +94,6 @@ export default class Card extends React.Component {
   }
 
   componentWillUnmount() {
-    // console.log('Card will unmount')
     document.removeEventListener('keydown', this._keyDownListener)
   }
 
