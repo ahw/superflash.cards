@@ -102,16 +102,28 @@ function decksReducer(decks = {}, action) {
   }
   
   if (action.type === GOTO_NEXT_CARD_INDEX) {
-    let nextIndex = (decks[action.payload.deckId].nextCardIndex + 1) % decks[action.payload.deckId].cardIds.length
-    let updatedDeck = Object.assign({}, decks[action.payload.deckId], {nextCardIndex: nextIndex})
-    return Object.assign({}, decks, {[action.payload.deckId]: updatedDeck})
+    let deckId = action.payload.deckId
+    let currentCardIndex = decks[deckId].nextCardIndex
+    let wrongOrUnansweredCards = decks[deckId].cardIds.filter((cardId) => {
+      // TODO: Here is where we could search for all the wrong or unanswered
+      // cards so that the next card we go to is not just one that has already
+      // been answered correctly. If ALL cards have been answered correctly then
+      // this should just go back to the very first card in the list and start
+      // all over again. See (possibly)
+      // http://rackt.org/redux/docs/recipes/ComputingDerivedData.html
+    })
+
+    let nextIndex = (decks[deckId].nextCardIndex + 1) % decks[deckId].cardIds.length
+    let updatedDeck = Object.assign({}, decks[deckId], {nextCardIndex: nextIndex})
+    return Object.assign({}, decks, {[deckId]: updatedDeck})
   }
   
   if (action.type === GOTO_CARD_INDEX) {
+    let deckId = action.payload.deckId
     // In case cardIndex is out of range, take the mod of the number of cards
-    let nextIndex = action.payload.cardIndex % decks[action.payload.deckId].cardIds.length
-    let updatedDeck = Object.assign({}, decks[action.payload.deckId], {nextCardIndex: nextIndex})
-    return Object.assign({}, decks, {[action.payload.deckId]: updatedDeck})
+    let nextIndex = action.payload.cardIndex % decks[deckId].cardIds.length
+    let updatedDeck = Object.assign({}, decks[deckId], {nextCardIndex: nextIndex})
+    return Object.assign({}, decks, {[deckId]: updatedDeck})
   }
 
   // Assert: nothing to do
