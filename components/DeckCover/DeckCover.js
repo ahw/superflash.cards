@@ -10,6 +10,18 @@ import moment from 'moment'
 import ProgressMeter from '../progress-meter'
 // import CustomProgressBar from '../CustomProgressBar'
 
+let starStyle = {
+  display: 'block',
+  position: 'absolute',
+  color: 'gold',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  fontSize: '48px'
+}
+let star = <span style={starStyle} dangerouslySetInnerHTML={{__html: '&#9733;'}}/>
+
+
 export default class DeckCover extends React.Component {
   constructor(props) {
     super(props)
@@ -38,23 +50,16 @@ export default class DeckCover extends React.Component {
       }
     })
 
-    // <br/>
-    // {numSeen < this.props.cardIds.length ? this.props.cardIds.length - numSeen + ' never seen' : ""}
     let numRightAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === true }).length
     let numWrongAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === false}).length
-    // let divisions = [{
-    //     name: 'right',
-    //     num: numRightAnswers,
-    //     style: {background: 'green'}
-    // }, {
-    //   name: 'wrong',
-    //   num: numWrongAnswers,
-    //   style: {background: '#c00'}
-    // }]
-    // <CustomProgressBar style={{marginBottom: 4, height:4}} divisions={divisions}/>
+
+    let hasAnsweredAllCorrectly = this.props.cardIds.filter((cardId) => {
+      return this.props.cards[cardId].lastAnsweredRight !== true
+    }).length === 0
 
     return (
-      <div className="DeckCover" style={{cursor: 'pointer', flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10}} onTouchStart={function() {}} onClick={this.props.onClick}>
+      <div className="DeckCover" style={{cursor: 'pointer', flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10, position: 'relative'}} onTouchStart={function() {}} onClick={this.props.onClick}>
+        {hasAnsweredAllCorrectly ? star : ""}
         <h1 style={{marginTop:0, marginBottom:5}}>{this.props.name}</h1>
         <ProgressMeter style={{marginBottom: 4}} color="green" height={4} complete={numRightAnswers/this.props.cardIds.length}/>
         <ProgressMeter style={{marginBottom: 4}} color="#c00" height={4} complete={numWrongAnswers/this.props.cardIds.length}/>

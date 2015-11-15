@@ -56,7 +56,7 @@ function decksReducer(decks = {}, action) {
       // Initialize a new deck with an array of 1 card
       let newDeck = {
         cardIds: [cardId],
-        nextCardIndex: 0
+        currentCardIndex: 0
       }
       return Object.assign({}, decks, {[action.payload.deck]: newDeck})
     }
@@ -64,7 +64,7 @@ function decksReducer(decks = {}, action) {
   
   if (action.type === GOTO_NEXT_CARD_INDEX) {
     let deckId = action.payload.deckId
-    let currentCardIndex = decks[deckId].nextCardIndex
+    let currentCardIndex = decks[deckId].currentCardIndex
     let wrongOrUnansweredCards = decks[deckId].cardIds.filter((cardId) => {
       // TODO: Here is where we could search for all the wrong or unanswered
       // cards so that the next card we go to is not just one that has already
@@ -74,8 +74,8 @@ function decksReducer(decks = {}, action) {
       // http://rackt.org/redux/docs/recipes/ComputingDerivedData.html
     })
 
-    let nextIndex = (decks[deckId].nextCardIndex + 1) % decks[deckId].cardIds.length
-    let updatedDeck = Object.assign({}, decks[deckId], {nextCardIndex: nextIndex})
+    let nextIndex = (decks[deckId].currentCardIndex + 1) % decks[deckId].cardIds.length
+    let updatedDeck = Object.assign({}, decks[deckId], {currentCardIndex: nextIndex})
     return Object.assign({}, decks, {[deckId]: updatedDeck})
   }
   
@@ -83,7 +83,7 @@ function decksReducer(decks = {}, action) {
     let deckId = action.payload.deckId
     // In case cardIndex is out of range, take the mod of the number of cards
     let nextIndex = action.payload.cardIndex % decks[deckId].cardIds.length
-    let updatedDeck = Object.assign({}, decks[deckId], {nextCardIndex: nextIndex})
+    let updatedDeck = Object.assign({}, decks[deckId], {currentCardIndex: nextIndex})
     return Object.assign({}, decks, {[deckId]: updatedDeck})
   }
 

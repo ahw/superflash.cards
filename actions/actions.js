@@ -111,7 +111,6 @@ export function gotoCardIndex(deckId, cardIndex) {
   }
 }
 
-
 export function markAsSeen(id) {
   return updateLocalStorage(id, {lastSeen: Date.now()})
 }

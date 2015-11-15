@@ -15,6 +15,7 @@ import './Card.scss';
 // import CustomProgressBar from '../CustomProgressBar'
 
 let answerColor = 'rgb(0, 62, 136)' // #0678FE'
+
 function linearTransform(domain, range, x) {
   // rise / run
   let slope = (range[1] - range[0]) / (domain[1] - domain[0])
@@ -31,6 +32,18 @@ function linearTransform(domain, range, x) {
 
 let getRotation = linearTransform([-1, 1], [-10, 10])
 let getYTranslation = linearTransform([0, 1], [0, -100])
+
+let starStyle = {
+  display: 'block',
+  position: 'absolute',
+  color: 'gold',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  fontSize: '128px',
+  opacity: 0.8
+}
+let star = <span style={starStyle} dangerouslySetInnerHTML={{__html: '&#9733;'}}/>
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -107,12 +120,19 @@ export default class Card extends React.Component {
   }
 
   render() {
+    let color = this.state.isShowingQuestion ? 'black' : answerColor
+    if (this.props.lastAnsweredRight === true) {
+      color = 'green'
+    } else if (this.props.lastAnsweredRight === false) {
+      color = '#c00'
+    }
+
     let style = {
       // paddingTop: 20,
       // background: this.state.isShowingQuestion ? 'white' : '#DDF5FF',
       // height: screen.height,
       height: window.document.documentElement.clientHeight - 20, // to account for padding
-      color: this.state.isShowingQuestion ? 'black' : answerColor,
+      color,
       transform: this.state.transform || 'none',
       backgroundColor: this.state.backgroundColor || 'white'
     }
@@ -130,8 +150,8 @@ export default class Card extends React.Component {
 
     return (
       <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
-          <ProgressMeter color={this.state.isShowingQuestion ? 'black' : answerColor} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
-          <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
+          <ProgressMeter color={color} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
+          <h1>{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
           <p dangerouslySetInnerHTML={dangerousHtml} style={{/*position: 'absolute', top: '50%', transform: 'translateY(-60%)', */margin: 'auto',  width: '80%', left: '10%'}}/>
 
           <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
