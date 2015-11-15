@@ -7,6 +7,7 @@
 import React, { PropTypes } from 'react'
 import config from '../../config'
 import moment from 'moment'
+import './CardMetadata.scss'
 
 export default class CardMetadata extends React.Component {
   render() {
@@ -16,22 +17,22 @@ export default class CardMetadata extends React.Component {
       bottom: 10
     }
     Object.assign(style, this.props.style)
+
     return (
-      <div style={style}>
-        <strong>&gt;</strong> know
-        <br/>
-        <strong>&lt;</strong> don't know
-        <br/>
-        <strong>^</strong> back
-        <br/>
-        <strong>V</strong> skip
-        <br/>
-        <br/>
-        Last seen: {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}
-        <br/>
-        Answered correctly: {this.props.numRightAnswers ? this.props.numRightAnswers : 0} times
-        <br/>
-        Answered wrongly: {this.props.numWrongAnswers ? this.props.numWrongAnswers : 0} times
+      <div>
+        <ul className="card-directions">
+          <li><strong>&larr;</strong> don't know</li>
+          <li><strong>&uarr;</strong> back</li>
+          <li><strong>&darr;</strong> skip</li>
+          <li><strong>&rarr;</strong> know</li>
+        </ul>
+        <div className="card-metadata">
+          Last seen: {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}
+          <br/>
+          Answered correctly: {this.props.numRightAnswers ? this.props.numRightAnswers : 0} times
+          <br/>
+          Answered wrongly: {this.props.numWrongAnswers ? this.props.numWrongAnswers : 0} times
+        </div>
       </div>
     )
   }

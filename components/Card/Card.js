@@ -11,11 +11,10 @@ import BlockButton from '../buttons/BlockButton'
 import ProgressMeter from '../progress-meter'
 import CardMetadata from '../CardMetadata'
 import CardHelpDirections from '../CardHelpDirections'
-// import './Card.scss';
+import './Card.scss';
 // import CustomProgressBar from '../CustomProgressBar'
 
 let answerColor = 'rgb(0, 62, 136)' // #0678FE'
-let clientWidth = window.document.documentElement.clientWidth
 function linearTransform(domain, range, x) {
   // rise / run
   let slope = (range[1] - range[0]) / (domain[1] - domain[0])
@@ -30,7 +29,8 @@ function linearTransform(domain, range, x) {
   }
 }
 
-let getLightness = linearTransform([0, 1], [100, 25])
+let getRotation = linearTransform([-1, 1], [-10, 10])
+let getYTranslation = linearTransform([0, 1], [0, -100])
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -69,13 +69,22 @@ export default class Card extends React.Component {
   onTouchMove(e) {
     let {clientX:x, clientY:y} = e.targetTouches[0]
     let lastTouchStart = this.state.lastTouchStart
-    let deltaXRatio = (x - lastTouchStart.x) / clientWidth
+    let deltaXRatio = (x - lastTouchStart.x) / window.document.documentElement.clientWidth
     let rgbaValue = deltaXRatio > 0 ? `rgba(0, 128, 0, ${Math.abs(deltaXRatio)})` : `rgba(204, 0, 0, ${Math.abs(deltaXRatio)})`
-    document.body.style.backgroundColor = rgbaValue
+    let transform = `translateX(${x - lastTouchStart.x}px) translateY(${getYTranslation(Math.abs(deltaXRatio))}px) rotate(${getRotation(deltaXRatio)}deg)`
+    this.setState({
+      backgroundColor: rgbaValue,
+      transform
+    })
+    // document.body.style.backgroundColor = rgbaValue
   }
 
   onTouchEnd(e) {
-    document.body.style.backgroundColor = 'white'
+    // document.body.style.backgroundColor = 'white'
+    this.setState({
+      backgroundColor: 'white',
+      transform: 'none'
+    })
   }
 
   onKeyDown(e) {
@@ -99,19 +108,16 @@ export default class Card extends React.Component {
 
   render() {
     let style = {
-      transition: '1s',
-      cursor: 'pointer',
-      fontFamily:'Monospace',
-      margin: 0,
-      padding: 10,
       // paddingTop: 20,
       // background: this.state.isShowingQuestion ? 'white' : '#DDF5FF',
       // height: screen.height,
       height: window.document.documentElement.clientHeight - 20, // to account for padding
-      color: this.state.isShowingQuestion ? 'black' : answerColor
+      color: this.state.isShowingQuestion ? 'black' : answerColor,
+      transform: this.state.transform || 'none',
+      backgroundColor: this.state.backgroundColor || 'white'
     }
+    console.log('rendering with style', style)
 
-    // <CardHelpDirections />
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
     text = text
             .replace(/\s\s/g, '<br/><br/>')
