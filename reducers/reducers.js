@@ -1,10 +1,10 @@
 import {
   generateId,
-  ADD_CARD,
-  UPDATE_CARD,
+  ADD_CARD_SUCCESS,
+  UPDATE_CARD_SUCCESS,
   UPDATE_CARD_MARK_AS_SEEN,
-  UPDATE_CARD_ANSWERED_RIGHT,
-  UPDATE_CARD_ANSWERED_WRONG,
+  // UPDATE_CARD_ANSWERED_RIGHT,
+  // UPDATE_CARD_ANSWERED_WRONG,
   UPDATE_SELECTED_DECK,
   GOTO_NEXT_CARD_INDEX,
   GOTO_CARD_INDEX
@@ -15,7 +15,7 @@ import { combineReducers } from 'redux'
 
 function deckEntitiesReducer(deckEntities = {}, action) {
 
-  if (action.type === ADD_CARD) {
+  if (action.type === ADD_CARD_SUCCESS) {
     let deck = action.payload.deck
     if (deck && deckEntities[deck]) {
       return deckEntities // Deck already exists
@@ -32,20 +32,14 @@ function deckEntitiesReducer(deckEntities = {}, action) {
 }
 
 function cardEntitiesReducer(cardEntities = {}, action) {
-  if (action.type === ADD_CARD) {
-    let id = generateId(action.payload)
-    let card = Object.assign({}, action.payload, {
-      id: id,
-      numRightAnswers: 0,
-      numWrongAnswers: 0,
-      lastSeen: null
-    })
-    return Object.assign({}, cardEntities, {[id]: card})
+  if (action.type === ADD_CARD_SUCCESS) {
+    let id = action.payload.id
+    return Object.assign({}, cardEntities, {[id]: action.payload})
   }
 
-  if (action.type === UPDATE_CARD) {
+  if (action.type === UPDATE_CARD_SUCCESS) {
     let id = action.payload.id
-    let card = Object.assign({}, cardEntities[id], action.payload.cardData)
+    let card = Object.assign({}, cardEntities[id], action.payload.card)
     return Object.assign({}, cardEntities, {[id]: card})
   }
 
@@ -55,37 +49,37 @@ function cardEntitiesReducer(cardEntities = {}, action) {
     return Object.assign({}, cardEntities, {[id]: card})
   }
 
-  if (action.type === UPDATE_CARD_ANSWERED_RIGHT) {
-    let id = action.payload.id
-    let lastUpdated = action.payload.lastUpdated
-    let card = Object.assign({}, cardEntities[id], {
-      lastAnsweredRight: true,
-      numRightAnswers: cardEntities[id].numRightAnswers + 1,
-      lastRightAnswerTimestamp: lastUpdated,
-      lastUpdated: lastUpdated
-    })
-    return Object.assign({}, cardEntities, {[id]: card})
-  }
+  // if (action.type === UPDATE_CARD_ANSWERED_RIGHT) {
+  //   let id = action.payload.id
+  //   let lastUpdated = action.payload.lastUpdated
+  //   let card = Object.assign({}, cardEntities[id], {
+  //     lastAnsweredRight: true,
+  //     numRightAnswers: cardEntities[id].numRightAnswers + 1,
+  //     lastRightAnswerTimestamp: lastUpdated,
+  //     lastUpdated: lastUpdated
+  //   })
+  //   return Object.assign({}, cardEntities, {[id]: card})
+  // }
 
-  if (action.type === UPDATE_CARD_ANSWERED_WRONG) {
-    let id = action.payload.id
-    let lastUpdated = action.payload.lastUpdated
-    let card = Object.assign({}, cardEntities[id], {
-      lastAnsweredRight: false,
-      numWrongAnswers: cardEntities[id].numWrongAnswers + 1,
-      lastWrongAnswerTimestamp: lastUpdated,
-      lastUpdated: lastUpdated
-    })
-    return Object.assign({}, cardEntities, {[id]: card})
-  }
+  // if (action.type === UPDATE_CARD_ANSWERED_WRONG) {
+  //   let id = action.payload.id
+  //   let lastUpdated = action.payload.lastUpdated
+  //   let card = Object.assign({}, cardEntities[id], {
+  //     lastAnsweredRight: false,
+  //     numWrongAnswers: cardEntities[id].numWrongAnswers + 1,
+  //     lastWrongAnswerTimestamp: lastUpdated,
+  //     lastUpdated: lastUpdated
+  //   })
+  //   return Object.assign({}, cardEntities, {[id]: card})
+  // }
 
   // Assert: nothing required
   return cardEntities
 }
 
 function decksReducer(decks = {}, action) {
-  if (action.type === ADD_CARD) {
-    let cardId = generateId(action.payload)
+  if (action.type === ADD_CARD_SUCCESS) {
+    let cardId = action.payload.id
 
     if (decks[action.payload.deck]) {
       let updatedCardList = [...decks[action.payload.deck].cardIds, cardId]

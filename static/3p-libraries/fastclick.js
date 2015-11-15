@@ -826,7 +826,6 @@
 	};
 
 
-  console.log("about to export FastClick");
   window.FastClick = FastClick;
 	// if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
   //   console.log("with amd");
