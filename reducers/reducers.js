@@ -2,9 +2,6 @@ import {
   generateId,
   ADD_CARD_SUCCESS,
   UPDATE_CARD_SUCCESS,
-  UPDATE_CARD_MARK_AS_SEEN,
-  // UPDATE_CARD_ANSWERED_RIGHT,
-  // UPDATE_CARD_ANSWERED_WRONG,
   UPDATE_SELECTED_DECK,
   GOTO_NEXT_CARD_INDEX,
   GOTO_CARD_INDEX
@@ -42,36 +39,6 @@ function cardEntitiesReducer(cardEntities = {}, action) {
     let card = Object.assign({}, cardEntities[id], action.payload.card)
     return Object.assign({}, cardEntities, {[id]: card})
   }
-
-  if (action.type === UPDATE_CARD_MARK_AS_SEEN) {
-    let id = action.payload.id
-    let card = Object.assign({}, cardEntities[id], {lastSeen: action.payload.timestamp, lastUpdated: action.payload.timestamp})
-    return Object.assign({}, cardEntities, {[id]: card})
-  }
-
-  // if (action.type === UPDATE_CARD_ANSWERED_RIGHT) {
-  //   let id = action.payload.id
-  //   let lastUpdated = action.payload.lastUpdated
-  //   let card = Object.assign({}, cardEntities[id], {
-  //     lastAnsweredRight: true,
-  //     numRightAnswers: cardEntities[id].numRightAnswers + 1,
-  //     lastRightAnswerTimestamp: lastUpdated,
-  //     lastUpdated: lastUpdated
-  //   })
-  //   return Object.assign({}, cardEntities, {[id]: card})
-  // }
-
-  // if (action.type === UPDATE_CARD_ANSWERED_WRONG) {
-  //   let id = action.payload.id
-  //   let lastUpdated = action.payload.lastUpdated
-  //   let card = Object.assign({}, cardEntities[id], {
-  //     lastAnsweredRight: false,
-  //     numWrongAnswers: cardEntities[id].numWrongAnswers + 1,
-  //     lastWrongAnswerTimestamp: lastUpdated,
-  //     lastUpdated: lastUpdated
-  //   })
-  //   return Object.assign({}, cardEntities, {[id]: card})
-  // }
 
   // Assert: nothing required
   return cardEntities

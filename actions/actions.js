@@ -11,22 +11,15 @@ export const UPDATE_CARD_SUCCESS        = 'UPDATE_CARD_SUCCESS'
 export const UPDATE_CARD_FAIL           = 'UPDATE_CARD_FAIL'
 export const UPDATE_CARD_DONE           = 'UPDATE_CARD_DONE'
 
-// export const UPDATE_CARD_ANSWERED_RIGHT = 'UPDATE_CARD_ANSWERED_RIGHT'
-// export const UPDATE_CARD_ANSWERED_WRONG = 'UPDATE_CARD_ANSWERED_WRONG'
-
-export const UPDATE_CARD_MARK_AS_SEEN   = 'UPDATE_CARD_MARK_AS_SEEN'
 export const GOTO_NEXT_CARD_INDEX       = 'GOTO_NEXT_CARD_INDEX'
 export const GOTO_CARD_INDEX            = 'GOTO_CARD_INDEX'
+
 export const FETCH_CARDS                = 'FETCH_CARDS'
 export const FETCH_CARDS_SUCCESS        = 'FETCH_CARDS_SUCCESS'
 export const FETCH_CARDS_FAIL           = 'FETCH_CARDS_FAIL'
 export const FETCH_CARDS_DONE           = 'FETCH_CARDS_DONE'
-export const UPDATE_SELECTED_DECK       = 'UPDATE_SELECTED_DECK'
 
-// export const LOCAL_STORAGE_UPDATE_CARD         = 'LOCAL_STORAGE_UPDATE_CARD'
-// export const LOCAL_STORAGE_UPDATE_CARD_SUCCESS = 'LOCAL_STORAGE_UPDATE_CARD_SUCCESS'
-// export const LOCAL_STORAGE_UPDATE_CARD_FAIL    = 'LOCAL_STORAGE_UPDATE_CARD_FAIL'
-// export const LOCAL_STORAGE_UPDATE_CARD_DONE    = 'LOCAL_STORAGE_UPDATE_CARD_DONE'
+export const UPDATE_SELECTED_DECK       = 'UPDATE_SELECTED_DECK'
 
 export function generateId(card) {
   let shasum = crypto.createHash('sha1')
@@ -42,13 +35,9 @@ export function addLocalStorage(card) {
       console.warn('addLocalStorage: card id should have been provided. Generating one automatically.')
       card.id = generateId(card)
     }
+
     try {
-      Object.assign(card, {
-        numRightAnswers: 0,
-        numWrongAnswers: 0,
-        lastSeen: null,
-        lastUpdated: Date.now()
-      })
+      card.lastUpdated = Date.now()
       window.localStorage.setItem(card.id, JSON.stringify(card))
       dispatch(addLocalStorageSuccess(card))
     } catch (e) {
@@ -103,13 +92,6 @@ export function updateSelectedDeck(deckId) {
   }
 }
 
-export function addCard(card) {
-  return {
-    type: ADD_CARD,
-    payload: card
-  }
-}
-
 export function gotoNextCard(deckId) {
   return {
     type: GOTO_NEXT_CARD_INDEX,
@@ -131,22 +113,17 @@ export function gotoCardIndex(deckId, cardIndex) {
 
 
 export function markAsSeen(id) {
-  let timestamp = Date.now()
-  return {
-    type: UPDATE_CARD_MARK_AS_SEEN,
-    payload: {
-      id,
-      timestamp
-    }
-  }
+  return updateLocalStorage(id, {lastSeen: Date.now()})
 }
 
 export function markAnswered(id, isRight) {
   try {
     let card = JSON.parse(window.localStorage.getItem(id))
+    let numRightAnswers = card.numRightAnswers || 0
+    let numWrongAnswers = card.numWrongAnswers || 0
     Object.assign(card, {
       lastAnsweredRight: isRight,
-      [isRight ? 'numRightAnswers' : 'numWrongAnswers']: (isRight ? card.numRightAnswers : card.numWrongAnswers) + 1,
+      [isRight ? 'numRightAnswers' : 'numWrongAnswers']: (isRight ? numRightAnswers : numWrongAnswers) + 1,
       [isRight ? 'lastRightAnswerTimestamp' : 'lastWrongAnswerTimestamp']: Date.now()
     })
     return updateLocalStorage(id, card)
