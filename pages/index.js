@@ -49,18 +49,10 @@ class App extends Component {
       })
 
       let hasAnsweredAllCorrectly = false
-      // let nextUnansweredOrWrongCardId = unansweredOrWrongCardIds[0]
 
       if (unansweredOrWrongCardIds.length === 0) {
         hasAnsweredAllCorrectly = true
       }
-      // } else if (unansweredOrWrongCardIds.length > 1) {
-      //   nextUnansweredOrWrongCardId = unansweredOrWrongCardIds.filter((id) => { return id !== card.id })[0]
-      // } else {
-      //   nextUnansweredOrWrongCardId = unansweredOrWrongCardIds[0]
-      // }
-
-      // let nextUnansweredOrWrongCardIndex = deck.cardIds.indexOf(nextUnansweredOrWrongCardId)
 
       function onFlip() {
         this.props.dispatch(Actions.markAsSeen(card.id))
@@ -73,22 +65,11 @@ class App extends Component {
       function onAnsweredCorrectly() {
         this.props.dispatch(Actions.markAnsweredRight(card.id))
         this.props.dispatch(Actions.gotoNextCard(deckId))
-
-        // if (nextUnansweredOrWrongCardIndex !== -1) {
-        //   this.props.dispatch(Actions.gotoCardIndex(deckId, nextUnansweredOrWrongCardIndex))
-        // } else {
-        //   this.props.dispatch(Actions.gotoNextCard(deckId))
-        // }
       }
 
       function onAnsweredIncorrectly() {
         this.props.dispatch(Actions.markAnsweredWrong(card.id))
         this.props.dispatch(Actions.gotoNextCard(deckId))
-        // if (nextUnansweredOrWrongCardIndex !== -1) {
-        //   this.props.dispatch(Actions.gotoCardIndex(deckId, nextUnansweredOrWrongCardIndex))
-        // } else {
-        //   this.props.dispatch(Actions.gotoNextCard(deckId))
-        // }
       }
 
       function onSkip() {
