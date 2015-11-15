@@ -119,8 +119,11 @@ export default class Card extends React.Component {
 
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
     text = text
-            .replace(/\s\s/g, '<br/><br/>')
-            .replace(/\\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\s\s\s/g, '<br/><br/>')
+            .replace(/\s\s/g, '<br/>')
+            .replace(/\\t/g, '&nbsp;&nbsp;')
             .replace(/\\n/g, '<br/>')
             .replace(/^(Definition):\s/, '<strong>$1</strong><br/><br/>')
     let dangerousHtml = {__html: text}
