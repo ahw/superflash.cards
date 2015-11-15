@@ -116,20 +116,20 @@ export default class Card extends React.Component {
       transform: this.state.transform || 'none',
       backgroundColor: this.state.backgroundColor || 'white'
     }
-    console.log('rendering with style', style)
 
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
     text = text
             .replace(/\s\s/g, '<br/><br/>')
             .replace(/\\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
             .replace(/\\n/g, '<br/>')
+            .replace(/^(Definition):\s/, '<strong>$1</strong><br/><br/>')
     let dangerousHtml = {__html: text}
 
     return (
       <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
           <ProgressMeter color={this.state.isShowingQuestion ? 'black' : answerColor} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
-          <p dangerouslySetInnerHTML={dangerousHtml} style={{position: 'absolute', top: '35%', transform: 'translateY(-50%)', width: '80%', left: '10%'}}/>
+          <p dangerouslySetInnerHTML={dangerousHtml} style={{/*position: 'absolute', top: '50%', transform: 'translateY(-60%)', */margin: 'auto',  width: '80%', left: '10%'}}/>
 
           <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
       </div>
