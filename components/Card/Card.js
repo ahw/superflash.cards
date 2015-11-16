@@ -50,6 +50,8 @@ export default class Card extends React.Component {
     super(props);
     this.state = {
       isShowingQuestion: !!props.isShowingQuestion,
+      skipOpacity: 0,
+      backOpacity: 0
     };
   }
 
@@ -83,11 +85,14 @@ export default class Card extends React.Component {
     let {clientX:x, clientY:y} = e.targetTouches[0]
     let lastTouchStart = this.state.lastTouchStart
     let deltaXRatio = (x - lastTouchStart.x) / window.document.documentElement.clientWidth
+    let deltaYRatio = 3 * (y - lastTouchStart.y) / window.document.documentElement.clientHeight
     let rgbaValue = deltaXRatio > 0 ? `rgba(0, 128, 0, ${Math.abs(deltaXRatio)})` : `rgba(204, 0, 0, ${Math.abs(deltaXRatio)})`
-    let transform = `translateX(${x - lastTouchStart.x}px) translateY(${getYTranslation(Math.abs(deltaXRatio))}px) rotate(${getRotation(deltaXRatio)}deg)`
+    // let transform = `translateX(${x - lastTouchStart.x}px) translateY(${getYTranslation(Math.abs(deltaXRatio))}px) rotate(${getRotation(deltaXRatio)}deg)`
     this.setState({
       backgroundColor: rgbaValue,
-      transform
+      skipOpacity: deltaYRatio > 0 ? deltaYRatio : 0,
+      backOpacity: deltaYRatio < 0 ? Math.abs(deltaYRatio) : 0
+      // transform
     })
     // document.body.style.backgroundColor = rgbaValue
   }
@@ -95,8 +100,8 @@ export default class Card extends React.Component {
   onTouchEnd(e) {
     // document.body.style.backgroundColor = 'white'
     this.setState({
-      backgroundColor: 'white',
-      transform: 'none'
+      backgroundColor: 'white'
+      // transform: 'none'
     })
   }
 
@@ -133,7 +138,7 @@ export default class Card extends React.Component {
       // height: screen.height,
       height: window.document.documentElement.clientHeight - 20, // to account for padding
       color,
-      transform: this.state.transform || 'none',
+      // transform: this.state.transform || 'none',
       backgroundColor: this.state.backgroundColor || 'white'
     }
 
@@ -153,6 +158,8 @@ export default class Card extends React.Component {
           <ProgressMeter color={color} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
           <p dangerouslySetInnerHTML={dangerousHtml} style={{/*position: 'absolute', top: '50%', transform: 'translateY(-60%)', */margin: 'auto',  width: '80%', left: '10%'}}/>
+          <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity}}>Skip</span>
+          <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity}}>Back</span>
 
           <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
       </div>
