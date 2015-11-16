@@ -52,6 +52,9 @@ NETWORK:
 *
 `
 
+  content.split('\n').forEach((line) => {
+    console.log('    ' + line);
+  });
   await fs.writeFile(join(__dirname, '../build/offline.appcache'), content);
 }
 

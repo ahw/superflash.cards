@@ -28,7 +28,7 @@ export function generateId(card) {
   return shasum.digest('hex').substr(0, 16)
 }
 
-export function addLocalStorage(card) {
+export function addLocalStorage(card, shouldWriteToLocalStorage=true) {
   // It's synchronous but whatever we'll write an Action as if it was async.
   return function(dispatch) {
     if (!card.id) {
@@ -38,7 +38,9 @@ export function addLocalStorage(card) {
 
     try {
       card.lastUpdated = Date.now()
-      window.localStorage.setItem(card.id, JSON.stringify(card))
+      if (shouldWriteToLocalStorage) {
+        window.localStorage.setItem(card.id, JSON.stringify(card))
+      }
       dispatch(addLocalStorageSuccess(card))
     } catch (e) {
       console.error('Error in addLocalStorage!')
@@ -161,40 +163,66 @@ export function fetchCards(googleSheetId) {
     Request
     .get(`https://spreadsheets.google.com/feeds/list/${googleSheetId}/od6/public/values?alt=json`)
     .end((error, response) => {
-      if (error) {
-        return dispatch(fetchCardsFail(error, googleSheetId))
-      }
-
       let cardIds = []
-      response.body.feed.entry.forEach(entry => {
-        let card = {
-          question: entry.gsx$question.$t,
-          answer: entry.gsx$answer.$t,
-          deck: entry.gsx$tag.$t.toLowerCase() || 'unknown',
-          lastUpdated: Date.now()
-        }
 
-        let id = generateId(card)
-        card.id = id
-        cardIds.push(id)
-        try {
-          // Augment with any data we've saved from localStorage
-          Object.assign(card, JSON.parse(window.localStorage.getItem(id)))
-          // console.log('Successfully got card ' + id + ' from local storage')
-        } catch(e) {
-          console.error('Error in fetchCards!')
-          console.error(e)
+      if (error) {
+        // Assert: network error. Try to use card ids saved in localStorage.
+        let cardIdsJson = window.localStorage.getItem(googleSheetId + ':card_ids')
+        if (cardIdsJson) {
+          console.log('Yay! Recovered from network error and using card ids from local storage')
+          let cardIds = JSON.parse(cardIdsJson)
+          cardIds.forEach((id) => {
+            try {
+              let card = JSON.parse(window.localStorage.getItem(id))
+              // Pass false to bypass actually writing to localStorage (since we
+              // just fetched it, let's not bother re-writing it).
+              dispatch(addLocalStorage(card, false))
+            } catch (e) {}
+          })
+          return dispatch(fetchCardsSuccess('localStorage'))
+        } else {
+          return dispatch(fetchCardsFail(error, googleSheetId))
         }
-
-        dispatch(addLocalStorage(card))
-      })
-      try {
-        window.localStorage.setItem('CARD_IDS', JSON.stringify(cardIds))
-        console.log('Set card ids list to localStorage', 'CARD_IDS')
-        dispatch(fetchCardsSuccess(googleSheetId))
-      } catch(e) {
-        dispatch(fetchCardsFail(e, googleSheetId))
       }
+      
+      else {
+        // We got a response. Parse it out and augment each card with any data
+        // previously stored in localStorage.
+        let cardIds = []
+        response.body.feed.entry.forEach(entry => {
+          let card = {
+            question: entry.gsx$question.$t,
+            answer: entry.gsx$answer.$t,
+            deck: entry.gsx$tag.$t.toLowerCase() || 'unknown',
+            lastUpdated: Date.now()
+          }
+
+          let id = generateId(card)
+          card.id = id
+
+          try {
+            // Augment with any data we've saved from localStorage
+            Object.assign(card, JSON.parse(window.localStorage.getItem(id)))
+            // console.log('Successfully got card ' + id + ' from local storage')
+          } catch(e) {
+            console.error('Error in fetchCards!')
+            console.error(e)
+          }
+
+          dispatch(addLocalStorage(card))
+          cardIds.push(id)
+        })
+
+        try {
+          window.localStorage.setItem(googleSheetId + ':card_ids', JSON.stringify(cardIds))
+          console.log('Set card ids list to localStorage', googleSheetId + ':card_ids')
+          dispatch(fetchCardsSuccess(googleSheetId))
+        } catch(e) {
+          console.error('Error writing card ids to local storage', e)
+        }
+
+      }
+
       dispatch(fetchCardsDone(googleSheetId))
     })
   }
