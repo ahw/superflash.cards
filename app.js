@@ -3,7 +3,6 @@
  * https://github.com/koistya/react-static-boilerplate
  * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
  */
-
 import 'babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -33,6 +32,21 @@ function run() {
 }
 
 if (canUseDOM) {
+
+  // Check if a new cache is available on page load.
+  window.addEventListener('load', function(e) {
+    window.applicationCache.addEventListener('updateready', function(e) {
+      if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+        // Browser downloaded a new app cache.
+        if (confirm('A new version of this site is available. Load it?')) {
+          window.location.reload();
+        }
+      } else {
+        // Manifest didn't changed. Nothing new to server.
+      }
+    });
+  });
+
   // Run the application when both DOM is ready and page content is loaded
   if (['complete', 'loaded', 'interactive'].includes(document.readyState) && document.body) {
     run();

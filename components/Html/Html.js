@@ -8,9 +8,9 @@ import React, { PropTypes } from 'react';
 import GoogleAnalytics from '../GoogleAnalytics';
 import config from '../../config';
 
-function Html({ title, description, body, debug }) {
+function Html({ title, description, body, debug, timestamp }) {
   return (
-    <html className="no-js" lang="">
+    <html manifest="offline.appcache" className="no-js" lang="">
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -21,7 +21,7 @@ function Html({ title, description, body, debug }) {
         <link rel="icon" href="cards-stack-32x32.png" />
         <script src='3p-libraries/inobounce.js' />
         <script src='3p-libraries/fastclick.js' />
-        <script src={'app.js?' + new Date().getTime()} />
+        <script src={'app.js?' + timestamp} />
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: body }} />

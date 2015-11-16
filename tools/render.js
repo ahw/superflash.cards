@@ -13,6 +13,7 @@ import task from './lib/task';
 import fs from './lib/fs';
 
 const DEBUG = !process.argv.includes('release');
+const timestamp = Date.now()
 
 function getPages() {
   return new Promise((resolve, reject) => {
@@ -35,9 +36,29 @@ function getPages() {
   });
 }
 
+async function renderManifest() {
+  let content = `CACHE MANIFEST
+
+# ${new Date(timestamp).toLocaleString()}
+3p-libraries/fastclick.js
+3p-libraries/inobounce.js
+app.js?${timestamp}
+1.app.js
+2.app.js
+
+# The * indicates that the browser should allow all connections to non-cached
+# resources from a cached page.
+NETWORK:
+*
+`
+
+  await fs.writeFile(join(__dirname, '../build/offline.appcache'), content);
+}
+
 async function renderPage(page, component) {
   const data = {
     body: ReactDOM.renderToString(component),
+    timestamp
   };
   const file = join(__dirname, '../build', page.file.substr(0, page.file.lastIndexOf('.')) + '.html');
   const html = '<!doctype html>\n' + ReactDOM.renderToStaticMarkup(<Html debug={DEBUG} {...data} />);
@@ -51,4 +72,6 @@ export default task(async function render() {
   for (const page of pages) {
     await route(page.path, renderPage.bind(undefined, page));
   }
+
+  await renderManifest();
 });
