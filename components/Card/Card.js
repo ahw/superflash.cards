@@ -4,14 +4,17 @@
  * Copyright (c) Konstantin Tarkus (@koistya) | MIT license
  */
 
-import React, {PropTypes} from 'react';
-import config from '../../config';
-import moment from 'moment';
+import React, {PropTypes} from 'react'
+import config from '../../config'
+import moment from 'moment'
 import BlockButton from '../buttons/BlockButton'
 import ProgressMeter from '../progress-meter'
 import CardMetadata from '../CardMetadata'
 import CardHelpDirections from '../CardHelpDirections'
-import './Card.scss';
+import './Card.scss'
+// import {markdown} from 'markdown'
+import MarkdownIt from 'markdown-it'
+let md = new MarkdownIt()
 // import CustomProgressBar from '../CustomProgressBar'
 
 let answerColor = 'rgb(0, 62, 136)' // #0678FE'
@@ -20,10 +23,10 @@ function linearTransform(domain, range, x) {
   // rise / run
   let slope = (range[1] - range[0]) / (domain[1] - domain[0])
   // b = y - mx
-  var intercept = range[0] - slope * domain[0];
+  var intercept = range[0] - slope * domain[0]
   if (typeof x === "number") {
       // If a domain value was provided, return the transformed result
-      return slope * x + intercept;
+      return slope * x + intercept
   } else {
       // If no domain value was provided, return a function
       return (x) => { return slope * x + intercept }
@@ -47,31 +50,31 @@ let star = <span style={starStyle} dangerouslySetInnerHTML={{__html: '&#9733;'}}
 
 export default class Card extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isShowingQuestion: !!props.isShowingQuestion,
       skipOpacity: 0,
       backOpacity: 0
-    };
+    }
   }
 
   showAnswer() {
     this.setState({
       isShowingQuestion: false
-    });
+    })
   }
 
   showQuestion() {
     this.setState({
       isShowingQuestion: true
-    });
+    })
   }
 
   flipCard() {
-    this.props.onFlip();
+    this.props.onFlip()
     this.setState({
       isShowingQuestion: !this.state.isShowingQuestion
-    });
+    })
   }
 
   onTouchStart(e) {
@@ -143,29 +146,53 @@ export default class Card extends React.Component {
     }
 
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
+
+    let htmlText = text
+            // .replace(/</g, '&lt;')
+            // .replace(/>/g, '&gt;')
+            // .replace(/```([^`]+)```/g, '<pre>$1</pre>')
+            .replace(/\s\s\s/g, "\n\n")
+            .replace(/\s\s/g, "\n")
+            .replace(/\\t/g, '    ')
+            // .replace(/\\n/g, "\n")
+            // .replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>')
+            // .replace(/\*([^\*]+)\*/g, '<i>$1</i>')
+            // .replace(/_([^_]+)_/g, '<i>$1</i>')
+            // .replace(/`([^`]+)`/g, '<code>$1</code>')
+            .replace(/^(Definition):\s/, '### $1\n')
+
+    // let html = markdown.toHTML(htmlText)
+    let html = md.render(htmlText)
+
     text = text
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
+            .replace(/```([^`]+)```/g, '<pre>$1</pre>')
             .replace(/\s\s\s/g, '<br/><br/>')
             .replace(/\s\s/g, '<br/>')
             .replace(/\\t/g, '&nbsp;&nbsp;')
             .replace(/\\n/g, '<br/>')
+            .replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>')
+            .replace(/\*([^\*]+)\*/g, '<i>$1</i>')
+            .replace(/_([^_]+)_/g, '<i>$1</i>')
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
             .replace(/^(Definition):\s/, '<strong>$1</strong><br/><br/>')
-    let dangerousHtml = {__html: text}
+
+    let dangerousHtml = {__html: html}
 
     return (
       <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
           <ProgressMeter color={color} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
-          <p dangerouslySetInnerHTML={dangerousHtml} style={{/*position: 'absolute', top: '50%', transform: 'translateY(-60%)', */margin: 'auto',  width: '80%', left: '10%'}}/>
+          <div dangerouslySetInnerHTML={dangerousHtml} style={{/*position: 'absolute', top: '50%', transform: 'translateY(-60%)', */margin: 'auto',  width: '80%', left: '10%'}}/>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity}}>Skip</span>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity}}>Back</span>
 
           <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
       </div>
-    );
+   )
   }
 }
 
-// Card.propTypes = { initialCount: React.PropTypes.number };
-Card.defaultProps = { lastSeen: null, isShowingQuestion: true, onFlip: function() {} };
+// Card.propTypes = { initialCount: React.PropTypes.number }
+Card.defaultProps = { lastSeen: null, isShowingQuestion: true, onFlip: function() {} }
