@@ -12,10 +12,8 @@ import ProgressMeter from '../progress-meter'
 import CardMetadata from '../CardMetadata'
 import CardHelpDirections from '../CardHelpDirections'
 import './Card.scss'
-// import {markdown} from 'markdown'
 import MarkdownIt from 'markdown-it'
 let md = new MarkdownIt()
-// import CustomProgressBar from '../CustomProgressBar'
 
 let answerColor = 'rgb(0, 62, 136)' // #0678FE'
 
@@ -90,21 +88,16 @@ export default class Card extends React.Component {
     let deltaXRatio = (x - lastTouchStart.x) / window.document.documentElement.clientWidth
     let deltaYRatio = 3 * (y - lastTouchStart.y) / window.document.documentElement.clientHeight
     let rgbaValue = deltaXRatio > 0 ? `rgba(0, 128, 0, ${Math.abs(deltaXRatio)})` : `rgba(204, 0, 0, ${Math.abs(deltaXRatio)})`
-    // let transform = `translateX(${x - lastTouchStart.x}px) translateY(${getYTranslation(Math.abs(deltaXRatio))}px) rotate(${getRotation(deltaXRatio)}deg)`
     this.setState({
       backgroundColor: rgbaValue,
       skipOpacity: deltaYRatio > 0 ? deltaYRatio : 0,
       backOpacity: deltaYRatio < 0 ? Math.abs(deltaYRatio) : 0
-      // transform
     })
-    // document.body.style.backgroundColor = rgbaValue
   }
 
   onTouchEnd(e) {
-    // document.body.style.backgroundColor = 'white'
     this.setState({
       backgroundColor: 'white'
-      // transform: 'none'
     })
   }
 
@@ -136,47 +129,20 @@ export default class Card extends React.Component {
     }
 
     let style = {
-      // paddingTop: 20,
-      // background: this.state.isShowingQuestion ? 'white' : '#DDF5FF',
-      // height: screen.height,
       height: window.document.documentElement.clientHeight - 20, // to account for padding
       color,
-      // transform: this.state.transform || 'none',
       backgroundColor: this.state.backgroundColor || 'white'
     }
 
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
 
     let htmlText = text
-            // .replace(/</g, '&lt;')
-            // .replace(/>/g, '&gt;')
-            // .replace(/```([^`]+)```/g, '<pre>$1</pre>')
             .replace(/\s\s\s/g, "\n\n")
             .replace(/\s\s/g, "\n")
             .replace(/\\t/g, '    ')
-            // .replace(/\\n/g, "\n")
-            // .replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>')
-            // .replace(/\*([^\*]+)\*/g, '<i>$1</i>')
-            // .replace(/_([^_]+)_/g, '<i>$1</i>')
-            // .replace(/`([^`]+)`/g, '<code>$1</code>')
             .replace(/^(Definition):\s/, '### $1\n')
 
-    // let html = markdown.toHTML(htmlText)
     let html = md.render(htmlText)
-
-    text = text
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/```([^`]+)```/g, '<pre>$1</pre>')
-            .replace(/\s\s\s/g, '<br/><br/>')
-            .replace(/\s\s/g, '<br/>')
-            .replace(/\\t/g, '&nbsp;&nbsp;')
-            .replace(/\\n/g, '<br/>')
-            .replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>')
-            .replace(/\*([^\*]+)\*/g, '<i>$1</i>')
-            .replace(/_([^_]+)_/g, '<i>$1</i>')
-            .replace(/`([^`]+)`/g, '<code>$1</code>')
-            .replace(/^(Definition):\s/, '<strong>$1</strong><br/><br/>')
 
     let dangerousHtml = {__html: html}
 
@@ -184,15 +150,14 @@ export default class Card extends React.Component {
       <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
           <ProgressMeter color={color} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
-          <div dangerouslySetInnerHTML={dangerousHtml} style={{/*position: 'absolute', top: '50%', transform: 'translateY(-60%)', */margin: 'auto',  width: '80%', left: '10%'}}/>
+          <div dangerouslySetInnerHTML={dangerousHtml} style={{margin: 'auto',  width: '80%', left: '10%'}}/>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity}}>Skip</span>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity}}>Back</span>
 
-          <CardMetadata style={{/*color: this.state.isShowingQuestion ? 'gray' : answerColor*/}} {...this.props} />
+          <CardMetadata {...this.props} />
       </div>
    )
   }
 }
 
-// Card.propTypes = { initialCount: React.PropTypes.number }
 Card.defaultProps = { lastSeen: null, isShowingQuestion: true, onFlip: function() {} }
