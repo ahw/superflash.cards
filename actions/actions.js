@@ -168,10 +168,6 @@ export function fetchCards(googleSheetId) {
           console.log('Yay! Recovered from network error and using card ids from local storage')
           let cardIds = JSON.parse(cardIdsJson)
           cardIds.forEach((id, index) => {
-            // For faster iteration.
-            if (index > 100) {
-              return;
-            }
             try {
               let card = JSON.parse(window.localStorage.getItem(id))
               // Pass false to bypass actually writing to localStorage (since we
@@ -188,11 +184,6 @@ export function fetchCards(googleSheetId) {
         // previously stored in localStorage.
         let cardIds = []
         response.body.feed.entry.forEach((entry, index) => {
-          // For faster iteration.
-          if (index > 100) {
-            return;
-          }
-
           let card = {
             question: entry.gsx$question.$t,
             answer: entry.gsx$answer.$t,
