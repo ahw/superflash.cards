@@ -33,12 +33,11 @@ export default class DeckCover extends React.Component {
     let oldestTimestamp = Date.now()
     let mostRecentlySeenCard = null
     let leastRecentlySeenCard = null
-    let numSeen = this.props.cardIds.filter((cardId) => {
-      return !!this.props.cards[cardId].lastSeen
+    let numSeen = this.props.cards.filter((card) => {
+      return !!card.lastSeen
     }).length
 
-    this.props.cardIds.forEach((cardId) => {
-      let card = this.props.cards[cardId]
+    this.props.cards.forEach((card) => {
       if (card.lastSeen && card.lastSeen > newestTimestamp) {
         newestTimestamp = card.lastSeen
         mostRecentlySeenCard = card
@@ -50,23 +49,23 @@ export default class DeckCover extends React.Component {
       }
     })
 
-    let numRightAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === true }).length
-    let numWrongAnswers = this.props.cardIds.filter((cardId) => { return this.props.cards[cardId].lastAnsweredRight === false}).length
+    let numRightAnswers = this.props.cards.filter((card) => { return card.lastAnsweredRight === true }).length
+    let numWrongAnswers = this.props.cards.filter((card) => { return card.lastAnsweredRight === false}).length
 
-    let hasAnsweredAllCorrectly = this.props.cardIds.filter((cardId) => {
-      return this.props.cards[cardId].lastAnsweredRight !== true
+    let hasAnsweredAllCorrectly = this.props.cards.filter((card) => {
+      return card.lastAnsweredRight !== true
     }).length === 0
 
     return (
       <div className="DeckCover" style={{cursor: 'pointer', flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10, position: 'relative'}} onTouchStart={function() {}} onClick={this.props.onClick}>
         {hasAnsweredAllCorrectly ? star : ""}
         <h1 style={{marginTop:0, marginBottom:5}}>{this.props.name}</h1>
-        <ProgressMeter style={{marginBottom: 4}} color="green" height={4} complete={numRightAnswers/this.props.cardIds.length}/>
-        <ProgressMeter style={{marginBottom: 4}} color="#c00" height={4} complete={numWrongAnswers/this.props.cardIds.length}/>
+        <ProgressMeter style={{marginBottom: 4}} color="green" height={3} complete={numRightAnswers/this.props.cards.length}/>
+        <ProgressMeter style={{marginBottom: 4}} color="#c00" height={3} complete={numWrongAnswers/this.props.cards.length}/>
         <div style={{fontSize:10, color:'gray'}}>
-          {numRightAnswers}/{this.props.cardIds.length} answered rightly
+          {numRightAnswers}/{this.props.cards.length} answered rightly
           <br/>
-          {numWrongAnswers}/{this.props.cardIds.length} answered wrongly
+          {numWrongAnswers}/{this.props.cards.length} answered wrongly
           <br/>
           Most recent seen {mostRecentlySeenCard === null ? 'never' : moment().to(mostRecentlySeenCard.lastSeen)}
         </div>

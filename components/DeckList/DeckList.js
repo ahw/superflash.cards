@@ -15,8 +15,7 @@ export default class DeckList extends React.Component {
         key={deckId}
         onClick={this.props.onSelectDeck.bind(this, deckId)}
         name={deckId}
-        cards={this.props.cardEntities}
-        cardIds={this.props.decks[deckId].cardIds}/>)
+        cards={this.props.decks[deckId].cards}/>)
     })
 
     let style = {

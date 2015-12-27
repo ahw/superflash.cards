@@ -19,13 +19,13 @@ import AllCardsButton from '../components/buttons/AllCardsButton'
 import Card from '../components/Card'
 import DeckCover from '../components/DeckCover'
 import DeckList from '../components/DeckList'
+import CardNavigation from '../components/CardNavigation'
 
 class App extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      entities: {},
       decks: {},
       selectedDeck: null
     }
@@ -43,14 +43,14 @@ class App extends Component {
 
       let deckId = this.props.selectedDeck
       let deck = this.props.decks[deckId]
-      let card = this.props.entities.cards[deck.cardIds[deck.currentCardIndex]]
-      let unansweredOrWrongCardIds = deck.cardIds.filter((cardId) => {
-        return this.props.entities.cards[cardId].lastAnsweredRight !== true
+      let card = deck.cards[deck.currentCardIndex]
+      let unansweredOrWrongCards = deck.cards.filter((card) => {
+        return card.lastAnsweredRight !== true
       })
 
       let hasAnsweredAllCorrectly = false
 
-      if (unansweredOrWrongCardIds.length === 0) {
+      if (unansweredOrWrongCards.length === 0) {
         hasAnsweredAllCorrectly = true
       }
 
@@ -81,7 +81,8 @@ class App extends Component {
       }
 
       return (
-        <div>
+        <div style={{background: deck.isInRerunMode ? 'yellow' : 'transparent'}}>
+          <CardNavigation cards={deck.cards} currentCardIndex={deck.currentCardIndex}/>
           <Swipeable
             onSwipedDown={onSkip.bind(this)}
             onSwipedLeft={onAnsweredIncorrectly.bind(this)}
@@ -90,7 +91,7 @@ class App extends Component {
               <Card
                 key={card.id}
                 cardIndex={deck.currentCardIndex}
-                totalCards={deck.cardIds.length}
+                totalCards={deck.cards.length}
                 hasAnsweredAllCorrectly={hasAnsweredAllCorrectly}
                 onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
                 onSeen={console.log.bind(console, 'Card@onSeen')}
@@ -105,8 +106,7 @@ class App extends Component {
     } else {
       return <DeckList
         onSelectDeck={(deckId) => {this.props.dispatch(Actions.updateSelectedDeck(deckId))}}
-        decks={this.props.decks}
-        cardEntities={this.props.entities.cards}/>
+        decks={this.props.decks} />
     }
   }
 }

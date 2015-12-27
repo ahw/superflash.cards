@@ -15,7 +15,7 @@ import './Card.scss'
 import MarkdownIt from 'markdown-it'
 let md = new MarkdownIt()
 
-let answerColor = 'rgb(0, 62, 136)' // #0678FE'
+let answerColor = '#3E96FF' // 'rgb(0, 62, 136)' // #0678FE'
 
 function linearTransform(domain, range, x) {
   // rise / run
@@ -97,7 +97,7 @@ export default class Card extends React.Component {
 
   onTouchEnd(e) {
     this.setState({
-      backgroundColor: 'white'
+      backgroundColor: 'transparent'
     })
   }
 
@@ -107,6 +107,7 @@ export default class Card extends React.Component {
     else if (e.keyIdentifier === 'Right') this.props.onAnsweredCorrectly()
     else if (e.keyIdentifier === 'Down') this.props.onSkip()
     else if (e.keyCode === 32) this.flipCard() // SPACE
+    else if (e.keyCode === 27) this.props.onBackToAllDecks() // ESC
     else this.flipCard()
   }
 
@@ -122,16 +123,11 @@ export default class Card extends React.Component {
 
   render() {
     let color = this.state.isShowingQuestion ? 'black' : answerColor
-    if (this.props.lastAnsweredRight === true) {
-      color = 'green'
-    } else if (this.props.lastAnsweredRight === false) {
-      color = '#c00'
-    }
 
     let style = {
-      height: window.document.documentElement.clientHeight - 20, // to account for padding
+      height: window.document.documentElement.clientHeight - 20 - 15, // to account for padding + navigation
       color,
-      backgroundColor: this.state.backgroundColor || 'white'
+      backgroundColor: this.state.backgroundColor || 'transparent'
     }
 
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
@@ -148,7 +144,6 @@ export default class Card extends React.Component {
 
     return (
       <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
-          <ProgressMeter color={color} height={5} complete={(this.props.cardIndex+1)/this.props.totalCards}/>
           <h1>{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
           <div dangerouslySetInnerHTML={dangerousHtml} style={{margin: 'auto',  width: '80%', left: '10%'}}/>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity}}>Skip</span>

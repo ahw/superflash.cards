@@ -1,20 +1,20 @@
 import Request from 'superagent'
 import crypto from 'crypto'
 
-export const ADD_CARD                   = 'ADD_CARD'
+// export const ADD_CARD                   = 'ADD_CARD'
 export const ADD_CARD_SUCCESS           = 'ADD_CARD_SUCCESS'
 export const ADD_CARD_FAIL              = 'ADD_CARD_FAIL'
 export const ADD_CARD_DONE              = 'ADD_CARD_DONE'
 
-export const UPDATE_CARD                = 'UPDATE_CARD'
+// export const UPDATE_CARD                = 'UPDATE_CARD'
 export const UPDATE_CARD_SUCCESS        = 'UPDATE_CARD_SUCCESS'
 export const UPDATE_CARD_FAIL           = 'UPDATE_CARD_FAIL'
 export const UPDATE_CARD_DONE           = 'UPDATE_CARD_DONE'
 
 export const GOTO_NEXT_CARD_INDEX       = 'GOTO_NEXT_CARD_INDEX'
-export const GOTO_CARD_INDEX            = 'GOTO_CARD_INDEX'
+// export const GOTO_CARD_INDEX            = 'GOTO_CARD_INDEX'
 
-export const FETCH_CARDS                = 'FETCH_CARDS'
+// export const FETCH_CARDS                = 'FETCH_CARDS'
 export const FETCH_CARDS_SUCCESS        = 'FETCH_CARDS_SUCCESS'
 export const FETCH_CARDS_FAIL           = 'FETCH_CARDS_FAIL'
 export const FETCH_CARDS_DONE           = 'FETCH_CARDS_DONE'
@@ -54,7 +54,7 @@ export function addLocalStorage(card, shouldWriteToLocalStorage=true) {
 export function addLocalStorageSuccess(card) {
   return {
     type: ADD_CARD_SUCCESS,
-    payload: card
+    payload: {card}
   }
 }
 export function addLocalStorageFail(card) { return { type: ADD_CARD_FAIL, payload: { card } } }
@@ -69,6 +69,7 @@ export function updateLocalStorage(id, cardData) {
       window.localStorage.setItem(id, JSON.stringify(card))
       dispatch(updateLocalStorageSuccess(id, card))
     } catch (e) {
+      console.error(e.message, e.stack)
       dispatch(updateLocalStorageFail(id))
     }
     dispatch(updateLocalStorageDone(id))
@@ -78,10 +79,7 @@ export function updateLocalStorage(id, cardData) {
 export function updateLocalStorageSuccess(id, card) {
   return {
     type: UPDATE_CARD_SUCCESS,
-    payload: {
-      id,
-      card
-    }
+    payload: {card}
   }
 }
 export function updateLocalStorageFail(id) { return { type: UPDATE_CARD_FAIL, payload: { id } } }
@@ -97,21 +95,19 @@ export function updateSelectedDeck(deckId) {
 export function gotoNextCard(deckId) {
   return {
     type: GOTO_NEXT_CARD_INDEX,
-    payload: {
-      deckId
-    }
+    payload: {deckId}
   }
 }
 
-export function gotoCardIndex(deckId, cardIndex) {
-  return {
-    type: GOTO_CARD_INDEX,
-    payload: {
-      deckId,
-      cardIndex
-    }
-  }
-}
+// export function gotoCardIndex(deckId, cardIndex) {
+//   return {
+//     type: GOTO_CARD_INDEX,
+//     payload: {
+//       deckId,
+//       cardIndex
+//     }
+//   }
+// }
 
 export function markAsSeen(id) {
   return updateLocalStorage(id, {lastSeen: Date.now()})
@@ -171,7 +167,11 @@ export function fetchCards(googleSheetId) {
         if (cardIdsJson) {
           console.log('Yay! Recovered from network error and using card ids from local storage')
           let cardIds = JSON.parse(cardIdsJson)
-          cardIds.forEach((id) => {
+          cardIds.forEach((id, index) => {
+            // For faster iteration.
+            if (index > 100) {
+              return;
+            }
             try {
               let card = JSON.parse(window.localStorage.getItem(id))
               // Pass false to bypass actually writing to localStorage (since we
@@ -183,13 +183,16 @@ export function fetchCards(googleSheetId) {
         } else {
           return dispatch(fetchCardsFail(error, googleSheetId))
         }
-      }
-      
-      else {
+      } else {
         // We got a response. Parse it out and augment each card with any data
         // previously stored in localStorage.
         let cardIds = []
-        response.body.feed.entry.forEach(entry => {
+        response.body.feed.entry.forEach((entry, index) => {
+          // For faster iteration.
+          if (index > 100) {
+            return;
+          }
+
           let card = {
             question: entry.gsx$question.$t,
             answer: entry.gsx$answer.$t,
