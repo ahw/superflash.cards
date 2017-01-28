@@ -27,7 +27,7 @@ At the moment this project is a work in progress. It works best on a phone and i
    respectively.
 3. Make the sheet publicly accessibly by clicking **File > Publish to the
    web...**
-4. Access your flash cards by visiting http://flash-cards-static-app.s3-website-us-east-1.amazonaws.com/?id=YOUR\_DOC\_ID
+4. Access your flash cards by visiting http://flash-cards-static-app.s3-website-us-east-1.amazonaws.com/?id=YOUR_DOC_ID
    
  <!--
  https://superflash.cards?id=YOUR_DOC_ID
