@@ -102,12 +102,13 @@ export default class Card extends React.Component {
   }
 
   onKeyDown(e) {
-    if (e.keyIdentifier === 'Up') this.props.onBackToAllDecks()
-    else if (e.keyIdentifier === 'Left') this.props.onAnsweredIncorrectly()
-    else if (e.keyIdentifier === 'Right') this.props.onAnsweredCorrectly()
-    else if (e.keyIdentifier === 'Down') this.props.onSkip()
-    else if (e.keyCode === 32) this.flipCard() // SPACE
-    else if (e.keyCode === 27) this.props.onBackToAllDecks() // ESC
+    console.log(e);
+    if (e.code === 'ArrowUp') this.props.onBackToAllDecks()
+    else if (e.code === 'ArrowLeft') this.props.onAnsweredIncorrectly()
+    else if (e.code === 'ArrowRight') this.props.onAnsweredCorrectly()
+    else if (e.code === 'ArrowDown') this.props.onSkip()
+    else if (e.code === 'Space') this.flipCard()
+    else if (e.code === 'Escape') this.props.onBackToAllDecks()
     else this.flipCard()
   }
 

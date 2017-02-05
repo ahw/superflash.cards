@@ -165,7 +165,7 @@ export function fetchCards(googleSheetId) {
         // Assert: network error. Try to use card ids saved in localStorage.
         let cardIdsJson = window.localStorage.getItem(googleSheetId + ':card_ids')
         if (cardIdsJson) {
-          console.log('Yay! Recovered from network error and using card ids from local storage')
+          console.log('Yay. Recovered from network error and using card ids from local storage')
           let cardIds = JSON.parse(cardIdsJson)
           cardIds.forEach((id, index) => {
             try {
