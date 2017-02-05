@@ -60,6 +60,7 @@
     "clean":  "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/clean')().catch(err => console.log(err.stack))\"",
     "build":  "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/build')().catch(err => console.log(err.stack))\"",
     "start":  "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/start')().catch(err => console.log(err.stack))\"",
-    "deploy": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/deploy')().catch(err => console.log(err.stack))\""
+    "xdeploy": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/deploy')().catch(err => console.log(err.stack))\"",
+    "deploy": "aws --profile s3access s3 sync build s3://flash-cards-static-app --recursive --acl public-read --cache-control no-cache --delete --exclude \".git/*\" --exclude \"node_modules/*\""
   }
 }
