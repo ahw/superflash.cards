@@ -19,7 +19,7 @@ export default class CardMetadata extends React.Component {
     Object.assign(style, this.props.style)
 
     return (
-      <div>
+      <div className="card-bottom-info">
         <ul className="card-directions">
           <li><strong>&larr;</strong> don't know</li>
           <li><strong>&uarr;</strong> back</li>

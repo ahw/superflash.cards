@@ -15,7 +15,7 @@ import './Card.scss'
 import MarkdownIt from 'markdown-it'
 let md = new MarkdownIt()
 
-let answerColor = '#3E96FF' // 'rgb(0, 62, 136)' // #0678FE'
+let answerColor = 'gray'; // '#3E96FF' // 'rgb(0, 62, 136)' // #0678FE'
 
 function linearTransform(domain, range, x) {
   // rise / run
@@ -146,7 +146,7 @@ export default class Card extends React.Component {
 
     return (
       <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
-          <h1>{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
+          <h1 className="flashcard-header">{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? "Question" : "Answer"}</h1>
           <div dangerouslySetInnerHTML={dangerousHtml} style={{margin: 'auto',  width: '80%', left: '10%'}}/>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity}}>Skip</span>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity}}>Back</span>

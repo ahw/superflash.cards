@@ -8,6 +8,7 @@ import React, { PropTypes } from 'react'
 import config from '../../config'
 import moment from 'moment'
 import ProgressMeter from '../progress-meter'
+import './DeckCover.scss'
 // import CustomProgressBar from '../CustomProgressBar'
 
 let starStyle = {
@@ -57,17 +58,15 @@ export default class DeckCover extends React.Component {
     }).length === 0
 
     return (
-      <div className="DeckCover" style={{cursor: 'pointer', flexGrow: 1, flexBasis: 'auto', fontFamily:'Monospace', margin:10, position: 'relative'}} onTouchStart={function() {}} onClick={this.props.onClick}>
+      <div className="DeckCover" onTouchStart={function() {}} onClick={this.props.onClick}>
         {hasAnsweredAllCorrectly ? star : ""}
-        <h1 style={{marginTop:0, marginBottom:5}}>{this.props.name}</h1>
+        <h1 style={{marginTop:0, marginBottom:10, lineHeight: '0.8em'}}>{this.props.name}</h1>
         <ProgressMeter style={{marginBottom: 4}} color="green" height={3} complete={numRightAnswers/this.props.cards.length}/>
         <ProgressMeter style={{marginBottom: 4}} color="#c00" height={3} complete={numWrongAnswers/this.props.cards.length}/>
-        <div style={{fontSize:10, color:'gray'}}>
-          {numRightAnswers}/{this.props.cards.length} answered rightly
-          <br/>
-          {numWrongAnswers}/{this.props.cards.length} answered wrongly
-          <br/>
-          Most recent seen {mostRecentlySeenCard === null ? 'never' : moment().to(mostRecentlySeenCard.lastSeen)}
+        <div className="DeckCoverDetails">
+          <span className="detail">{numRightAnswers}/{this.props.cards.length} answered rightly</span>
+          <span className="detail">{numWrongAnswers}/{this.props.cards.length} answered wrongly</span>
+          <span className="detail">Most recent seen {mostRecentlySeenCard === null ? 'never' : moment().to(mostRecentlySeenCard.lastSeen)}</span>
         </div>
       </div>
     );
