@@ -23,7 +23,7 @@ export const UPDATE_SELECTED_DECK       = 'UPDATE_SELECTED_DECK'
 
 export function generateId(card) {
   let shasum = crypto.createHash('sha1')
-  shasum.update(card.question + card.answer)
+  shasum.update(card.desk + card.question + card.answer)
   // return (card.question + card.answer).replace(/[^a-zA-Z]/g, "_")
   return shasum.digest('hex').substr(0, 16)
 }

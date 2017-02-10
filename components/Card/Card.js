@@ -102,7 +102,6 @@ export default class Card extends React.Component {
   }
 
   onKeyDown(e) {
-    console.log(e);
     if (e.code === 'ArrowUp') this.props.onBackToAllDecks()
     else if (e.code === 'ArrowLeft') this.props.onAnsweredIncorrectly()
     else if (e.code === 'ArrowRight') this.props.onAnsweredCorrectly()
