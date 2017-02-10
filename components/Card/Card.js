@@ -133,10 +133,11 @@ export default class Card extends React.Component {
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
 
     let htmlText = text
-            .replace(/\s\s\s/g, "\n\n")
-            .replace(/\s\s/g, "\n")
-            .replace(/\\t/g, '    ')
-            .replace(/^(Definition):\s/, '### $1\n')
+            .replace(/   /g, "\n\n")
+            .replace(/  /g, "\n")
+            .replace(/\\t/g, "    ")
+            .replace(/\\n/g, "\n\n")
+            .replace(/^(Definition):\s/, "### $1\n")
 
     let html = md.render(htmlText)
       .replace(/___/g, '<span class="blankspace"></span>')
