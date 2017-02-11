@@ -191,18 +191,8 @@ export function fetchCards(googleSheetId) {
             lastUpdated: Date.now()
           }
 
-          let id = generateId(card)
+          const id = generateId(card)
           card.id = id
-
-          try {
-            // Augment with any data we've saved from localStorage
-            Object.assign(card, JSON.parse(window.localStorage.getItem(id)))
-            // console.log('Successfully got card ' + id + ' from local storage')
-          } catch(e) {
-            console.error('Error in fetchCards!')
-            console.error(e)
-          }
-
           dispatch(addLocalStorage(card))
           cardIds.push(id)
         })
