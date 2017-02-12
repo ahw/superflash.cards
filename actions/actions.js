@@ -187,7 +187,7 @@ export function fetchCards(googleSheetId) {
           let card = {
             question: entry.gsx$question.$t,
             answer: entry.gsx$answer.$t,
-            deck: entry.gsx$tag.$t.toLowerCase() || 'unknown',
+            deck: entry.gsx$tag.$t || 'unknown',
             lastUpdated: Date.now()
           }
 
