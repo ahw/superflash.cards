@@ -3,7 +3,7 @@ import config from '../../config'
 import moment from 'moment'
 import ProgressMeter from '../progress-meter'
 import DeckCover from '../DeckCover'
-import './DeckList.scss'
+// import './DeckList.scss'
 
 export default class DeckList extends React.Component {
   componentDidMount() {
@@ -21,16 +21,20 @@ export default class DeckList extends React.Component {
 
     const hasDecksToShow = deckCovers.length > 0;
 
-    // <h2>How To Use: The Short Version</h2>
-    // <ol>
-    //   <li>Create a Google spreadsheet and make note of the id. It's the long alphanumeric string between /d/ and /edit/ in the document's URL.</li>
-    //   <li>Format the sheet with three columns: tag, question, answer, and use those exact strings as the column headers in cells A1, B1, and C1, respectively.</li>
-    //   <li>Make the sheet publicly accessibly by clicking File > Publish to the web...,</li>
-    // </ol>
+    const overlayStyle = {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      left: 0,
+      background: '#f1f1f1',
+    };
 
-    const overlay = (<div id='DeckList-loading-overlay'>
-        <h1 className='loading-text'>Loading flash cards...</h1>
-        <div className='spinner'></div>
+    const spinnerStyle = {
+    }
+
+    const overlay = (<div id='DeckList-loading-overlayx' style={overlayStyle}>
+        <h1 style={{ position: 'absolute', top: '50%', width: '100%', textAlign: 'center', transform: 'translateY(-50%)', fontWeight: 'normal', fontSize: 20, color: '#555' }} className='xloading-text'>Loading flash cards...</h1>
     </div>);
 
     let style = {
