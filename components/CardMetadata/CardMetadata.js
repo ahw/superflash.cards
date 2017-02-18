@@ -22,7 +22,7 @@ export default class CardMetadata extends React.Component {
       <div className="card-bottom-info">
         <ul className="card-directions">
           <li><strong>&larr;</strong> don't know</li>
-          <li><strong>&uarr;</strong> back</li>
+          <li><strong>&uarr;</strong> home</li>
           <li><strong>&darr;</strong> skip</li>
           <li><strong>&rarr;</strong> know</li>
         </ul>
