@@ -184,10 +184,19 @@ export function fetchCards(googleSheetId) {
         // previously stored in localStorage.
         let cardIds = []
         response.body.feed.entry.forEach((entry, index) => {
+          const question = entry.gsx$question.$t;
+          const answer = entry.gsx$answer.$t;
+          const deck = entry.gsx$tag.$t || 'unknown';
+
+          if (!question && !answer) {
+            console.log('Skipping blank row', index);
+            return;
+          }
+
           let card = {
-            question: entry.gsx$question.$t,
-            answer: entry.gsx$answer.$t,
-            deck: entry.gsx$tag.$t || 'unknown',
+            question,
+            answer,
+            deck,
             lastUpdated: Date.now()
           }
 
