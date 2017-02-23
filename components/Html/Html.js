@@ -25,7 +25,7 @@ function Html({ title, description, body, debug, timestamp }) {
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: body }} />
-        {/* <GoogleAnalytics /> */}
+        <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML'/>
       </body>
     </html>
   );
