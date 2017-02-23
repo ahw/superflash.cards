@@ -181,7 +181,8 @@ export function fetchCards(googleSheetId) {
         }
       } else {
         // We got a response. Parse it out and augment each card with any data
-        // previously stored in localStorage.
+        // previously stored in localStorage, with the exception of the "deck"
+        // property. Use the latest fetched deck.
         let cardIds = []
         response.body.feed.entry.forEach((entry, index) => {
           const question = entry.gsx$question.$t;
@@ -204,8 +205,9 @@ export function fetchCards(googleSheetId) {
           card.id = id
 
           try {
-            // Augment with any data we've saved from localStorage
-            Object.assign(card, JSON.parse(window.localStorage.getItem(id)))
+            // Augment with any data we've saved from localStorage, but prefer
+            // the latest fetched deck
+            Object.assign(card, JSON.parse(window.localStorage.getItem(id)), { deck });
             // console.log('Successfully got card ' + id + ' from local storage')
           } catch(e) {
             console.error('Error in fetchCards!')
