@@ -18,6 +18,10 @@ export default class CardMetadata extends React.Component {
     }
     Object.assign(style, this.props.style)
 
+    const numRightAnswers = this.props.numRightAnswers || 0;
+    const numWrongAnswers = this.props.numWrongAnswers || 0;
+    const totalAnswers = numRightAnswers + numWrongAnswers;
+
     return (
       <div className="card-bottom-info">
         <ul className="card-directions">
@@ -27,13 +31,8 @@ export default class CardMetadata extends React.Component {
           <li><strong>&rarr;</strong> know</li>
         </ul>
         <div className="card-metadata">
-          Card index: {this.props.cardIndex}
-          <br/>
-          Last seen: {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}
-          <br/>
-          Answered correctly: {this.props.numRightAnswers ? this.props.numRightAnswers : 0} times
-          <br/>
-          Answered wrongly: {this.props.numWrongAnswers ? this.props.numWrongAnswers : 0} times
+          Last seen {this.props.lastSeen === null ? 'never' : moment().to(this.props.lastSeen)}.
+          Answered correctly {numRightAnswers}/{numRightAnswers + numWrongAnswers} times
         </div>
       </div>
     )

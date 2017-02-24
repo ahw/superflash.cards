@@ -1,5 +1,5 @@
 .flashcard {
-  transition: '1s';
+  transition: 300ms;
   cursor: pointer;
   font-family: Arial;
   margin: 0;
@@ -29,4 +29,8 @@ pre {
 
 .flashcard-content img {
   max-width: 100%;
+}
+
+.card-metadata {
+  text-align:center;
 }
