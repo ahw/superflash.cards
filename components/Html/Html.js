@@ -12,7 +12,10 @@ function Html({ title, description, body, debug, timestamp }) {
   const mathjaxConfig = `MathJax.Hub.Config({
         asciimath2jax: {
           delimiters: [['%', '%']]
-        }
+        },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
   })`;
 
   return (
