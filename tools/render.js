@@ -42,6 +42,8 @@ async function renderManifest() {
 # ${new Date(timestamp).toLocaleString()}
 3p-libraries/fastclick.js
 3p-libraries/inobounce.js
+https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML
+https://cdn.mathjax.org/mathjax/2.7-latest/config/AM_CHTML.js?V=2.7.0
 app.js?${timestamp}
 1.app.js
 2.app.js
