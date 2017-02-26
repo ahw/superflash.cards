@@ -115,6 +115,16 @@ export default class Card extends React.Component {
     if (window.iNoBounce) window.iNoBounce.enable()
     this._keyDownListener = this.onKeyDown.bind(this)
     document.addEventListener('keydown', this._keyDownListener)
+
+    // Search again for math on the page to typeset
+    // See http://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+  }
+
+  componentDidUpdate() {
+    // Search again for math on the page to typeset
+    // See http://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
   }
 
   componentWillUnmount() {

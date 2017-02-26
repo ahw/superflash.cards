@@ -9,6 +9,12 @@ import GoogleAnalytics from '../GoogleAnalytics';
 import config from '../../config';
 
 function Html({ title, description, body, debug, timestamp }) {
+  const mathjaxConfig = `MathJax.Hub.Config({
+        asciimath2jax: {
+          delimiters: [['%', '%']]
+        }
+  })`;
+
   return (
     <html manifest="offline.appcache" className="no-js" lang="">
       <head>
@@ -25,6 +31,7 @@ function Html({ title, description, body, debug, timestamp }) {
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: body }} />
+        <script type="text/x-mathjax-config" dangerouslySetInnerHTML={{ __html: mathjaxConfig }} />
         <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML'/>
       </body>
     </html>
