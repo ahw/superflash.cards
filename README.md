@@ -1,9 +1,5 @@
-This is a static flash card app built on top of a robust "starter kit"
-developed over at [React Static
-Boilerplate](https://github.com/koistya/react-static-boilerplate). Refer to that
-project's README for all the details.
-
-At the moment this project is a work in progress. It works best on a phone and in fact has a weird interaction mode on desktop.
+# SUPER FLASH CARDS
+[https://superflash.cards](https://superflash.cards)
 
 # Features
 - All of your flash cards are stored in a public Google Doc spread sheet, which
@@ -18,6 +14,9 @@ At the moment this project is a work in progress. It works best on a phone and i
 - Information about which cards have been answered correctly and incorrectly is
   maintained in local storage and works offline.
 
+# Caveats
+Consider this a work in progress. It works best on a phone and in fact has a weird interaction mode on desktop.
+
 # How To Use: The Short Version
 
 1. Create a Google spreadsheet and make note of the id. It's the long
@@ -27,7 +26,7 @@ At the moment this project is a work in progress. It works best on a phone and i
    respectively.
 3. Make the sheet publicly accessibly by clicking **File > Publish to the
    web...**
-4. Access your flash cards by visiting http://flash-cards-static-app.s3-website-us-east-1.amazonaws.com/?id=YOUR_DOC_ID
+4. Access your flash cards by visiting https://superflash.cards/?id=YOUR_DOC_ID
    
  <!--
  https://superflash.cards?id=YOUR_DOC_ID
@@ -54,3 +53,8 @@ _Only the first three columns are important._
 Change the id in this URL to yours!
 
 https://superflash.cards/?id=YOUR_DOC_ID_123
+
+# Credits
+*This is a static app built on top of a robust "starter kit" developed over at
+[React Static Boilerplate](https://github.com/koistya/react-static-boilerplate).
+Refer to that project's README for all the details.*
