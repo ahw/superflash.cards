@@ -25,10 +25,13 @@ different device (for example from a phone to a laptop), you are implicitly
 switching browsers and will *not* see your progress synchronized between those
 browsers.
 
-## :heavy_division_sign: Supports real mathematical expressions
-You can write whatever sort of AsciiMath expression you want (see
-http://asciimath.org/) between two `%` signs and it will render as a properly
-typeset mathematical expression using MathJax.
+## :pencil2: Markdown support
+Text you entered into the **question** and **answer** columns is parsed as
+Markdown.
+
+## :heavy_division_sign: AsciiMath notation
+Use any AsciiMath notation (see http://asciimath.org/) between two `%` signs and
+it will render as a properly typeset mathematical expression using MathJax.
 
 **For example, this AsciiMath text...**
 
@@ -59,7 +62,7 @@ see the answer first.
    making your flash cards publicly accessible to everyone on the internet. Do
    not include information in this spreadsheet which you wouldn't mind anyone
    in the world seeing.
-4. Access your flash cards by visiting https://superflash.cards/?id=YOUR_DOC_ID
+4. Access your flash cards by visiting https://superflash.cards/?id=YOUR\_DOC\_ID
    
 # How To Create Your Own Cards: With Screenshots
 ### 1. Create a Google Spreadsheet, Note the Id
@@ -75,7 +78,7 @@ _Only the first three columns are important._
 ![Google Sheet Publish To Web Popup](https://pd93f014.s3.amazonaws.com/google-doc-publish-to-web-popup.png)
 
 ### 3. Go To Your Flash Cards
-**https://superflash.cards/?id=YOUR_DOC_ID_123**
+**https://superflash.cards/?id=YOUR_DOC_ID**
 
 # Credits
 *This is a static app built on top of a robust "starter kit" developed over at
