@@ -4,10 +4,28 @@
   font-family: Arial;
   margin: 0;
   padding: 10px;
+  overflow: hidden;
+  word-wrap:break-word;
+}
+
+.flashcard table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
+.flashcard td,.flashcard th {
+  border:1px solid black;
+  padding:2px;
+  text-align:center;
+}
+
+.flashcard th {
+  border-bottom:2px solid black;
 }
 
 .flashcard-header {
   text-align:center;
+  margin-top:5px;
 }
 
 ul {
