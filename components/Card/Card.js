@@ -142,14 +142,14 @@ export default class Card extends React.Component {
 
     let text = this.state.isShowingQuestion ? this.props.question : this.props.answer
 
-    let htmlText = text
+    let markdownText = text
             .replace(/   /g, "\n\n")
             .replace(/  /g, "\n")
             .replace(/\\t/g, "    ")
             .replace(/\\n/g, "\n\n")
             .replace(/^(Definition):\s/, "### $1\n")
 
-    let html = md.render(htmlText)
+    let html = md.render(markdownText)
       .replace(/___/g, '<span class="blankspace"></span>')
 
     let dangerousHtml = {__html: html}
