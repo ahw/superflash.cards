@@ -157,7 +157,7 @@ export function fetchCardsDone(googleSheetId) {
 export function fetchCards(googleSheetId) {
   return function(dispatch) {
     Request
-    .get(`https://spreadsheets.google.com/feeds/list/${googleSheetId}/od6/public/values?alt=json`)
+    .get(`https://spreadsheets.google.com/feeds/cells/${googleSheetId}/od6/public/basic?alt=json`)
     .end((error, response) => {
       let cardIds = []
 
@@ -184,25 +184,39 @@ export function fetchCards(googleSheetId) {
         // previously stored in localStorage, with the exception of the "deck"
         // property. Use the latest fetched deck.
         let cardIds = []
-        response.body.feed.entry.forEach((entry, index) => {
-          const question = entry.gsx$question.$t;
-          const answer = entry.gsx$answer.$t;
-          const deck = entry.gsx$tag.$t || 'unknown';
 
-          if (!question && !answer) {
-            console.log('Skipping blank row', index);
+        const cardsByRow = {};
+        const columnToKey = { A: 'deck', B: 'question', C: 'answer' };
+        response.body.feed.entry.forEach(entry => {
+          // entry.title.$t is the cell name: e.g., "A1", "C32".
+          const row = parseInt(entry.title.$t.match(/\d+/)[0], 10);
+          const col = entry.title.$t.match(/[A-Z]+/)[0];
+
+          if (typeof cardsByRow[row] === 'undefined') {
+            cardsByRow[row] = {};
+          }
+
+          cardsByRow[row][columnToKey[col]] = entry.content.$t;
+        });
+
+        // Now iterate through all cards
+        Object.keys(cardsByRow).forEach(row => {
+          const deck = cardsByRow[row].deck || 'unknown';
+          const card = Object.assign({
+            question: '',
+            answer: '',
+            deck,
+            lastUpdated: Date.now()
+          }, cardsByRow[row]);
+
+          // The == is intentional; row is a string
+          if (row == 1 && /question/i.test(card.question) && /answer/i.test(card.answer)) {
+            console.log('Ignoring card', card);
             return;
           }
 
-          let card = {
-            question,
-            answer,
-            deck,
-            lastUpdated: Date.now()
-          }
-
-          let id = generateId(card)
-          card.id = id
+          const id = generateId(card);
+          card.id = id;
 
           try {
             // Augment with any data we've saved from localStorage, but prefer
@@ -216,7 +230,7 @@ export function fetchCards(googleSheetId) {
 
           dispatch(addLocalStorage(card))
           cardIds.push(id)
-        })
+        });
 
         try {
           window.localStorage.setItem(googleSheetId + ':card_ids', JSON.stringify(cardIds))

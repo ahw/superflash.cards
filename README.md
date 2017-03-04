@@ -80,9 +80,9 @@ see the answer first.
 
 1. Create a Google spreadsheet and make note of the id. It's the long
    alphanumeric string between `/d/` and `/edit/` in the document's URL.
-2. Format the sheet with three columns: **tag**, **question**, **answer**, and
-   use those exact strings as the column headers in cells A1, B1, and C1,
-   respectively.
+2. Format the sheet with three columns: **deck**, **question**, **answer**, in
+   that order. You may want to use those exact strings as the column headers in
+   cells A1, B1, and C1, respectively.
 3. Make the sheet publicly accessible by clicking **File > Publish to the
    web...**. To be clear, this is doing exactly what it sounds like, it's
    making your flash cards publicly accessible to everyone on the internet. Do
