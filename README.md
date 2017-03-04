@@ -26,20 +26,45 @@ switching browsers and will *not* see your progress synchronized between those
 browsers.
 
 ## :pencil2: Markdown support
-Text you entered into the **question** and **answer** columns is parsed as
-Markdown.
+Text in the **question** and **answer** columns of your flash card spreadsheet
+is parsed as Markdown, which means you can type \*\*bold\*\* and it will come
+out **bold**. See https://en.wikipedia.org/wiki/Markdown if for some reason you
+don't know about Markdown.
 
 ## :heavy_division_sign: AsciiMath notation
-Use any AsciiMath notation (see http://asciimath.org/) between two `%` signs and
-it will render as a properly typeset mathematical expression using MathJax.
+Use any AsciiMath notation between two `%` signs and it will render as a
+properly typeset mathematical expression using MathJax. See
+http://asciimath.org/ for all the things you can do with AsciiMath.
+**Important:** you must sandwich your AsciiMath between two `%` signs, **not**
+two <code>\`</code> signs, which is the default. The reason here is because
+<code>\`</code> is already a reserved character in Markdown.
 
 **For example, this AsciiMath text...**
 
-> **%Delta C ~~ (del C)/(del v_1)*Delta v_1 + (del C)/(del v_2)*Delta v_2 + cdots + (del C)/(del v_n)*Delta v_n%**
+> **%Delta C ~~ (del C)/(del v\_1)\*Delta v\_1 + (del C)/(del v\_2)\*Delta v\_2 + cdots + (del C)/(del v\_n)\*Delta v\_n%**
 
 **...becomes this subliminal beauty**
 
 ![Cost Function Approximation](https://s3.amazonaws.com/pd93f014/math-equation-1.png)
+
+## :page_facing_up: Other custom preprocessing (newlines, blank spaces, etc.)
+In addition to Markdown and AsciiMath parsing, there are a few additional custom
+preprocessing steps to make life easier.
+
+1. :leftwards_arrow_with_hook: :leftwards_arrow_with_hook: Three consecutive spaces are replaced with two newline characters.
+2. :leftwards_arrow_with_hook: Two consecutive spaces are replaced with one newline character.
+3. :leftwards_arrow_with_hook: "\n" is replaced with a single newline
+   character (in case you don't want to mess around with lots of spaces)
+4. :arrow_right: "\t" is replaced with four spaces (i.e., a "tab")
+5. :question:...:question: Three consecutive underscores next to three consecutive periods
+   ("\_\_\_...") are replaced with a single blank line that has a "&hellip;"
+   symbol hovering just above it. This is so you can write questions with blanks
+   in them, where the blank represents multiple words to be filled in. *Water is
+   composed of \_\_\_...*
+6. :question: Three consecutive underscores ("\_\_\_") are replaced with a blank
+   line, about the width of a 5 letter word. This is so you can write questions
+   with blanks in them, where the blank represents just a single missing word.
+   *Water is composed of two parts \_\_\_ and one part \_\_\_.*
 
 # Caveats
 :construction: Consider this a work in progress. It works best on a phone and
