@@ -7,7 +7,8 @@
 ## :bar_chart: Reads card info from a Google doc
 All of your flash cards are stored in a public Google Doc spread sheet, which
 means you can create/edit/re-arrange/remove them at will and just reload the
-superflash.cards/?id=xyz page to see your changes.
+superflash.cards/?id=xyz page to see your changes. The spread sheet contains
+three columns: deck name, question text, and answer text.
 
 ## :airplane: Works offline
 Works offline! Use it on a plane, or a train! You *do* need to be online for the
