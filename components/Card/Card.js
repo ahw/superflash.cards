@@ -150,6 +150,7 @@ export default class Card extends React.Component {
             .replace(/^(Definition):\s/, "### $1\n")
 
     let html = md.render(markdownText)
+      .replace(/___\.\.\./g, '<span class="blankspace">&hellip;</span>')
       .replace(/___/g, '<span class="blankspace"></span>')
 
     let dangerousHtml = {__html: html}

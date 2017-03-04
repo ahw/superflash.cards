@@ -41,8 +41,10 @@ pre {
 
 .blankspace {
   display:inline-block;
-  border-bottom:1px solid black;
+  border-bottom:1px solid #a7a7a7;
   width:4em;
+  text-align:center;
+  margin:0 2px;
 }
 
 .flashcard-content img {
