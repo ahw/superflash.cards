@@ -10,6 +10,7 @@ import Store from '../store/store.js'
 import * as Actions from '../actions'
 import Swipeable from 'react-swipeable'
 import url from 'url'
+import config from '../config'
 
 // TODO: Is this being used?
 // import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -20,6 +21,7 @@ import Card from '../components/Card'
 import DeckCover from '../components/DeckCover'
 import DeckList from '../components/DeckList'
 import CardNavigation from '../components/CardNavigation'
+import { getUserMetadata } from '../utils/utils';
 
 class App extends Component {
 
@@ -32,13 +34,20 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     let query = url.parse(window.location.toString(), true).query
     let googleSheetId = query.id || '1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U'
     this.props.dispatch(Actions.fetchCards(googleSheetId))
     window.FastClick.attach(document.body)
+
   }
 
   render() {
+    const userMetadata = getUserMetadata(this.props.decks.info);
+    if (document) {
+      document.title = userMetadata.title || config.title;
+    }
+
     if (this.props.selectedDeck) {
 
       let deckId = this.props.selectedDeck

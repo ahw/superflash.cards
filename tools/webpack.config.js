@@ -30,6 +30,7 @@ const JS_LOADER = {
     path.resolve(__dirname, '../components'),
     path.resolve(__dirname, '../core'),
     path.resolve(__dirname, '../pages'),
+    path.resolve(__dirname, '../utils'),
     path.resolve(__dirname, '../app.js'),
     path.resolve(__dirname, '../config.js'),
   ],
