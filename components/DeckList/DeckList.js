@@ -12,6 +12,12 @@ export default class DeckList extends React.Component {
 
   render() {
     let deckCovers = Object.keys(this.props.decks).map(deckId => {
+      if (deckId === 'info') {
+        // "info" is a special deck that never gets rendered. Used only to
+        // hold user configuration information
+        return null;
+      }
+
       return (<DeckCover
         key={deckId}
         onClick={this.props.onSelectDeck.bind(this, deckId)}
