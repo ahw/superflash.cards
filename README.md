@@ -5,10 +5,11 @@
 
 # Features
 ## :bar_chart: Reads card info from a Google doc
-All of your flash cards are stored in a public Google Doc spread sheet, which
+All of your flash cards are stored in a public Google Doc spreadsheet, which
 means you can create/edit/re-arrange/remove them at will and just reload the
-superflash.cards/?id=xyz page to see your changes. The spread sheet contains
-three columns: deck name, question text, and answer text.
+superflash.cards/?id=xyz page to see your changes. The spreadsheet format is
+simple. Three columns: **deck name**, **question text**, and **answer text** (in
+that order).
 
 ## :airplane: Works offline
 Works offline! Use it on a plane, or a train! You *do* need to be online for the
@@ -21,24 +22,25 @@ remains whatever version was last fetched while online.
 ## :white_check_mark: Remembers your progress
 Information about which cards have been answered correctly and incorrectly is
 maintained in local storage in your browser, which means it's preserved across
-page reloads within that same browser. Note that any time you switch to a
-different device (for example from a phone to a laptop), you are implicitly
-switching browsers and will *not* see your progress synchronized between those
-browsers.
+page reloads within that same browser. (Keep in mind that any time you switch to
+a different device,  from a phone to a laptop, you are implicitly switching
+browsers and will *not* see your progress synchronized between those browsers.)
 
 ## :pencil2: Markdown support
 Text in the **question** and **answer** columns of your flash card spreadsheet
-is parsed as Markdown, which means you can type \*\*bold\*\* and it will come
-out **bold**. See https://en.wikipedia.org/wiki/Markdown if for some reason you
-don't know about Markdown.
+is parsed as Markdown, which means you can type \*italic\* and it will come out
+*italic*, \*\*bold\*\* and it will come out **bold**. See
+https://en.wikipedia.org/wiki/Markdown if for some reason you don't already know
+about Markdown.
 
-## :heavy_division_sign: AsciiMath notation
-Use any AsciiMath notation between two `%` signs and it will render as a
+## :heavy_division_sign: AsciiMath support
+Use AsciiMath notation between two `%` signs and it will render as a
 properly typeset mathematical expression using MathJax. See
 http://asciimath.org/ for all the things you can do with AsciiMath.
 **Important:** you must sandwich your AsciiMath between two `%` signs, **not**
-two <code>\`</code> signs, which is the default. The reason here is because
-<code>\`</code> is already a reserved character in Markdown.
+two <code>\`</code> signs, which is the default delimiter used in all the
+examples on http://asciimath.org. The reason here is because <code>\`</code> is
+already a reserved character in Markdown.
 
 **For example, this AsciiMath text...**
 
@@ -48,9 +50,11 @@ two <code>\`</code> signs, which is the default. The reason here is because
 
 ![Cost Function Approximation](https://s3.amazonaws.com/pd93f014/math-equation-1.png)
 
-## :page_facing_up: Other custom preprocessing (newlines, blank spaces, etc.)
+## :page_facing_up: Custom preprocessing for newlines, blank spaces, etc.
 In addition to Markdown and AsciiMath parsing, there are a few additional custom
-preprocessing steps to make life easier.
+preprocessing steps to give you more control over the formatting of your flash
+cards. Since Markdown depends on newlines to signify paragraph boundaries, and
+set of list items, points #1 and #2 below are particularly improtant.
 
 1. :leftwards_arrow_with_hook: :leftwards_arrow_with_hook: Three consecutive spaces are replaced with two newline characters.
 2. :leftwards_arrow_with_hook: Two consecutive spaces are replaced with one newline character.
