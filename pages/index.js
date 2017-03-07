@@ -44,7 +44,7 @@ class App extends Component {
 
   render() {
     const userMetadata = getUserMetadata(this.props.decks.info);
-    if (document) {
+    if (typeof document !== 'undefined') {
       document.title = userMetadata.title || config.title;
     }
 
