@@ -5,33 +5,29 @@
 
 # Features
 ## :bar_chart: Reads card info from a Google doc
-All of your flash cards are stored in a public Google Doc spreadsheet, which
-means you can create/edit/re-arrange/remove them at will and just reload the
-superflash.cards/?id=xyz page to see your changes. The spreadsheet format is
-simple. Three columns: **deck name**, **question text**, and **answer text** (in
-that order).
+All of your flash cards are stored in a public Google Doc spreadsheet, which you
+can edit at will and simply reload your https://superflash.cards/?id=xyz page to
+pick up the changes. The spreadsheet format is simple. Three columns: **deck
+name**, **question text**, and **answer text** (in that order).
 
 ## :airplane: Works offline
-Works offline! Use it on a plane, or a train! You *do* need to be online for the
+Works offline! Use it on a plane, or a train! You just need to be online for the
 very first visit in order to load the app itself along with all the flash card data
 from your Google doc, but subsequent visits will not require network access.
-If you update the Google doc containing your cards, you *will* need network
-access to retrieve these latest edits. If you remain offline, your card data
-remains whatever version was last fetched while online.
+(Though if you update your cards in Google Docs you need to be online to fetch
+those changes.)
 
 ## :white_check_mark: Remembers your progress
 Information about which cards have been answered correctly and incorrectly is
 maintained in local storage in your browser, which means it's preserved across
-page reloads within that same browser. (Keep in mind that any time you switch to
-a different device,  from a phone to a laptop, you are implicitly switching
-browsers and will *not* see your progress synchronized between those browsers.)
+page reloads within that same browser.
 
 ## :pencil2: Markdown support
 Text in the **question** and **answer** columns of your flash card spreadsheet
 is parsed as Markdown, which means you can type \*italic\* and it will come out
 *italic*, \*\*bold\*\* and it will come out **bold**. See
-https://en.wikipedia.org/wiki/Markdown if for some reason you don't already know
-about Markdown.
+https://en.wikipedia.org/wiki/Markdown to learn more about what's available in
+Markdown. Keep reading for info on handling newlines.
 
 ## :heavy_division_sign: AsciiMath support
 Use AsciiMath notation between two `%` signs and it will render as a
@@ -50,26 +46,36 @@ already a reserved character in Markdown.
 
 ![Cost Function Approximation](https://s3.amazonaws.com/pd93f014/math-equation-1.png)
 
-## :page_facing_up: Custom preprocessing for newlines, blank spaces, etc.
-In addition to Markdown and AsciiMath parsing, there are a few additional custom
-preprocessing steps to give you more control over the formatting of your flash
-cards. Since Markdown depends on newlines to signify paragraph boundaries, and
-set of list items, points #1 and #2 below are particularly improtant.
+## :leftwards_arrow_with_hook: Newline support
+Newlines (the thing you get when you hit the "Enter" key) are an essential part
+of Markdown but cumbersome to type in a spreadsheet. You can do it, but you
+have to keep hitting Ctrl+Enter. For faster and easier text entry there are some
+additional preprocessing steps done to convert regular spaces into newlines.
 
-1. :leftwards_arrow_with_hook: :leftwards_arrow_with_hook: Three consecutive spaces are replaced with two newline characters.
-2. :leftwards_arrow_with_hook: Two consecutive spaces are replaced with one newline character.
+1. :leftwards_arrow_with_hook: :leftwards_arrow_with_hook: **Three** consecutive spaces are replaced with **two** newline characters.
+2. :leftwards_arrow_with_hook: **Two** consecutive spaces are replaced with **one** newline character.
 3. :leftwards_arrow_with_hook: "\n" is replaced with a single newline
    character (in case you don't want to mess around with lots of spaces)
-4. :arrow_right: "\t" is replaced with four spaces (i.e., a "tab")
-5. :question:...:question: Three consecutive underscores next to three consecutive periods
+
+## :question: Blank space support
+1. **Three** consecutive underscores ("\_\_\_") are replaced with a blank line,
+   about the width of a 5 letter word. This is so you can write questions with
+   blanks in them, where the blank represents just a single missing word.
+2. **Three** consecutive underscores next to **three** consecutive periods
    ("\_\_\_...") are replaced with a single blank line that has a "&hellip;"
    symbol hovering just above it. This is so you can write questions with blanks
-   in them, where the blank represents multiple words to be filled in. *Water is
-   composed of \_\_\_...*
-6. :question: Three consecutive underscores ("\_\_\_") are replaced with a blank
-   line, about the width of a 5 letter word. This is so you can write questions
-   with blanks in them, where the blank represents just a single missing word.
-   *Water is composed of two parts \_\_\_ and one part \_\_\_.*
+   in them, where the blank represents multiple words to be filled in.
+
+### Single-word blank space
+`Water is composed of two parts ___ and one part ___`
+
+![Water is composed of two parts \_\_\_ and one part \_\_\_.](https://pd93f014.s3.amazonaws.com/super-flash-cards-blank-space-single-shadow.png?v=2)
+
+### Multiple-word blank space
+
+`Water is composed of ___...`
+
+![Water is composed of \_\_\_...](https://pd93f014.s3.amazonaws.com/super-flash-cards-blank-space-dots-shadow.png?v=2)
 
 # Caveats
 :construction: Consider this a work in progress. It works best on a phone and
@@ -79,6 +85,10 @@ in fact has a weird interaction mode on desktop.
 skip over cards you don't know, and you can't jump to certain cards. You can't
 move backwards through a deck. You can't Jeopardy-style invert the cards and
 see the answer first.
+
+:floppy_disk: Keep in mind that any time you switch to a different device,  from
+a phone to a laptop, you are implicitly switching browsers and will *not* see
+your progress synchronized between those browsers. Sorry.
 
 # How To Create Your Own Cards: The Short Version
 

@@ -1,0 +1,1 @@
+convert super-flash-cards-blank-space-dots.png -bordercolor black -border 1 \( +clone  -background black  -shadow 100x10+8+8 \) +swap -background none  -layers merge  +repage -resize x200 -gravity center -extent 1000x super-flash-cards-blank-space-dots-shadow.png
