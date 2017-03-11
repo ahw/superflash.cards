@@ -11,6 +11,7 @@ import * as Actions from '../actions'
 import Swipeable from 'react-swipeable'
 import url from 'url'
 import config from '../config'
+import '../style/index.scss'
 
 // TODO: Is this being used?
 // import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -18,6 +19,7 @@ import config from '../config'
 
 import AllCardsButton from '../components/buttons/AllCardsButton'
 import Card from '../components/Card'
+import CardMetadata from '../components/CardMetadata'
 import DeckCover from '../components/DeckCover'
 import DeckList from '../components/DeckList'
 import CardNavigation from '../components/CardNavigation'
@@ -90,26 +92,29 @@ class App extends Component {
       }
 
       return (
-        <div style={{background: deck.isInRerunMode ? 'yellow' : 'transparent'}}>
-          <CardNavigation cards={deck.cards} currentCardIndex={deck.currentCardIndex}/>
-          <Swipeable
-            onSwipedDown={onSkip.bind(this)}
-            onSwipedLeft={onAnsweredIncorrectly.bind(this)}
-            onSwipedRight={onAnsweredCorrectly.bind(this)}
-            onSwipedUp={onBackToAllDecks.bind(this)}>
-              <Card
-                key={card.id}
-                cardIndex={deck.currentCardIndex}
-                totalCards={deck.cards.length}
-                hasAnsweredAllCorrectly={hasAnsweredAllCorrectly}
-                onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
-                onSeen={console.log.bind(console, 'Card@onSeen')}
-                onAnsweredCorrectly={onAnsweredCorrectly.bind(this)}
-                onAnsweredIncorrectly={onAnsweredIncorrectly.bind(this)}
-                onSkip={onSkip.bind(this)}
-                onBackToAllDecks={onBackToAllDecks.bind(this)}
-                {...card} />
-          </Swipeable>
+        <div className="card-and-nav" style={{background: deck.isInRerunMode ? 'yellow' : 'transparent'}}>
+          <div className="card-and-nav-inner">
+            <CardNavigation cards={deck.cards} currentCardIndex={deck.currentCardIndex}/>
+            <Swipeable
+              onSwipedDown={onSkip.bind(this)}
+              onSwipedLeft={onAnsweredIncorrectly.bind(this)}
+              onSwipedRight={onAnsweredCorrectly.bind(this)}
+              onSwipedUp={onBackToAllDecks.bind(this)}>
+                <Card
+                  key={card.id}
+                  cardIndex={deck.currentCardIndex}
+                  totalCards={deck.cards.length}
+                  hasAnsweredAllCorrectly={hasAnsweredAllCorrectly}
+                  onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
+                  onSeen={console.log.bind(console, 'Card@onSeen')}
+                  onAnsweredCorrectly={onAnsweredCorrectly.bind(this)}
+                  onAnsweredIncorrectly={onAnsweredIncorrectly.bind(this)}
+                  onSkip={onSkip.bind(this)}
+                  onBackToAllDecks={onBackToAllDecks.bind(this)}
+                  {...card} />
+            </Swipeable>
+            <CardMetadata {...card} />
+          </div>
         </div>
       )
     } else {

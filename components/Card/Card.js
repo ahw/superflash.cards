@@ -9,7 +9,6 @@ import config from '../../config'
 import moment from 'moment'
 import BlockButton from '../buttons/BlockButton'
 import ProgressMeter from '../progress-meter'
-import CardMetadata from '../CardMetadata'
 import CardHelpDirections from '../CardHelpDirections'
 import './Card.scss'
 import MarkdownIt from 'markdown-it'
@@ -135,7 +134,7 @@ export default class Card extends React.Component {
     let color = this.state.isShowingQuestion ? 'black' : answerColor
 
     let style = {
-      height: window.document.documentElement.clientHeight - 20 - 15, // to account for padding + navigation
+      // height: window.document.documentElement.clientHeight - 20 - 15, // to account for padding + navigation
       color,
       backgroundColor: this.state.backgroundColor || 'transparent'
     }
@@ -161,8 +160,6 @@ export default class Card extends React.Component {
           <div className="flashcard-content" dangerouslySetInnerHTML={dangerousHtml} style={{margin: 'auto',  width: '90%'}}/>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity}}>Skip</span>
           <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity}}>Home</span>
-
-          <CardMetadata {...this.props} />
       </div>
    )
   }

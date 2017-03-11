@@ -1,11 +1,13 @@
 .flashcard {
   transition: 300ms;
+  transition-property:color;
   cursor: pointer;
   font-family: Arial;
   margin: 0;
   padding: 10px;
   overflow: hidden;
   word-wrap:break-word;
+  background-color:rgba(0, 0, 255, 0.5);
 }
 
 .flashcard table {
