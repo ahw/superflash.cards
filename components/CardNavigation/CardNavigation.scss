@@ -5,11 +5,11 @@
   display:flex;
   flex-direction:row;
   align-content:stretch;
-  padding:6px;
+  padding:0;
 }
 
 #card-navigation div {
-  height:3px;
+  height:4px;
   display:inline-block;
   margin:0;
   flex-basis:20px;

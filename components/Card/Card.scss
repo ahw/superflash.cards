@@ -8,13 +8,18 @@
   overflow: hidden;
   word-wrap:break-word;
   background-color:rgba(0, 0, 255, 0.5);
+  width:calc(100% - 20px);
+  height:calc(100% - 20px);
+  position: absolute;
+  top: 0;
 }
 
 @media screen and (max-width: 500px) {
   .flashcard {
     position: absolute;
-    height: calc(100% - 20px);
+    height: calc(100% - 4px);
     padding: 0;
+    width:100%;
   }
 }
 
@@ -35,7 +40,7 @@
 
 .flashcard-header {
   text-align:center;
-  margin-top:5px;
+  margin-top:15px;
 }
 
 ul {
