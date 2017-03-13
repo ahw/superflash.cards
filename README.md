@@ -57,14 +57,14 @@ additional preprocessing steps done to convert regular spaces into newlines.
 3. :leftwards_arrow_with_hook: "\n" is replaced with a single newline
    character (in case you don't want to mess around with lots of spaces)
 
-## :question: Blank space support
+## :question: Fill-in-the-blank
 1. **Three** consecutive underscores ("\_\_\_") are replaced with a blank line,
-   about the width of a 5 letter word. This is so you can write questions with
-   blanks in them, where the blank represents just a single missing word.
+   about the width of a 5 letter word. This is so you can write
+   fill-in-the-blank questions.
 2. **Three** consecutive underscores next to **three** consecutive periods
    ("\_\_\_...") are replaced with a single blank line that has a "&hellip;"
-   symbol hovering just above it. This is so you can write questions with blanks
-   in them, where the blank represents multiple words to be filled in.
+   symbol hovering just above it. This is so you can fill-in-the-blank questions
+   where the blank represents mutiple words to be filled in.
 
 ### Single-word blank space
 `Water is composed of two parts ___ and one part ___`
