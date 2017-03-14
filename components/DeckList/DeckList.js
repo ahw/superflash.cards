@@ -3,7 +3,7 @@ import config from '../../config'
 import moment from 'moment'
 import ProgressMeter from '../progress-meter'
 import DeckCover from '../DeckCover'
-// import './DeckList.scss'
+import './DeckList.scss'
 
 export default class DeckList extends React.Component {
   componentDidMount() {
@@ -54,6 +54,10 @@ export default class DeckList extends React.Component {
 
     return (
       <div className='DeckCovers-container' style={style}>
+        <div id="title">
+          <h1>Super Flash Cards</h1>
+          <a id="help" href="https://github.com/ahw/superflash.cards/blob/master/README.md">Help</a>
+        </div>
         {deckCovers}
         {deckCovers.length === 0 ? overlay : null}
       </div>

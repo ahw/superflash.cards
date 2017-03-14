@@ -1,56 +1,29 @@
-#DeckList-loading-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #f1f1f1;
+#title {
+  width:100%;
+  position:relative;
 }
 
-.spinner {
-  width: 100px;
-  height: 100px;
-  background-color: white;
-  border:1px solid #555;
+#title h1 {
+  font-weight:light;
+  text-transform: lowercase;
+  font-weight: lighter;
+  margin:5px 10px 5px;
+  border-bottom: 2px solid black;
+}
 
-  margin: 0;
-  width: 20%;
-  height: 20%;
-  max-width: 100px;
-  max-height: 162px;
-  color:blue;
-
-  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-  animation: sk-rotateplane 1.2s infinite ease-in-out;
+#title a {
   position: absolute;
-  transform:translate(-50%, -50%);
-  left: 50%;
-  top: 50%;
+  right:10px;
+  bottom:10px;
+  text-decoration:none;
+  color:black;
 }
 
-@-webkit-keyframes sk-rotateplane {
-  0% { -webkit-transform: translate(-50%, -50%) perspective(120px) }
-  50% { -webkit-transform: translate(-50%, -50%) perspective(120px) rotateY(180deg) }
-  100% { -webkit-transform: translate(-50%, -50%) perspective(120px) rotateY(180deg)  rotateX(180deg) }
+#title a:before {
+  content: "\203A";
 }
 
-@keyframes sk-rotateplane {
-  0% {
-    transform: translate(-50%, -50%) perspective(120px) rotateX(0deg) rotateY(0deg);
-    -webkit-transform: translate(-50%, -50%) perspective(120px) rotateX(0deg) rotateY(0deg);
-  } 50% {
-    transform: translate(-50%, -50%) perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    -webkit-transform: translate(-50%, -50%) perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-  } 100% {
-    transform: translate(-50%, -50%) perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    -webkit-transform: translate(-50%, -50%) perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-  }
-}
-
-.loading-text {
-    text-align: center;
-    font-weight: normal;
-    font-size: 20px;
-    margin-top: 10%;
-    color: #555;
+#title a:hover {
+  color:black;
+  background:#FFE130;
 }

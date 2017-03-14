@@ -5,7 +5,7 @@
 
 # Features
 ## :bar_chart: Reads card info from a Google doc
-All of your flash cards are stored in a public Google Doc spreadsheet, which you
+All of your flash cards are stored in a public Google doc spreadsheet, which you
 can edit at will and simply reload your https://superflash.cards/?id=xyz page to
 pick up the changes. The spreadsheet format is simple. Three columns: **deck
 name**, **question text**, and **answer text** (in that order).
