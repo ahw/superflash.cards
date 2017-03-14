@@ -120,6 +120,17 @@ _Only the first three columns are important._
 ### 3. Go To Your Flash Cards
 **https://superflash.cards/?id=YOUR_DOC_ID**
 
+# The **info** deck
+This isn't that important, but you may interested to know that user settings are
+maintained in a special hidden deck named **info**. The **info** deck is a
+special deck where the "question" content is the name of a setting, and the
+"answer" content is the value for that setting. _There is currently just one
+user setting supported: the page title._
+
+| deck | question | answer |
+| ---- | -------- | ------ |
+| info | title    | The title of your entire flash card set. Something like "My Awesome Flash Cards". This comes in handy if you're bookmarking the page and want a more meaningful default page title. |
+
 # Credits
 *This is a static app built on top of a robust "starter kit" developed over at
 [React Static Boilerplate](https://github.com/koistya/react-static-boilerplate).
