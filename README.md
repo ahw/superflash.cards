@@ -30,17 +30,17 @@ https://en.wikipedia.org/wiki/Markdown to learn more about what's available in
 Markdown. Keep reading for info on handling newlines.
 
 ## :heavy_division_sign: AsciiMath support
-Use AsciiMath notation between two `%` signs and it will render as a
+Use AsciiMath notation between two **%%** delimiters and it will render as a
 properly typeset mathematical expression using MathJax. See
 http://asciimath.org/ for all the things you can do with AsciiMath.
-**Important:** you must sandwich your AsciiMath between two `%` signs, **not**
-two <code>\`</code> signs, which is the default delimiter used in all the
-examples on http://asciimath.org. The reason here is because <code>\`</code> is
-already a reserved character in Markdown.
+**Important:** you must sandwich your AsciiMath between two pairs of "%%",
+signs, **not** two <code>\`</code> signs, which is the default delimiter used in all
+the examples on http://asciimath.org. The reason here is because <code>\`</code>
+is already a reserved character in Markdown.
 
 **For example, this AsciiMath text...**
 
-> **%Delta C ~~ (del C)/(del v\_1)\*Delta v\_1 + (del C)/(del v\_2)\*Delta v\_2 + cdots + (del C)/(del v\_n)\*Delta v\_n%**
+> **%%Delta C ~~ (del C)/(del v\_1)\*Delta v\_1 + (del C)/(del v\_2)\*Delta v\_2 + cdots + (del C)/(del v\_n)\*Delta v\_n%%**
 
 **...becomes this subliminal beauty**
 

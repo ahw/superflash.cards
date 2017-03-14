@@ -11,7 +11,7 @@ import config from '../../config';
 function Html({ title, description, body, debug, timestamp }) {
   const mathjaxConfig = `MathJax.Hub.Config({
         asciimath2jax: {
-          delimiters: [['%', '%']]
+          delimiters: [['%%', '%%'], ['$$', '$$']]
         },
         CommonHTML: { linebreaks: { automatic: true } },
         "HTML-CSS": { linebreaks: { automatic: true } },
