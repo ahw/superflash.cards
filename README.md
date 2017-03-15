@@ -6,7 +6,7 @@
 # Features
 ## :bar_chart: Reads card info from a Google doc
 All of your flash cards are stored in a public Google doc spreadsheet, which you
-can edit at will and simply reload your https://superflash.cards/?id=xyz page to
+can edit at will and simply reload your https://superflash.cards/?id=your_doc_id page to
 pick up the changes. The spreadsheet format is simple. Three columns: **deck
 name**, **question text**, and **answer text** (in that order).
 
@@ -106,26 +106,24 @@ your progress synchronized between those browsers. Sorry.
    
 # How To Create Your Own Cards: With Screenshots
 ### 1. Create a Google Spreadsheet, Note the Id
-![Google Sheet URL](https://pd93f014.s3.amazonaws.com/google-doc-id-1.svg)
+<sub>https:</sub><sub>//docs.google.com/spreadsheets/d/</sub>**1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U**<sub>/edit#gid=0</sub>
 
 ### Format Your Sheet Like This
-_Only the first three columns are important._
-![Google Sheet Format](https://pd93f014.s3.amazonaws.com/google-doc-publish-to-web-screenshot-1.png)
+![Google Sheet Format](https://pd93f014.s3.amazonaws.com/flash-cards-example-spreadsheet.png)
 
 ### 2. Publish To Web
 **Warning! This will make your sheet public to the world!**
-![Google Sheet Publish To Web Menu Item](https://pd93f014.s3.amazonaws.com/google-doc-publish-to-web-menu-item-selected.png)
-![Google Sheet Publish To Web Popup](https://pd93f014.s3.amazonaws.com/google-doc-publish-to-web-popup.png)
+![Google Sheet Publish To Web](https://pd93f014.s3.amazonaws.com/flash-cards-static-app-publish-to-web-combined.png)
 
 ### 3. Go To Your Flash Cards
-**https://superflash.cards/?id=YOUR_DOC_ID**
+**https://superflash.cards/?id=your_doc_id**
 
 # The **info** deck
 This isn't that important, but you may interested to know that user settings are
 maintained in a special hidden deck named **info**. The **info** deck is a
 special deck where the "question" content is the name of a setting, and the
 "answer" content is the value for that setting. _There is currently just one
-user setting supported: the page title._
+user setting available: the page title._
 
 | deck | question | answer |
 | ---- | -------- | ------ |
