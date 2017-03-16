@@ -102,20 +102,27 @@ your progress synchronized between those browsers. Sorry.
    making your flash cards publicly accessible to everyone on the internet. Do
    not include information in this spreadsheet which you wouldn't mind anyone
    in the world seeing.
-4. Access your flash cards by visiting https://superflash.cards/?id=YOUR\_DOC\_ID
+4. Access your flash cards by visiting https://superflash.cards/?id=your_doc_id
    
-# How To Create Your Own Cards: With Screenshots
-### 1. Create a Google Spreadsheet, Note the Id
-<sub>https:</sub><sub>//docs.google.com/spreadsheets/d/</sub>**1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U**<sub>/edit#gid=0</sub>
+# Screenshots
+### Create a Google spreadsheet; note the id
 
-### Format Your Sheet Like This
+    https://docs.google.com/spreadsheets/d/1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U/edit#gid=0
+                                           ============================================
+
+In this example, it's **1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U**.
+
+### Format your sheet link this
+Three columns, **deck name**, **question**, and **answer**.
+
 ![Google Sheet Format](https://pd93f014.s3.amazonaws.com/flash-cards-example-spreadsheet.png)
 
-### 2. Publish To Web
+### Publish to web
 **Warning! This will make your sheet public to the world!**
+
 ![Google Sheet Publish To Web](https://pd93f014.s3.amazonaws.com/flash-cards-static-app-publish-to-web-combined.png)
 
-### 3. Go To Your Flash Cards
+### Go to your flash cards
 **https://superflash.cards/?id=your_doc_id**
 
 # The **info** deck
