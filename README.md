@@ -90,7 +90,7 @@ see the answer first.
 a phone to a laptop, you are implicitly switching browsers and will *not* see
 your progress synchronized between those browsers. Sorry.
 
-# How To Create Your Own Cards: The Short Version
+# How to create your own flash cards: the short version
 
 1. Create a Google spreadsheet and make note of the id. It's the long
    alphanumeric string between `/d/` and `/edit/` in the document's URL.
@@ -105,7 +105,7 @@ your progress synchronized between those browsers. Sorry.
 4. Access your flash cards by visiting https://superflash.cards/?id=your_doc_id
    
 # Screenshots
-### Create a Google spreadsheet; note the id
+### Create a Google spreadsheet
 
     https://docs.google.com/spreadsheets/d/1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U/edit#gid=0
                                            ============================================
