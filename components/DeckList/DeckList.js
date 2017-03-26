@@ -55,6 +55,7 @@ export default class DeckList extends React.Component {
     return (
       <div className='DeckCovers-container' style={style}>
         <div id="title">
+          <img src="tile.png" style={{maxHeight: '100%'}}/>
           <h1>Super Flash Cards</h1>
           <a id="help" href="https://github.com/ahw/superflash.cards/blob/master/README.md">Help</a>
         </div>

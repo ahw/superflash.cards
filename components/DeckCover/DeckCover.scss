@@ -1,13 +1,15 @@
+@import '../variables.scss';
+
 .DeckCover {
   cursor: pointer;
   font-family: Helvetica;
   flex-grow: 1;
   flex-basis: auto;
-  margin: 10px;
+  margin: 2px;
   position: relative;
-  box-shadow: 4px 4px black;
+  /* box-shadow: 2px 2px $shadow1, 4px 4px $shadow2, 6px 6px $shadow3; */
   padding: 6px;
-  border:1px solid black;
+  border:2px solid #eee;
 }
 
 .DeckCoverDetails {

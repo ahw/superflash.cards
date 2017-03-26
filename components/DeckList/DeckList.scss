@@ -1,6 +1,25 @@
+@import '../variables.scss';
+
 #title {
   width:100%;
   position:relative;
+
+  /* new */
+    width: 100%;
+    position: relative;
+    height: 45px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+    /* margin: 0 5px; */
+    /* margin: 0px 10px; */
+    /* padding: 0 15px; */
+    box-shadow: 0px 4px $shadow1, 0px 8px $shadow2, 0px 12px $shadow3;
+    background: #fafafa;
+    margin-bottom: 14px;
+    padding: 4px 0;
 }
 
 #title h1 {
@@ -8,10 +27,12 @@
   text-transform: lowercase;
   font-weight: lighter;
   margin:5px 10px 5px;
-  border-bottom: 2px solid black;
+  /* border-bottom: 2px solid black; */
+  white-space:nowrap;
 }
 
 #title a {
+  display:none;
   position: absolute;
   right:10px;
   bottom:10px;
