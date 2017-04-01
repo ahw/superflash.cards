@@ -57,8 +57,8 @@ export default class DeckList extends React.Component {
         <div id="title">
           <img src="tile.png" style={{maxHeight: '100%'}}/>
           <h1>Super Flash Cards</h1>
-          <a id="help" href="https://github.com/ahw/superflash.cards/blob/master/README.md">Help</a>
         </div>
+        <a id="help" href="https://github.com/ahw/superflash.cards/blob/master/README.md">Help and instructions</a>
         {deckCovers}
         {deckCovers.length === 0 ? overlay : null}
       </div>

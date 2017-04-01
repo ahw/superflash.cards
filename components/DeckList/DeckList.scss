@@ -31,20 +31,19 @@
   white-space:nowrap;
 }
 
-#title a {
-  display:none;
-  position: absolute;
-  right:10px;
-  bottom:10px;
-  text-decoration:none;
-  color:black;
+#help {
+  /* position: absolute; */
+  /* right:10px; */
+  /* bottom:10px; */
+  display:block;
+  width:100%;
+  color:gray;
+  font-style:italic;
+  padding:2px 5px;
+  text-align:center;
 }
 
-#title a:before {
-  content: "\203A";
-}
-
-#title a:hover {
+#help:hover {
   color:black;
   background:#FFE130;
 }

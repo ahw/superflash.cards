@@ -21,6 +21,8 @@ let starStyle = {
   fontSize: '48px'
 }
 let star = <span style={starStyle} dangerouslySetInnerHTML={{__html: '&#9733;'}}/>
+// let star = <span style={starStyle}>💯</span>
+// let star = <span style={starStyle}>⭐</span>
 
 
 export default class DeckCover extends React.Component {
