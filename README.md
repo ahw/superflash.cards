@@ -31,12 +31,12 @@ Markdown. Keep reading for info on handling newlines.
 
 ## :heavy_division_sign: AsciiMath support
 Use AsciiMath notation between two **%%** delimiters and it will render as a
-properly typeset mathematical expression using MathJax. See
-http://asciimath.org/ for all the things you can do with AsciiMath.
-**Important:** you must sandwich your AsciiMath between two pairs of "%%",
-signs, **not** two <code>\`</code> signs, which is the default delimiter used in all
-the examples on http://asciimath.org. The reason here is because <code>\`</code>
-is already a reserved character in Markdown.
+properly typeset mathematical expression using MathJax. (Known bug: MathJax does
+not load when offline.) See http://asciimath.org/ for all the things you can do
+with AsciiMath. **Important:** you must sandwich your AsciiMath between two
+pairs of "%%", signs, **not** two <code>\`</code> signs, which is the default
+delimiter used in all the examples on http://asciimath.org. The reason here is
+because <code>\`</code> is already a reserved character in Markdown.
 
 **For example, this AsciiMath text...**
 
