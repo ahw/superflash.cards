@@ -67,11 +67,13 @@ export default class Card extends React.Component {
     })
   }
 
-  flipCard() {
-    this.props.onFlip()
-    this.setState({
-      isShowingQuestion: !this.state.isShowingQuestion
-    })
+  flipCard(e) {
+    if (e.target.tagName !== 'A') {
+      this.props.onFlip()
+      this.setState({
+        isShowingQuestion: !this.state.isShowingQuestion
+      })
+    }
   }
 
   onTouchStart(e) {
