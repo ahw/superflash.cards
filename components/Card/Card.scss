@@ -32,10 +32,13 @@
   border:1px solid black;
   padding:2px;
   text-align:center;
+  border-top:none;
+  border-bottom:none;
 }
 
 .flashcard th {
   border-bottom:2px solid black;
+  border-top:none;
 }
 
 .flashcard-header {
