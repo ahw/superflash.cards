@@ -5,7 +5,7 @@
  */
 
 export default {
-  title: 'Flashcards',
+  title: 'Super Flash Cards',
   description: 'For studying stuff. Indeed, for learning stuff.',
   googleAnalyticsId: 'UA-XXXXX-X',
 };
