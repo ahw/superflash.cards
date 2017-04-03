@@ -46,3 +46,13 @@
 #help:hover {
   color:black;
 }
+
+@-webkit-keyframes colorchange {
+  0% { color: #555; }
+  100% { color: #f1f1f1; }
+}
+
+.xloading-text {
+  -webkit-animation:colorchange 2s infinite alternate;
+  animation:colorchange 2s infinite alternate;
+}
