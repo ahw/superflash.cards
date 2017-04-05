@@ -113,9 +113,9 @@ your progress synchronized between those browsers. Sorry.
    
 # Screenshots
 ### Create a Google spreadsheet
+Take a look at the URL and note the id.
 
-    https://docs.google.com/spreadsheets/d/1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U/edit#gid=0
-                                           ============================================
+> https://docs.google.com/spreadsheets/d/1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U/edit#gid=0
 
 In this example, it's **1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U**.
 
