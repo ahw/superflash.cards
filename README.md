@@ -119,8 +119,8 @@ Take a look at the URL and note the id.
 
 In this example, it's **1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U**.
 
-### Format your sheet link this
-Three columns, **deck name**, **question**, and **answer**.
+### Format your sheet like this
+Create three columns, **deck name**, **question**, and **answer**.
 
 ![Google Sheet Format](https://pd93f014.s3.amazonaws.com/flash-cards-example-spreadsheet.png)
 
