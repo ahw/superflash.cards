@@ -61,7 +61,7 @@ additional preprocessing steps done to convert regular spaces into newlines.
 1. **Three** consecutive underscores ("\_\_\_") are replaced with a blank line,
    about the width of a 5 letter word. This is so you can write
    fill-in-the-blank questions.
-2. **Three** consecutive underscores next to **three** consecutive periods
+2. **Three** consecutive underscores followed by **three** consecutive periods
    ("\_\_\_...") are replaced with a single blank line that has a "&hellip;"
    symbol hovering just above it. This is so you can fill-in-the-blank questions
    where the blank represents mutiple words to be filled in.
@@ -80,6 +80,13 @@ additional preprocessing steps done to convert regular spaces into newlines.
 # Caveats
 :construction: Consider this a work in progress. It works best on a phone and
 in fact has a weird interaction mode on desktop.
+
+:iphone: I've only ever tested this on my own personal iPhone. If stuff doesn't
+work for you, definitely file an
+[issue](https://github.com/ahw/superflash.cards/issues).
+
+:hourglass: ApplicationCache is the older, less cool offline technology. I know,
+I know.
 
 :repeat: You can only cycle one-way through a deck. You can't automatically
 skip over cards you don't know, and you can't jump to certain cards. You can't
