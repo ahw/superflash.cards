@@ -6,6 +6,6 @@
 
 export default {
   title: 'Super Flash Cards',
-  description: 'For studying stuff. Indeed, for learning stuff.',
+  description: 'A flash card app that pulls data from a Google spreadsheet and works offline!',
   googleAnalyticsId: 'UA-XXXXX-X',
 };
