@@ -1,0 +1,24 @@
+.card-and-nav {
+}
+
+.card-and-nav-inner {
+  height:100%;
+}
+
+@media screen and (min-width: 500px) {
+  .card-and-nav {
+      width: 400px;
+      height: calc(100vh - 20px);
+      margin:auto;
+      padding:10px 0;
+  }
+
+  .card-and-nav-inner {
+    margin: auto;
+    position:relative;
+    border:1px solid black;
+    height:100%;
+    box-sizing: border-box;
+    box-shadow:4px 4px black;
+  }
+}
