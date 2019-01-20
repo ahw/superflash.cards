@@ -45,7 +45,7 @@ function Html({ title, description, body, debug, timestamp }) {
         <meta name="twitter:title" content={title || config.title} />
         <meta name="twitter:description" content={description || config.description} />
         <meta name="twitter:site" content="@andrewhallagan" />
-        <meta name="twitter:image:src" content="https://superflash.cards/cards-tile-wide-1024x512.png" />
+        <meta name="twitter:image:src" content="https://superflash.cards/cards-stack.svg" />
         {/* Open Graph general (Facebook, Pinterest & Google+) */}
         <meta name="og:title" content={title || config.title} />
         <meta name="og:description" content={description || config.description} />
