@@ -1,5 +1,5 @@
 # Super Flash Cards
-![Super Flash Cards](https://pd93f014.s3.amazonaws.com/super-flash-cards-screenshot.jpg)
+![Super Flash Cards](static/super-flash-cards-screenshot.png)
 
 *It's a flash card web app that runs off a Google doc and it works offline.* **[https://superflash.cards](https://superflash.cards)**
 
@@ -44,7 +44,7 @@ because <code>\`</code> is already a reserved character in Markdown.
 
 **...becomes this subliminal beauty**
 
-![Cost Function Approximation](https://s3.amazonaws.com/pd93f014/math-equation-1.png)
+![Cost Function Approximation](static/math-equation-1.png)
 
 ## :leftwards_arrow_with_hook: Newline support
 Newlines (the thing you get when you hit the "Enter" key) are an essential part
@@ -69,13 +69,13 @@ additional preprocessing steps done to convert regular spaces into newlines.
 ### Single-word blank space
 `Water is composed of two parts ___ and one part ___`
 
-![Water is composed of two parts \_\_\_ and one part \_\_\_.](https://pd93f014.s3.amazonaws.com/super-flash-cards-blank-space-single-shadow.png?v=2)
+![Water is composed of two parts \_\_\_ and one part \_\_\_.](static/super-flash-cards-blank-space-single-shadow.png)
 
 ### Multiple-word blank space
 
 `Water is composed of ___...`
 
-![Water is composed of \_\_\_...](https://pd93f014.s3.amazonaws.com/super-flash-cards-blank-space-dots-shadow.png?v=2)
+![Water is composed of \_\_\_...](static/super-flash-cards-blank-space-dots-shadow.png)
 
 # Caveats
 :construction: Consider this a work in progress. It works best on a phone and
@@ -122,12 +122,12 @@ In this example, it's **1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U**.
 ### Format your sheet like this
 Create three columns, **deck name**, **question**, and **answer**.
 
-![Google Sheet Format](https://pd93f014.s3.amazonaws.com/flash-cards-example-spreadsheet.png)
+![Google Sheet Format](static/flash-cards-example-spreadsheet.png)
 
 ### Publish to web
 **Warning! This will make your sheet public to the world!**
 
-![Google Sheet Publish To Web](https://pd93f014.s3.amazonaws.com/flash-cards-static-app-publish-to-web-combined.png)
+![Google Sheet Publish To Web](static/flash-cards-static-app-publish-to-web-combined.png)
 
 ### Go to your flash cards
 **https://superflash.cards/?id=your_doc_id**
