@@ -1,4 +1,4 @@
-/*! iNoBounce - v0.1.0
+/*! iNoBounce - v0.1.6
 * https://github.com/lazd/iNoBounce/
 * Copyright (c) 2013 Larry Davis <lazdnet@gmail.com>; Licensed BSD */
 (function(global) {
@@ -8,18 +8,39 @@
 	// Store enabled status
 	var enabled = false;
 
+	var supportsPassiveOption = false;
+	try {
+		var opts = Object.defineProperty({}, 'passive', {
+			get: function() {
+				supportsPassiveOption = true;
+			}
+		});
+		window.addEventListener('test', null, opts);
+	} catch (e) {}
+
 	var handleTouchmove = function(evt) {
 		// Get the element that was scrolled upon
 		var el = evt.target;
 
+		// Allow zooming
+		var zoom = window.innerWidth / window.document.documentElement.clientWidth;
+		if (evt.touches.length > 1 || zoom !== 1) {
+			return;
+		}
+
 		// Check all parent elements for scrollability
-		while (el !== document.body) {
+		while (el !== document.body && el !== document) {
 			// Get some style properties
 			var style = window.getComputedStyle(el);
 
 			if (!style) {
 				// If we've encountered an element we can't compute the style for, get out
 				break;
+			}
+
+			// Ignore range input element
+			if (el.nodeName === 'INPUT' && el.getAttribute('type') === 'range') {
+				return;
 			}
 
 			var scrolling = style.getPropertyValue('-webkit-overflow-scrolling');
@@ -63,8 +84,8 @@
 
 	var enable = function() {
 		// Listen to a couple key touch events
-		window.addEventListener('touchstart', handleTouchstart, false);
-		window.addEventListener('touchmove', handleTouchmove, false);
+		window.addEventListener('touchstart', handleTouchstart, supportsPassiveOption ? { passive : false } : false);
+		window.addEventListener('touchmove', handleTouchmove, supportsPassiveOption ? { passive : false } : false);
 		enabled = true;
 	};
 
@@ -106,7 +127,7 @@
 	if (typeof global.define === 'function') {
 		// AMD Support
 		(function(define) {
-			define(function() { return iNoBounce; });
+			define('iNoBounce', [], function() { return iNoBounce; });
 		}(global.define));
 	}
 	else {
