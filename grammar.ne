@@ -34,33 +34,33 @@ question -> %DEFINITION string
   {% ([def, str]) => ({ type: 'html', value: '<h3>Definition</h3>', children: str }) %}
   | string
 string -> null
-  | PS
-  | PS meaningfulSpaces string
+  | plainString
+  | plainString meaningfulSpaces string
   # {% (a) => a.map(e => e.chunk).join("") %}
-  | PS fillInBlank string
+  | plainString fillInBlank string
   # {% (a) => a.map(e => e.chunk).join("") %}
   | meaningfulSpaces string
   # {% (a) => a.map(e => e.chunk).join("") %}
   | fillInBlank string
   # {% (a) => a.map(e => e.chunk).join("") %}
 
-fillInBlank -> %TRIPLE_UNDERSCORE %L_BRACKET PS %R_BRACKET
-  {% ([,,PS,]) => ({ type: 'FIB', value: '___', blank: PS }) %}
+fillInBlank -> %TRIPLE_UNDERSCORE %L_BRACKET plainString %R_BRACKET
+  {% ([,,plainString,]) => ({ type: 'FIB', value: '___', blank: plainString }) %}
 
-  | %TRIPLE_UNDERSCORE_DOTS %L_BRACKET PS %R_BRACKET
-  {% ([,,PS,]) => ({ type: 'FIB', value: '___...', blank: PS }) %}
+  | %TRIPLE_UNDERSCORE_DOTS %L_BRACKET plainString %R_BRACKET
+  {% ([,,plainString,]) => ({ type: 'FIB', value: '___...', blank: plainString }) %}
 
-  | %TRIPLE_UNDERSCORE %L_PAREN PS %R_PAREN
-  {% ([,,PS,]) => ({ type: 'FIB', value: '___', blank: PS }) %}
+  | %TRIPLE_UNDERSCORE %L_PAREN plainString %R_PAREN
+  {% ([,,plainString,]) => ({ type: 'FIB', value: '___', blank: plainString }) %}
 
-  | %TRIPLE_UNDERSCORE_DOTS %L_PAREN PS %R_PAREN
-  {% ([,,PS,]) => ({ type: 'FIB', value: '___...', blank: PS }) %}
+  | %TRIPLE_UNDERSCORE_DOTS %L_PAREN plainString %R_PAREN
+  {% ([,,plainString,]) => ({ type: 'FIB', value: '___...', blank: plainString }) %}
 
 meaningfulSpaces -> %TRIPLE_SPACE
   {% () => ({ type: 'markdown', value: '\n\n' }) %}
   | %DOUBLE_SPACE
   {% () => ({ type: 'markdown', value: '\n' }) %}
-PS -> %TEXT_CHAR
+plainString -> %TEXT_CHAR
   {% ([ch]) => ({ type: 'markdown', value: ch }) %}
-  | %TEXT_CHAR PS
+  | %TEXT_CHAR plainString
   {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}
