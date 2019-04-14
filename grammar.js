@@ -27,15 +27,22 @@ const lexer = moo.compile({
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "question", "symbols": [(lexer.has("DEFINITION") ? {type: "DEFINITION"} : DEFINITION), "string"], "postprocess": ([def, str]) => ({ left: `Definition: `, right: str })},
+    {"name": "question", "symbols": [(lexer.has("DEFINITION") ? {type: "DEFINITION"} : DEFINITION), "string"], "postprocess": ([def, str]) => ({ type: 'html', value: '<h3>Definition</h3>', children: str })},
     {"name": "question", "symbols": ["string"]},
-    {"name": "question", "symbols": ["string", (lexer.has("TRIPLE_Q") ? {type: "TRIPLE_Q"} : TRIPLE_Q), "answer"]},
-    {"name": "string", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR)]},
-    {"name": "string", "symbols": ["string", (lexer.has("TRIPLE_SPACE") ? {type: "TRIPLE_SPACE"} : TRIPLE_SPACE), "string"], "postprocess": ([space, str]) => ({ left: `\n\n`, right: str })},
-    {"name": "string", "symbols": ["string", (lexer.has("DOUBLE_SPACE") ? {type: "DOUBLE_SPACE"} : DOUBLE_SPACE), "string"], "postprocess": ([space, str]) => ({ left: `\n`, right: str })},
-    {"name": "string", "symbols": ["string", (lexer.has("TRIPLE_UNDERSCORE") ? {type: "TRIPLE_UNDERSCORE"} : TRIPLE_UNDERSCORE), "string"], "postprocess": ([space, str]) => ({ left: `___`, right: str })},
-    {"name": "string", "symbols": ["string", (lexer.has("TRIPLE_UNDERSCORE") ? {type: "TRIPLE_UNDERSCORE"} : TRIPLE_UNDERSCORE), (lexer.has("L_BRACKET") ? {type: "L_BRACKET"} : L_BRACKET), "string", (lexer.has("R_BRACKET") ? {type: "R_BRACKET"} : R_BRACKET), "string"], "postprocess": ([space, lbracket, str, rbracket]) => ({ left: '___',  right: str })},
-    {"name": "string", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR), "string"]}
+    {"name": "string", "symbols": []},
+    {"name": "string", "symbols": ["PS"]},
+    {"name": "string", "symbols": ["PS", "meaningfulSpaces", "string"]},
+    {"name": "string", "symbols": ["PS", "fillInBlank", "string"]},
+    {"name": "string", "symbols": ["meaningfulSpaces", "string"]},
+    {"name": "string", "symbols": ["fillInBlank", "string"]},
+    {"name": "fillInBlank", "symbols": [(lexer.has("TRIPLE_UNDERSCORE") ? {type: "TRIPLE_UNDERSCORE"} : TRIPLE_UNDERSCORE), (lexer.has("L_BRACKET") ? {type: "L_BRACKET"} : L_BRACKET), "PS", (lexer.has("R_BRACKET") ? {type: "R_BRACKET"} : R_BRACKET)], "postprocess": ([,,PS,]) => ({ type: 'html', value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS })},
+    {"name": "fillInBlank", "symbols": [(lexer.has("TRIPLE_UNDERSCORE_DOTS") ? {type: "TRIPLE_UNDERSCORE_DOTS"} : TRIPLE_UNDERSCORE_DOTS), (lexer.has("L_BRACKET") ? {type: "L_BRACKET"} : L_BRACKET), "PS", (lexer.has("R_BRACKET") ? {type: "R_BRACKET"} : R_BRACKET)], "postprocess": ([,,PS,]) => ({ value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS })},
+    {"name": "fillInBlank", "symbols": [(lexer.has("TRIPLE_UNDERSCORE") ? {type: "TRIPLE_UNDERSCORE"} : TRIPLE_UNDERSCORE), (lexer.has("L_PAREN") ? {type: "L_PAREN"} : L_PAREN), "PS", (lexer.has("R_PAREN") ? {type: "R_PAREN"} : R_PAREN)], "postprocess": ([,,PS,]) => ({ value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS })},
+    {"name": "fillInBlank", "symbols": [(lexer.has("TRIPLE_UNDERSCORE_DOTS") ? {type: "TRIPLE_UNDERSCORE_DOTS"} : TRIPLE_UNDERSCORE_DOTS), (lexer.has("L_PAREN") ? {type: "L_PAREN"} : L_PAREN), "PS", (lexer.has("R_PAREN") ? {type: "R_PAREN"} : R_PAREN)], "postprocess": ([,,PS,]) => ({ value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS })},
+    {"name": "meaningfulSpaces", "symbols": [(lexer.has("TRIPLE_SPACE") ? {type: "TRIPLE_SPACE"} : TRIPLE_SPACE)], "postprocess": () => ({ value: '\n\n' })},
+    {"name": "meaningfulSpaces", "symbols": [(lexer.has("DOUBLE_SPACE") ? {type: "DOUBLE_SPACE"} : DOUBLE_SPACE)], "postprocess": () => ({ value: '\n' })},
+    {"name": "PS", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR)], "postprocess": ([ch]) => ({ type: 'PS', value: ch })},
+    {"name": "PS", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR), "PS"], "postprocess": ([ch, str]) => ({ type: 'PS', value: ch + str.value })}
 ]
   , ParserStart: "question"
 }
