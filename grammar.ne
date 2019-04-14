@@ -45,22 +45,22 @@ string -> null
   # {% (a) => a.map(e => e.chunk).join("") %}
 
 fillInBlank -> %TRIPLE_UNDERSCORE %L_BRACKET PS %R_BRACKET
-  {% ([,,PS,]) => ({ type: 'html', value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS }) %}
+  {% ([,,PS,]) => ({ type: 'FIB', value: '___', blank: PS }) %}
 
   | %TRIPLE_UNDERSCORE_DOTS %L_BRACKET PS %R_BRACKET
-  {% ([,,PS,]) => ({ value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS }) %}
+  {% ([,,PS,]) => ({ type: 'FIB', value: '___...', blank: PS }) %}
 
   | %TRIPLE_UNDERSCORE %L_PAREN PS %R_PAREN
-  {% ([,,PS,]) => ({ value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS }) %}
+  {% ([,,PS,]) => ({ type: 'FIB', value: '___', blank: PS }) %}
 
   | %TRIPLE_UNDERSCORE_DOTS %L_PAREN PS %R_PAREN
-  {% ([,,PS,]) => ({ value: '<span style="display:inline-block; width:3em; background:white; border:1px solid black; text-align:center">?</span>', blank: PS }) %}
+  {% ([,,PS,]) => ({ type: 'FIB', value: '___...', blank: PS }) %}
 
 meaningfulSpaces -> %TRIPLE_SPACE
-  {% () => ({ value: '\n\n' }) %}
+  {% () => ({ type: 'markdown', value: '\n\n' }) %}
   | %DOUBLE_SPACE
-  {% () => ({ value: '\n' }) %}
+  {% () => ({ type: 'markdown', value: '\n' }) %}
 PS -> %TEXT_CHAR
-  {% ([ch]) => ({ type: 'PS', value: ch }) %}
+  {% ([ch]) => ({ type: 'markdown', value: ch }) %}
   | %TEXT_CHAR PS
-  {% ([ch, str]) => ({ type: 'PS', value: ch + str.value }) %}
+  {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}
