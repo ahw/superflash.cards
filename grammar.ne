@@ -29,7 +29,14 @@ const lexer = moo.compile({
 #expression -> %question %divider %answer
 #string -> %text*
 #  | %text* %TRIPLE_X
-#
+card ->
+  question %TRIPLE_Q answer
+  {% ([question, , answer]) => ({ question, answer }) %}
+  | question
+  {% ([question]) => ({ question, answer: null }) %}
+
+answer -> string
+
 question ->
   %DEFINITION string
   {% ([def, str]) => ({ type: 'markdown', value: '### Definition\n', children: str }) %}

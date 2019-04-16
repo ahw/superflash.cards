@@ -22,7 +22,9 @@ testStrings.forEach(line => {
     // console.log(JSON.stringify(parser.results, null, '    '));
     const output = print(parser.results);
     console.log(output);
-  } catch (e) { }
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // if (parser.results.length > 1) {
@@ -37,8 +39,11 @@ function print(results) {
   const blanks = [];
 
   function _print(results) {
+    if (results === null) {
+      return null;
+    }
+
     if (Array.isArray(results)) {
-      // console.log('printing nested array...');
       return results.map(r => _print(r)).join("");
     }
 
@@ -53,11 +58,7 @@ function print(results) {
       return results.value;
     }
 
-    if (results.type === 'html') {
-      return results.value;
-    }
-
-    if (results.type === 'FIB') {
+    if (results.type === 'fill-in-blank') {
       blanks.push(results.blank.value);
       return results.value;
     }
@@ -65,7 +66,14 @@ function print(results) {
     return results.value;
   }
 
-  return _print(results) + '\n' + blanks.map(b => `  - ${b}`).join('\n');
+  return results.map(result => {
+    return {
+      question: _print(result.question),
+      blanks,
+      answer: _print(result.answer)
+    };
+  });
+
   // return {
   //   markdown: _print(results),
   //   blanks,

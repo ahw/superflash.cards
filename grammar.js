@@ -27,6 +27,9 @@ const lexer = moo.compile({
 var grammar = {
     Lexer: lexer,
     ParserRules: [
+    {"name": "card", "symbols": ["question", (lexer.has("TRIPLE_Q") ? {type: "TRIPLE_Q"} : TRIPLE_Q), "answer"], "postprocess": ([question, , answer]) => ({ question, answer })},
+    {"name": "card", "symbols": ["question"], "postprocess": ([question]) => ({ question, answer: null })},
+    {"name": "answer", "symbols": ["string"]},
     {"name": "question", "symbols": [(lexer.has("DEFINITION") ? {type: "DEFINITION"} : DEFINITION), "string"], "postprocess": ([def, str]) => ({ type: 'markdown', value: '### Definition\n', children: str })},
     {"name": "question", "symbols": ["string"]},
     {"name": "string", "symbols": []},
@@ -44,7 +47,7 @@ var grammar = {
     {"name": "plainString", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR)], "postprocess": ([ch]) => ({ type: 'markdown', value: ch })},
     {"name": "plainString", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR), "plainString"], "postprocess": ([ch, str]) => ({ type: 'markdown', value: ch + str.value })}
 ]
-  , ParserStart: "question"
+  , ParserStart: "card"
 }
 if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
    module.exports = grammar;
