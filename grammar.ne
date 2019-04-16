@@ -1,5 +1,5 @@
 @{%
-const moo = require("moo");
+const moo = require('moo');
 
 const lexer = moo.compile({
   DEFINITION: /Definition: ?/,
@@ -30,37 +30,42 @@ const lexer = moo.compile({
 #string -> %text*
 #  | %text* %TRIPLE_X
 #
-question -> %DEFINITION string
-  {% ([def, str]) => ({ type: 'html', value: '<h3>Definition</h3>', children: str }) %}
+question ->
+  %DEFINITION string
+  {% ([def, str]) => ({ type: 'markdown', value: '### Definition\n', children: str }) %}
+
   | string
+
 string -> null
   | plainString
   | plainString meaningfulSpaces string
-  # {% (a) => a.map(e => e.chunk).join("") %}
   | plainString fillInBlank string
-  # {% (a) => a.map(e => e.chunk).join("") %}
   | meaningfulSpaces string
-  # {% (a) => a.map(e => e.chunk).join("") %}
   | fillInBlank string
-  # {% (a) => a.map(e => e.chunk).join("") %}
 
-fillInBlank -> %TRIPLE_UNDERSCORE %L_BRACKET plainString %R_BRACKET
-  {% ([,,plainString,]) => ({ type: 'FIB', value: '___', blank: plainString }) %}
+fillInBlank ->
+  %TRIPLE_UNDERSCORE %L_BRACKET plainString %R_BRACKET
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
 
   | %TRIPLE_UNDERSCORE_DOTS %L_BRACKET plainString %R_BRACKET
-  {% ([,,plainString,]) => ({ type: 'FIB', value: '___...', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
 
   | %TRIPLE_UNDERSCORE %L_PAREN plainString %R_PAREN
-  {% ([,,plainString,]) => ({ type: 'FIB', value: '___', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
 
   | %TRIPLE_UNDERSCORE_DOTS %L_PAREN plainString %R_PAREN
-  {% ([,,plainString,]) => ({ type: 'FIB', value: '___...', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
 
-meaningfulSpaces -> %TRIPLE_SPACE
+meaningfulSpaces ->
+  %TRIPLE_SPACE
   {% () => ({ type: 'markdown', value: '\n\n' }) %}
+
   | %DOUBLE_SPACE
   {% () => ({ type: 'markdown', value: '\n' }) %}
-plainString -> %TEXT_CHAR
+
+plainString ->
+  %TEXT_CHAR
   {% ([ch]) => ({ type: 'markdown', value: ch }) %}
+
   | %TEXT_CHAR plainString
   {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}
