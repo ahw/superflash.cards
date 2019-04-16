@@ -11,12 +11,11 @@ const lexer = moo.compile({
   TRIPLE_UNDERSCORE: /___/,
   TRIPLE_X_DOTS: /xxx\.\.\./,
   TRIPLE_X: /xxx/,
-  TRIPLE_Q: /\?\?\?/,
+  TRIPLE_Q: / \?\?\? /,
   L_BRACKET: /\[/,
   R_BRACKET: /\]/,
   L_PAREN: /\(/,
   R_PAREN: /\)/,
-  SPACE_DASH_SPACE: / - /,
   NEWLINE: { match: '\n', lineBreaks: true },
   TEXT_CHAR: /./,
 });
@@ -73,6 +72,13 @@ meaningfulSpaces ->
 plainString ->
   %TEXT_CHAR
   {% ([ch]) => ({ type: 'markdown', value: ch }) %}
-
   | %TEXT_CHAR plainString
+  {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}
+  | %L_PAREN plainString
+  {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}
+  | %R_PAREN plainString
+  {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}
+  | %L_BRACKET plainString
+  {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}
+  | %R_BRACKET plainString
   {% ([ch, str]) => ({ type: 'markdown', value: ch + str.value }) %}

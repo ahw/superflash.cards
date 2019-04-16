@@ -15,12 +15,11 @@ const lexer = moo.compile({
   TRIPLE_UNDERSCORE: /___/,
   TRIPLE_X_DOTS: /xxx\.\.\./,
   TRIPLE_X: /xxx/,
-  TRIPLE_Q: /\?\?\?/,
+  TRIPLE_Q: / \?\?\? /,
   L_BRACKET: /\[/,
   R_BRACKET: /\]/,
   L_PAREN: /\(/,
   R_PAREN: /\)/,
-  SPACE_DASH_SPACE: / - /,
   NEWLINE: { match: '\n', lineBreaks: true },
   TEXT_CHAR: /./,
 });
@@ -45,7 +44,11 @@ var grammar = {
     {"name": "meaningfulSpaces", "symbols": [(lexer.has("TRIPLE_SPACE") ? {type: "TRIPLE_SPACE"} : TRIPLE_SPACE)], "postprocess": () => ({ type: 'markdown', value: '\n\n' })},
     {"name": "meaningfulSpaces", "symbols": [(lexer.has("DOUBLE_SPACE") ? {type: "DOUBLE_SPACE"} : DOUBLE_SPACE)], "postprocess": () => ({ type: 'markdown', value: '\n' })},
     {"name": "plainString", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR)], "postprocess": ([ch]) => ({ type: 'markdown', value: ch })},
-    {"name": "plainString", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR), "plainString"], "postprocess": ([ch, str]) => ({ type: 'markdown', value: ch + str.value })}
+    {"name": "plainString", "symbols": [(lexer.has("TEXT_CHAR") ? {type: "TEXT_CHAR"} : TEXT_CHAR), "plainString"], "postprocess": ([ch, str]) => ({ type: 'markdown', value: ch + str.value })},
+    {"name": "plainString", "symbols": [(lexer.has("L_PAREN") ? {type: "L_PAREN"} : L_PAREN), "plainString"], "postprocess": ([ch, str]) => ({ type: 'markdown', value: ch + str.value })},
+    {"name": "plainString", "symbols": [(lexer.has("R_PAREN") ? {type: "R_PAREN"} : R_PAREN), "plainString"], "postprocess": ([ch, str]) => ({ type: 'markdown', value: ch + str.value })},
+    {"name": "plainString", "symbols": [(lexer.has("L_BRACKET") ? {type: "L_BRACKET"} : L_BRACKET), "plainString"], "postprocess": ([ch, str]) => ({ type: 'markdown', value: ch + str.value })},
+    {"name": "plainString", "symbols": [(lexer.has("R_BRACKET") ? {type: "R_BRACKET"} : R_BRACKET), "plainString"], "postprocess": ([ch, str]) => ({ type: 'markdown', value: ch + str.value })}
 ]
   , ParserStart: "card"
 }

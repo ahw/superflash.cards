@@ -63,6 +63,7 @@ function print(results) {
       return results.value;
     }
 
+    console.log(`Just returning results.value ${results.value}`);
     return results.value;
   }
 
