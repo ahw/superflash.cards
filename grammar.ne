@@ -9,9 +9,10 @@ const lexer = moo.compile({
   ESCAPED_NEWLINE: /\\n/,
   TRIPLE_UNDERSCORE_DOTS: /___\.\.\./,
   TRIPLE_UNDERSCORE: /___/,
-  TRIPLE_X_DOTS: /xxx\.\.\./,
-  TRIPLE_X: /xxx/,
+  TRIPLE_X_DOTS: /[xX]{3}\.\.\./,
+  TRIPLE_X: /[xX]{3}/,
   TRIPLE_Q: / \?\?\? /,
+  TRIPLE_HASH: / ### /,
   L_BRACKET: /\[/,
   R_BRACKET: /\]/,
   L_PAREN: /\(/,
@@ -29,10 +30,17 @@ const lexer = moo.compile({
 #string -> %text*
 #  | %text* %TRIPLE_X
 card ->
-  question %TRIPLE_Q answer
-  {% ([question, , answer]) => ({ question, answer }) %}
+  question %TRIPLE_Q answer %TRIPLE_HASH plainString
+  {% ([question, qqq, answer, hhh, tags]) => ({ question, answer, tags }) %}
+
+  |question %TRIPLE_Q answer
+  {% ([question, qqq, answer]) => ({ question, answer, tags: null }) %}
+
+  | question %TRIPLE_HASH plainString
+  {% ([question, hhh, tags]) => ({ question, answer: null, tags }) %}
+
   | question
-  {% ([question]) => ({ question, answer: null }) %}
+  {% ([question]) => ({ question, answer: null, tags: null }) %}
 
 answer -> string
 
@@ -60,6 +68,18 @@ fillInBlank ->
   {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
 
   | %TRIPLE_UNDERSCORE_DOTS %L_PAREN plainString %R_PAREN
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
+
+  |%TRIPLE_X %L_BRACKET plainString %R_BRACKET
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
+
+  | %TRIPLE_X_DOTS %L_BRACKET plainString %R_BRACKET
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
+
+  | %TRIPLE_X %L_PAREN plainString %R_PAREN
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
+
+  | %TRIPLE_X_DOTS %L_PAREN plainString %R_PAREN
   {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
 
 meaningfulSpaces ->

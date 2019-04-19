@@ -71,7 +71,8 @@ function print(results) {
     return {
       question: _print(result.question),
       blanks,
-      answer: _print(result.answer)
+      answer: _print(result.answer),
+      tags: result.tags ? _print(result.tags).split(',').map(tag => tag.trim()) : [],
     };
   });
 
