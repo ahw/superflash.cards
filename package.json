@@ -70,6 +70,7 @@
     "clean": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/clean')().catch(err => console.log(err.stack))\"",
     "build": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/build')().catch(err => console.log(err.stack))\"",
     "start": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/start')().catch(err => console.log(err.stack))\"",
+    "compile-grammar": "./node_modules/.bin/nearleyc ./grammar/grammar.ne -o ./grammar/grammar.js",
     "deploy-gamma": "aws --profile s3access s3 sync build s3://flash-cards-static-app --recursive --acl public-read --cache-control no-cache --delete --exclude \".git/*\" --exclude \"node_modules/*\" --exclude \".DS_Store\"",
     "deploy-prod": "aws --profile s3access s3 sync build s3://superflash.cards --recursive --acl public-read --cache-control no-cache --delete --exclude \".git/*\" --exclude \"node_modules/*\" --exclude \".DS_Store\""
   }
