@@ -8,7 +8,7 @@ import glob from 'glob';
 import { join, dirname } from 'path';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import Html from '../components/Html';
+import Html from '../src/components/Html';
 import task from './lib/task';
 import fs from './lib/fs';
 
@@ -17,7 +17,7 @@ const timestamp = Date.now();
 
 function getPages() {
   return new Promise((resolve, reject) => {
-    glob('**/*.js', { cwd: join(__dirname, '../pages') }, (err, files) => {
+    glob('**/*.js', { cwd: join(__dirname, '../src/pages') }, (err, files) => {
       if (err) {
         reject(err);
       } else {

@@ -11,7 +11,7 @@ import * as Actions from '../actions'
 import Swipeable from 'react-swipeable'
 import url from 'url'
 import config from '../config'
-import '../style/index.scss'
+import '../../style/index.scss'
 
 // TODO: Is this being used?
 // import injectTapEventPlugin from 'react-tap-event-plugin'
