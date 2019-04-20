@@ -5,44 +5,44 @@ import {
   UPDATE_SELECTED_DECK,
   GOTO_NEXT_CARD_INDEX,
   GOTO_CARD_INDEX
-} from '../actions'
-import { combineReducers } from 'redux'
+} from '../actions';
+import { combineReducers } from 'redux';
 
 function decksReducer(decks = {}, action) {
   if (action.type === ADD_CARD_SUCCESS) {
-    let card = action.payload.card
+    let card = action.payload.card;
 
     if (decks[card.deck]) {
-      let updatedCardList = [...decks[card.deck].cards, card]
-      let updatedDeck = Object.assign({}, decks[card.deck], {cards: updatedCardList})
-      return Object.assign({}, decks, {[card.deck]: updatedDeck})
+      let updatedCardList = [...decks[card.deck].cards, card];
+      let updatedDeck = Object.assign({}, decks[card.deck], {cards: updatedCardList});
+      return Object.assign({}, decks, {[card.deck]: updatedDeck});
     } else {
       // Initialize a new deck with an array of 1 card
       let newDeck = {
         cards: [card],
         currentCardIndex: 0
-      }
-      return Object.assign({}, decks, {[card.deck]: newDeck})
+      };
+      return Object.assign({}, decks, {[card.deck]: newDeck});
     }
   }
 
   if (action.type === UPDATE_CARD_SUCCESS) {
-    let card = action.payload.card
+    let card = action.payload.card;
     let updatedCards = decks[card.deck].cards.map((existingCard) => {
       if (existingCard.id === card.id) {
-        return Object.assign({}, existingCard, card)
+        return Object.assign({}, existingCard, card);
       } else {
-        return existingCard
+        return existingCard;
       }
-    })
-    let updatedDeck = Object.assign({}, decks[card.deck], {cards: updatedCards})
-    return Object.assign({}, decks, {[action.payload.card.deck]: updatedDeck})
+    });
+    let updatedDeck = Object.assign({}, decks[card.deck], {cards: updatedCards});
+    return Object.assign({}, decks, {[action.payload.card.deck]: updatedDeck});
   }
 
-  
+
   if (action.type === GOTO_NEXT_CARD_INDEX) {
-    let deckId = action.payload.deckId
-    let currentCardIndex = decks[deckId].currentCardIndex
+    let deckId = action.payload.deckId;
+    let currentCardIndex = decks[deckId].currentCardIndex;
     let wrongOrUnansweredCards = decks[deckId].cards.filter((card) => {
       // TODO: Here is where we could search for all the wrong or unanswered
       // cards so that the next card we go to is not just one that has already
@@ -50,35 +50,35 @@ function decksReducer(decks = {}, action) {
       // this should just go back to the very first card in the list and start
       // all over again. See (possibly)
       // http://rackt.org/redux/docs/recipes/ComputingDerivedData.html
-    })
+    });
 
-    let nextIndex = (decks[deckId].currentCardIndex + 1) % decks[deckId].cards.length
-    let updatedDeck = Object.assign({}, decks[deckId], {currentCardIndex: nextIndex})
-    return Object.assign({}, decks, {[deckId]: updatedDeck})
+    let nextIndex = (decks[deckId].currentCardIndex + 1) % decks[deckId].cards.length;
+    let updatedDeck = Object.assign({}, decks[deckId], {currentCardIndex: nextIndex});
+    return Object.assign({}, decks, {[deckId]: updatedDeck});
   }
-  
+
   if (action.type === GOTO_CARD_INDEX) {
-    let deckId = action.payload.deckId
+    let deckId = action.payload.deckId;
     // In case cardIndex is out of range, take the mod of the number of cards
-    let nextIndex = action.payload.cardIndex % decks[deckId].cards.length
-    let updatedDeck = Object.assign({}, decks[deckId], {currentCardIndex: nextIndex})
-    return Object.assign({}, decks, {[deckId]: updatedDeck})
+    let nextIndex = action.payload.cardIndex % decks[deckId].cards.length;
+    let updatedDeck = Object.assign({}, decks[deckId], {currentCardIndex: nextIndex});
+    return Object.assign({}, decks, {[deckId]: updatedDeck});
   }
 
   // Assert: nothing to do
-  return decks
+  return decks;
 }
 
 function selectedDeckReducer(selectedDeck = null, action) {
   if (action.type === UPDATE_SELECTED_DECK) {
-    return action.payload
+    return action.payload;
   }
-  return selectedDeck
+  return selectedDeck;
 }
 
 const rootReducer = combineReducers({
   decks: decksReducer,
   selectedDeck: selectedDeckReducer
-})
+});
 
-export default rootReducer
+export default rootReducer;
