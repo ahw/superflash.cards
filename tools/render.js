@@ -13,7 +13,7 @@ import task from './lib/task';
 import fs from './lib/fs';
 
 const DEBUG = !process.argv.includes('release');
-const timestamp = Date.now()
+const timestamp = Date.now();
 
 function getPages() {
   return new Promise((resolve, reject) => {
@@ -37,25 +37,29 @@ function getPages() {
 }
 
 async function renderManifest() {
-  let content = `CACHE MANIFEST
+  const content = (`
+    CACHE MANIFEST
 
-# ${new Date(timestamp).toLocaleString()}
-3p-libraries/fastclick.js
-3p-libraries/inobounce.js
-tile.png
-https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML
-https://cdn.mathjax.org/mathjax/2.7-latest/config/AM_CHTML.js?V=2.7.0
-app.js?${timestamp}
-1.app.js
-2.app.js
+    # ${new Date(timestamp).toLocaleString()}
+    3p-libraries/fastclick.js
+    3p-libraries/inobounce.js
+    tile.png
+    https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML
+    https://cdn.mathjax.org/mathjax/2.7-latest/config/AM_CHTML.js?V=2.7.0
+    app.js?${timestamp}
+    1.app.js
+    2.app.js
 
-# The * indicates that the browser should allow all connections to non-cached
-# resources from a cached page.
-NETWORK:
-*
-`
+    # The * indicates that the browser should allow all connections to non-cached
+    # resources from a cached page.
+    NETWORK:
+    *
+  `)
+    .split('\n')
+    .map(line => line.replace(/^\s+/g, ''))
+    .join('\n');
 
-  content.split('\n').forEach((line) => {
+  content.split('\n').forEach(line => {
     console.log('    ' + line);
   });
   await fs.writeFile(join(__dirname, '../build/offline.appcache'), content);
@@ -64,7 +68,7 @@ NETWORK:
 async function renderPage(page, component) {
   const data = {
     body: ReactDOM.renderToString(component),
-    timestamp
+    timestamp,
   };
   const file = join(__dirname, '../build', page.file.substr(0, page.file.lastIndexOf('.')) + '.html');
   const html = '<!doctype html>\n' + ReactDOM.renderToStaticMarkup(<Html debug={DEBUG} {...data} />);
