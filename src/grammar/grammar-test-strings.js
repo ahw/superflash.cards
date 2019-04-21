@@ -1,8 +1,6 @@
 const text = `
 Goldman Sachs converted from a privately held partnership into a publicly traded company in xxx(1999). ### companies
-
 Definition: Annuity ??? An annuity is a series of payments made at equal intervals. ### vocab, instruments
-
 Examples of annuities are  1. regular deposits to a xxx(savings account),  2. monthly xxx(home mortgage) payments,  3. monthly xxx(insurance) payments and  4. Xxx(pension) payments. ### vocab, instruments
 The capital of New York is xxx[Albany] ### geography
 A ___[man] a plan, a Canal, Xxx[Panama!] ### history, palendromes

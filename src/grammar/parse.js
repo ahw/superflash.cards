@@ -9,7 +9,10 @@ export function parseLine(line) {
     console.warn('Got multiple parse results; returning the first');
   }
 
-  return output[0];
+  return {
+    ...output[0],
+    additionalParseResults: output.slice(1),
+  };
 }
 
 export function _parseLine(line) {
@@ -21,7 +24,7 @@ export function _parseLine(line) {
   } catch (e) {
     console.warn('Got exception while processing line', line);
     console.error(e);
-    return [];
+    return [{ error: e }];
   }
 }
 
