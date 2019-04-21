@@ -9,8 +9,12 @@ export function parseLine(line) {
     console.warn('Got multiple parse results; returning the first');
   }
 
+  const { question, blanks, answer, tags } = output[0];
   return {
-    ...output[0],
+    question,
+    blanks,
+    answer,
+    tags,
     additionalParseResults: output.slice(1),
   };
 }
