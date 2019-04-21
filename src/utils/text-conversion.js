@@ -19,7 +19,6 @@ export function getHtml({ question: spreadsheetQuestion, answer: spreadsheetAnsw
             answer: markdownToHtml(result.answer),
         };
     } else if (result.question && result.answer === null) {
-        debugger;
         const questionHtml = markdownToHtml(result.question);
         let filledInAnswer = questionHtml;
         let blankIndex = 0;
