@@ -27,8 +27,7 @@ class Link extends Component {
   };
   */
 
- /*
-  static handleClick = event => {
+  handleClick(event) {
     let allowTransition = true;
     let clickResult;
 
@@ -52,8 +51,7 @@ class Link extends Component {
         this.props && this.props.state || null,
         this.props && this.props.to || (link.pathname + link.search));
     }
-  };
-  */
+  }
 
   render() {
     const { to, children, ...props } = this.props;
