@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect, assert } from 'chai';
-import { parseLine } from './parse';
+import { _parseLine, parseLine } from './parse';
 
 describe('grammar', () => {
   it('should parse a Question ??? Answer ### Tags question', function test(done) {
@@ -25,6 +25,46 @@ describe('grammar', () => {
     const result = parseLine('What is the capital of New York?');
     assert.equal(result.question, 'What is the capital of New York?');
     assert.strictEqual(result.answer, null);
+    assert.equal(result.tags.length, 0);
+    done();
+  });
+
+  it('should parse a Question xxx[blank] ### Tags question', function test(done) {
+    const result = parseLine('The capital of New York is xxx[Albany] ### geography, state capitals');
+    assert.equal(result.question, 'The capital of New York is ___');
+    assert.strictEqual(result.answer, null);
+    assert.equal(result.blanks.length, 1);
+    assert.equal(result.blanks[0], 'Albany');
+    assert.equal(result.tags.length, 2);
+    done();
+  });
+
+  it('should parse a Question xxx(blank) ### Tags question', function test(done) {
+    const result = parseLine('The capital of New York is xxx[Albany] ### geography, state capitals');
+    assert.equal(result.question, 'The capital of New York is ___');
+    assert.strictEqual(result.answer, null);
+    assert.equal(result.blanks.length, 1);
+    assert.equal(result.blanks[0], 'Albany');
+    assert.equal(result.tags.length, 2);
+    done();
+  });
+
+  it('should parse a Question Xxx(blank) ### Tags question', function test(done) {
+    const result = parseLine('The capital of New York is xxx[Albany] ### geography, state capitals');
+    assert.equal(result.question, 'The capital of New York is ___');
+    assert.strictEqual(result.answer, null);
+    assert.equal(result.blanks.length, 1);
+    assert.equal(result.blanks[0], 'Albany');
+    assert.equal(result.tags.length, 2);
+    done();
+  });
+
+  it('should parse a Question Xxx(blank) question', function test(done) {
+    const result = parseLine('The capital of New York is xxx[Albany]');
+    assert.equal(result.question, 'The capital of New York is ___');
+    assert.strictEqual(result.answer, null);
+    assert.equal(result.blanks.length, 1);
+    assert.equal(result.blanks[0], 'Albany');
     assert.equal(result.tags.length, 0);
     done();
   });
