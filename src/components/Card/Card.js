@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import './Card.scss';
 import MarkdownIt from 'markdown-it';
 
@@ -13,14 +13,13 @@ function linearTransform(domain, range, x) {
     if (typeof x === 'number') {
         // If a domain value was provided, return the transformed result
         return slope * x + intercept;
-    } else {
-        // If no domain value was provided, return a function
-        return x => slope * x + intercept;
     }
+    // If no domain value was provided, return a function
+    return x => slope * x + intercept;
 }
 
-let getRotation = linearTransform([-1, 1], [-10, 10]);
-let getYTranslation = linearTransform([0, 1], [0, -100]);
+const getRotation = linearTransform([-1, 1], [-10, 10]);
+const getYTranslation = linearTransform([0, 1], [0, -100]);
 
 const starStyle = {
     display: 'block',
@@ -30,9 +29,9 @@ const starStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     fontSize: '128px',
-    opacity: 0.8
+    opacity: 0.8,
 };
-const star = <span style={starStyle} dangerouslySetInnerHTML={{__html: '&#9733;'}}/>;
+const star = <span style={starStyle} dangerouslySetInnerHTML={{ __html: '&#9733;' }} />;
 
 export default class Card extends React.Component {
     constructor(props) {
@@ -40,19 +39,19 @@ export default class Card extends React.Component {
         this.state = {
             isShowingQuestion: !!props.isShowingQuestion,
             skipOpacity: 0,
-            backOpacity: 0
+            backOpacity: 0,
         };
     }
 
     showAnswer() {
         this.setState({
-            isShowingQuestion: false
+            isShowingQuestion: false,
         });
     }
 
     showQuestion() {
         this.setState({
-            isShowingQuestion: true
+            isShowingQuestion: true,
         });
     }
 
@@ -60,28 +59,28 @@ export default class Card extends React.Component {
         if (e.target.tagName !== 'A') {
             this.props.onFlip();
             this.setState({
-                isShowingQuestion: !this.state.isShowingQuestion
+                isShowingQuestion: !this.state.isShowingQuestion,
             });
         }
     }
 
     onTouchStart(e) {
-        const { clientX:x, clientY:y } = e.targetTouches[0];
+        const { clientX: x, clientY: y } = e.targetTouches[0];
         this.setState({
-            lastTouchStart: {x, y}
+            lastTouchStart: { x, y },
         });
     }
 
     onTouchMove(e) {
-        const { clientX:x, clientY:y } = e.targetTouches[0];
-        const lastTouchStart = this.state.lastTouchStart;
+        const { clientX: x, clientY: y } = e.targetTouches[0];
+        const { lastTouchStart } = this.state;
         const deltaXRatio = (x - lastTouchStart.x) / window.document.documentElement.clientWidth;
         const deltaYRatio = 3 * (y - lastTouchStart.y) / window.document.documentElement.clientHeight;
         const rgbaValue = deltaXRatio > 0 ? `rgba(0, 128, 0, ${Math.abs(deltaXRatio)})` : `rgba(204, 0, 0, ${Math.abs(deltaXRatio)})`;
         this.setState({
             backgroundColor: rgbaValue,
             skipOpacity: deltaYRatio > 0 ? deltaYRatio : 0,
-            backOpacity: deltaYRatio < 0 ? Math.abs(deltaYRatio) : 0
+            backOpacity: deltaYRatio < 0 ? Math.abs(deltaYRatio) : 0,
         });
     }
 
@@ -143,21 +142,33 @@ export default class Card extends React.Component {
             .replace(/___\.\.\./g, '<span class="blankspace">&hellip;</span>')
             .replace(/___/g, '<span class="blankspace"></span>');
 
-        const dangerousHtml = {__html: html};
+        const dangerousHtml = { __html: html };
 
         return (
             <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
-                <h1 className="flashcard-header">{this.props.hasAnsweredAllCorrectly ? star : ''} {this.state.isShowingQuestion ? 'Question' : 'Answer'}</h1>
-                <div className="flashcard-content" dangerouslySetInnerHTML={dangerousHtml} style={{margin: 'auto', width: '85%'}}/>
-                <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity}}>Skip</span>
-                <span style={{fontSize: 24, position:'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity}}>Home</span>
-            </div>
-         );
+            <h1 className="flashcard-header">
+                  {this.props.hasAnsweredAllCorrectly ? star : ''}
+                  {' '}
+                    {this.state.isShowingQuestion ? 'Question' : 'Answer'}
+                </h1>
+                <div className="flashcard-content" dangerouslySetInnerHTML={dangerousHtml} style={{ margin: 'auto', width: '85%' }} />
+                <span style={{
+                    fontSize: 24, position: 'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity,
+                }}
+              >Skip
+              </span>
+                <span style={{
+                    fontSize: 24, position: 'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity,
+                }}
+              >Home
+              </span>
+          </div>
+        );
     }
 }
 
 Card.defaultProps = {
     lastSeen: null,
     isShowingQuestion: true,
-    onFlip: function() {}
+    onFlip() {},
 };
