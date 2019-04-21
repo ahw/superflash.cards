@@ -33,6 +33,7 @@ const JS_LOADER = {
     path.resolve(__dirname, '../src/utils'),
     path.resolve(__dirname, '../src/app.js'),
     path.resolve(__dirname, '../src/config.js'),
+    path.resolve(__dirname, '../src/grammar'),
   ],
   loader: 'babel-loader',
 };
