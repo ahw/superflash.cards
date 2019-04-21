@@ -1,7 +1,8 @@
 {
   "extends": "airbnb",
   "globals": {
-    "__DEV__": true
+    "__DEV__": true,
+    "MathJax": true
   },
   "rules": {
     "react/jsx-quotes": 0,
@@ -20,7 +21,7 @@
     "no-multi-spaces": 1,
     "key-spacing": 1,
     "space-before-function-paren": 1,
-    "indent": 1,
+    "indent": ["warn", 4],
     "id-length": 1,
     "no-regex-spaces": 1,
     "no-trailing-spaces": 1,
