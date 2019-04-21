@@ -145,24 +145,36 @@ export default class Card extends React.Component {
         const dangerousHtml = { __html: html };
 
         return (
-            <div className="flashcard" style={style} onClick={this.flipCard.bind(this)} onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchEnd={this.onTouchEnd.bind(this)}>
-            <h1 className="flashcard-header">
-                  {this.props.hasAnsweredAllCorrectly ? star : ''}
-                  {' '}
+            <div
+                className="flashcard"
+                style={style}
+                onClick={this.flipCard.bind(this)}
+                onTouchStart={this.onTouchStart.bind(this)}
+                onTouchMove={this.onTouchMove.bind(this)}
+                onTouchEnd={this.onTouchEnd.bind(this)}
+            >
+                <h1 className="flashcard-header">
+                    {this.props.hasAnsweredAllCorrectly ? star : ''}
+                    {' '}
                     {this.state.isShowingQuestion ? 'Question' : 'Answer'}
                 </h1>
-                <div className="flashcard-content" dangerouslySetInnerHTML={dangerousHtml} style={{ margin: 'auto', width: '85%' }} />
+                <div
+                    className="flashcard-content"
+                    dangerouslySetInnerHTML={dangerousHtml}
+                    style={{ margin: 'auto', width: '85%' }}
+                />
                 <span style={{
                     fontSize: 24, position: 'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity,
-                }}
-              >Skip
-              </span>
+                }}>
+                    Skip
+                </span>
                 <span style={{
                     fontSize: 24, position: 'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.backOpacity,
                 }}
-              >Home
-              </span>
-          </div>
+                >
+                    Home
+                </span>
+            </div>
         );
     }
 }
