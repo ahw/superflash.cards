@@ -113,9 +113,15 @@ const appConfig = merge({}, config, {
     ...(DEBUG ? [] : [
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: VERBOSE,
+        sourceMap: true,
+        compress: false,
+        mangle: false,
+        sourceMap: {
+          url: 'inline',
         },
+        // compress: {
+        //   warnings: VERBOSE,
+        // },
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
     ]),
@@ -138,10 +144,10 @@ const appConfig = merge({}, config, {
                   transform: 'react-transform-hmr',
                   imports: ['react'],
                   locals: ['module'],
-                }, {
+                }, /*{
                   transform: 'react-transform-catch-errors',
                   imports: ['react', 'redbox-react'],
-                },
+                }, */
               ],
             },
           },
