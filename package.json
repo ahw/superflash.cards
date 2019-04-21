@@ -67,6 +67,7 @@
   "scripts": {
     "lint": "eslint src tools test",
     "test": "npm run lint && mocha --compilers js:babel/register ./{src,test}/**/*.spec.js",
+    "test-watch": "npm run lint && mocha --watch --compilers js:babel/register ./{src,test}/**/*.spec.js",
     "clean": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/clean')().catch(err => console.log(err.stack))\"",
     "build": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/build')().catch(err => console.log(err.stack))\"",
     "start": "./node_modules/babel/bin/babel-node.js --eval \"require('./tools/start')().catch(err => console.log(err.stack))\"",
