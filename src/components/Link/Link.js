@@ -18,13 +18,16 @@ function isModifiedEvent(event) {
 
 class Link extends Component {
 
+  /*
   static propTypes = {
     to: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
     state: PropTypes.object,
     onClick: PropTypes.func,
   };
+  */
 
+ /*
   static handleClick = event => {
     let allowTransition = true;
     let clickResult;
@@ -50,6 +53,7 @@ class Link extends Component {
         this.props && this.props.to || (link.pathname + link.search));
     }
   };
+  */
 
   render() {
     const { to, children, ...props } = this.props;
