@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import './Card.scss';
-import MarkdownIt from 'markdown-it';
+import { getHtml } from '../../utils/text-conversion';
 
-const md = new MarkdownIt();
 const answerColor = 'gray'; // '#3E96FF' // 'rgb(0, 62, 136)' // #0678FE'
 
 function linearTransform(domain, range, x) {
@@ -129,19 +128,8 @@ export default class Card extends React.Component {
             backgroundColor: (this.state.backgroundColor || 'transparent'),
         };
 
-        const text = this.state.isShowingQuestion ? this.props.question : this.props.answer;
-
-        const markdownText = text
-            .replace(/ {3}/g, '\n\n')
-            .replace(/ {2}/g, '\n')
-            .replace(/\\t/g, '        ')
-            .replace(/\\n/g, '\n\n')
-            .replace(/^(Definition):\s/, '### $1\n');
-
-        const html = md.render(markdownText)
-            .replace(/___\.\.\./g, '<span class="blankspace">&hellip;</span>')
-            .replace(/___/g, '<span class="blankspace"></span>');
-
+        const { question: questionHtml, answer: answerHtml } = getHtml(this.props);
+        const html = this.state.isShowingQuestion ? questionHtml : answerHtml;
         const dangerousHtml = { __html: html };
 
         return (
