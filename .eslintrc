@@ -6,7 +6,7 @@
   },
   "rules": {
     "react/jsx-quotes": 0,
-    "jsx-quotes": [2, "prefer-double"],
+    "jsx-quotes": [1, "prefer-double"],
     "comma-dangle": 1,
     "prefer-const": 1,
     "no-unused-vars": 1,
@@ -40,8 +40,6 @@
     "consistent-return": 1,
     "react/sort-comp": 1,
     "new-cap": 1,
-    "space-infix-ops": 1,
-    "jsx-quotes": 1,
     "react/no-unknown-property": 1,
   }
 }
