@@ -19,13 +19,19 @@ export function getHtml({ question: spreadsheetQuestion, answer: spreadsheetAnsw
             answer: markdownToHtml(result.answer),
         };
     } else if (result.question && result.answer === null) {
-        const questionHtml = markdownToHtml(result.question);
+        let questionHtml = markdownToHtml(result.question);
+        // First create the filled-in answer
         let filledInAnswer = questionHtml;
         let blankIndex = 0;
-        while (/___(\.\.\.)?/.test(filledInAnswer)) {
-            filledInAnswer = filledInAnswer.replace(/___(\.\.\.)?/, formatBlankAnswer(result.blanks[blankIndex]));
+        while (/BLANKPLACEHOLDER(\.\.\.)?/.test(filledInAnswer)) {
+            filledInAnswer = filledInAnswer.replace(/BLANKPLACEHOLDER(\.\.\.)?/, formatBlankAnswer(result.blanks[blankIndex]));
             ++blankIndex;
         }
+
+        // Now mutate the original question
+        questionHtml = questionHtml
+            .replace(/BLANKPLACEHOLDER\.\.\./g, '<span class="blankspace">&hellip;</span>')
+            .replace(/BLANKPLACEHOLDER/g, '<span class="blankspace"></span>');
 
         return {
             question: questionHtml,

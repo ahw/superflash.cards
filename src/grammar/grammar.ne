@@ -59,28 +59,28 @@ string -> null
 
 fillInBlank ->
   %TRIPLE_UNDERSCORE %L_BRACKET plainString %R_BRACKET
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER', blank: plainString }) %}
 
   | %TRIPLE_UNDERSCORE_DOTS %L_BRACKET plainString %R_BRACKET
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER...', blank: plainString }) %}
 
   | %TRIPLE_UNDERSCORE %L_PAREN plainString %R_PAREN
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER', blank: plainString }) %}
 
   | %TRIPLE_UNDERSCORE_DOTS %L_PAREN plainString %R_PAREN
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER...', blank: plainString }) %}
 
   |%TRIPLE_X %L_BRACKET plainString %R_BRACKET
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER', blank: plainString }) %}
 
   | %TRIPLE_X_DOTS %L_BRACKET plainString %R_BRACKET
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER...', blank: plainString }) %}
 
   | %TRIPLE_X %L_PAREN plainString %R_PAREN
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER', blank: plainString }) %}
 
   | %TRIPLE_X_DOTS %L_PAREN plainString %R_PAREN
-  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: '___...', blank: plainString }) %}
+  {% ([,,plainString,]) => ({ type: 'fill-in-blank', value: 'BLANKPLACEHOLDER...', blank: plainString }) %}
 
 meaningfulSpaces ->
   %TRIPLE_SPACE
