@@ -20,28 +20,27 @@ export function getHtml({ question: spreadsheetQuestion, answer: spreadsheetAnsw
         };
     } else if (result.question && result.answer === null) {
         let questionHtml = markdownToHtml(result.question);
-        // First create the filled-in answer
-        let filledInAnswer = questionHtml;
+        let answerHtml = questionHtml;
         let blankIndex = 0;
-        while (/BLANKPLACEHOLDER(\.\.\.)?/.test(filledInAnswer)) {
-            filledInAnswer = filledInAnswer.replace(/BLANKPLACEHOLDER(\.\.\.)?/, formatBlankAnswer(result.blanks[blankIndex]));
+        while (/BLANKPLACEHOLDER(\.\.\.)?/.test(answerHtml)) {
+            answerHtml = answerHtml.replace(/BLANKPLACEHOLDER(\.\.\.)?/, formatFilledBlank(result.blanks[blankIndex]));
+            questionHtml = questionHtml.replace(/BLANKPLACEHOLDER(\.\.\.)?/, formatEmptyBlank(result.blanks[blankIndex]));
             ++blankIndex;
         }
 
-        // Now mutate the original question
-        questionHtml = questionHtml
-            .replace(/BLANKPLACEHOLDER\.\.\./g, '<span class="blankspace">&hellip;</span>')
-            .replace(/BLANKPLACEHOLDER/g, '<span class="blankspace"></span>');
-
         return {
             question: questionHtml,
-            answer: filledInAnswer,
+            answer: answerHtml,
         };
     }
 }
 
-export function formatBlankAnswer(blank) {
-    return `<span style="background:yellow">${blank}</span>`;
+export function formatFilledBlank(blank) {
+    return `<span style="padding:0 2px; border-bottom:1px solid red">${blank}</span>`;
+}
+
+export function formatEmptyBlank(blank) {
+    return `<span style="padding:0 2px; border-bottom:1px solid black; color:white;background:white">${blank}</span>`;
 }
 
 export function legacyTextToHtml(text) {
@@ -63,8 +62,5 @@ export function markdownToHtml(markdownText) {
         return markdownText;
     }
     
-    const html = md.render(markdownText);
-        //.replace(/___\.\.\./g, '<span class="blankspace">&hellip;</span>')
-        //.replace(/___/g, '<span class="blankspace"></span>');
-    return html;
+    return md.render(markdownText);
 }
