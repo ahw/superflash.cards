@@ -9,9 +9,26 @@ import GoogleAnalytics from '../GoogleAnalytics';
 import config from '../../config';
 
 function Html({ title, description, body, debug, timestamp }) {
+  // The HTML-CSS and SVG options are irrelevant since we're using the
+  // CommonHTML output processor. Leaving them in for reference though.
   const mathjaxConfig = `MathJax.Hub.Config({
         asciimath2jax: {
-          delimiters: [['%%', '%%'], ['$$', '$$']]
+           // Array of pairs of strings that are to be used as math delimiters.
+           // The first in each pair is the initial delimiter and the second is
+           // the terminal delimiter. You can have as many pairs as you want.
+           // For example,
+          delimiters: [['%%', '%%'], ['$$', '$$']],
+
+          // This controls whether asciimath2jax inserts MathJax_Preview spans
+          // to make a preview available, and what preview to use, when it
+          // locates in-line or display mathematics in the page. The default is
+          // "AsciiMath", which means use the ASCIIMath code as the preview
+          // (which will be visible until it is processed by MathJax). Set to
+          // "none" to prevent previews from being inserted (the math will
+          // simply disappear until it is typeset). Set to an array containing
+          // the description of an HTML snippet in order to use the same preview
+          // for all equations on the page.
+          preview: 'none',
         },
         CommonHTML: { linebreaks: { automatic: true } },
         "HTML-CSS": { linebreaks: { automatic: true } },
