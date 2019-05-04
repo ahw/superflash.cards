@@ -5,7 +5,6 @@ import {
   UPDATE_SELECTED_DECK,
   GOTO_NEXT_CARD_INDEX,
   GOTO_CARD_INDEX,
-  CARD_FLIP,
   MATHJAX_PROCESS_BEGIN,
   MATHJAX_PROCESS_END,
 } from '../actions';
@@ -112,11 +111,6 @@ function mathJaxReducer(mathJax = defaultMathJax, action) {
         return defaultMathJax;
     }
     
-    // -- if (action.type === CARD_FLIP) {
-    // --     console.log(`%c[card flip] Resetting MathJax hasStartedProcessing and hasFinishedProcessing`, 'color:blue;font-weight:blue', defaultMathJax);
-    // --     return defaultMathJax;
-    // -- }
-
     return mathJax;
 }
 

@@ -23,7 +23,6 @@ export const UPDATE_SELECTED_DECK       = 'UPDATE_SELECTED_DECK'
 
 export const MATHJAX_PROCESS_BEGIN      = 'MATHJAX_PROCESS_BEGIN';
 export const MATHJAX_PROCESS_END        = 'MATHJAX_PROCESS_END';
-export const CARD_FLIP                  = 'CARD_FLIP';
 
 export function generateId(card) {
   let shasum = crypto.createHash('sha1')
@@ -102,16 +101,6 @@ export function gotoNextCard(deckId) {
     payload: {deckId}
   }
 }
-
-// export function gotoCardIndex(deckId, cardIndex) {
-//   return {
-//     type: GOTO_CARD_INDEX,
-//     payload: {
-//       deckId,
-//       cardIndex
-//     }
-//   }
-// }
 
 export function markAsSeen(id) {
   return updateLocalStorage(id, {lastSeen: Date.now()})
@@ -257,8 +246,4 @@ export function mathJaxProcessBegin() {
 
 export function mathJaxProcessEnd() {
     return { type: MATHJAX_PROCESS_END };
-}
-
-export function cardFlip(cardId) {
-  return { type: CARD_FLIP, payload: { cardId } };
 }

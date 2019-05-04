@@ -109,10 +109,6 @@ export default class Card extends React.Component {
         MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // Nothing.
-    }
-
     componentWillUnmount() {
         document.removeEventListener('keydown', this._keyDownListener);
     }

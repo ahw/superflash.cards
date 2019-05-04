@@ -40,24 +40,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-      /*
-      MathJax.Hub.Register.MessageHook("Begin PreProcess", (message) => {
-          console.log("%c> Begin PreProcess", "color:blue;", arguments);
-      });
-
-      MathJax.Hub.Register.MessageHook("End PreProcess", (message) => {
-          console.log("%c< End PreProcess", "color:blue;", arguments);
-      });
-      */
-
       MathJax.Hub.Register.MessageHook("Begin Process", (message) => {
           this.props.dispatch(Actions.mathJaxProcessBegin());
-          console.log("%c> Begin Process", "color:blue;");
       });
 
       MathJax.Hub.Register.MessageHook("End Process", (message) => {
           this.props.dispatch(Actions.mathJaxProcessEnd());
-          console.log("%c< End Process", "color:blue;");
       });
 
 
@@ -91,7 +79,6 @@ class App extends Component {
 
       function onFlip() {
         this.props.dispatch(Actions.markAsSeen(card.id));
-        this.props.dispatch(Actions.cardFlip());
       }
 
       function onSeen() {
@@ -132,10 +119,7 @@ class App extends Component {
                     hasAnsweredAllCorrectly={hasAnsweredAllCorrectly}
                     mathJaxHasStartedProcessing={this.props.mathJax.hasStartedProcessing}
                     mathJaxHasFinishedProcessing={this.props.mathJax.hasFinishedProcessing}
-                    onFlip={() => {
-                      this.props.dispatch(Actions.markAsSeen(card.id));
-                      this.props.dispatch(Actions.cardFlip(card.id));
-                    }}
+                    onFlip={() => this.props.dispatch(Actions.markAsSeen(card.id))}
                     onSeen={console.log.bind(console, 'Card@onSeen')}
                     onAnsweredCorrectly={onAnsweredCorrectly.bind(this)}
                     onAnsweredIncorrectly={onAnsweredIncorrectly.bind(this)}
