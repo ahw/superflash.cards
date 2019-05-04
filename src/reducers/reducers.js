@@ -85,11 +85,11 @@ const defaultMathJax = {
 
 function mathJaxReducer(mathJax = defaultMathJax, action) {
     if (action.type === MATHJAX_PROCESS_BEGIN) {
+        // Kind of a hack; we know whenever MathJax has started it can't have finished
         const result = Object.assign({}, mathJax, {
             hasStartedProcessing: true,
             hasFinishedProcessing: false,
         });
-        console.log(`%cSetting MathJax hasStartedProcessing`, 'color:blue;font-weight:blue', result);
         return result;
     }
 
@@ -98,16 +98,13 @@ function mathJaxReducer(mathJax = defaultMathJax, action) {
             hasStartedProcessing: true,
             hasFinishedProcessing: true,
         });
-        console.log(`%cSetting MathJax hasFinishedProcessing`, 'color:blue;font-weight:blue', result);
         return result;
     }
 
     if (action.type === GOTO_CARD_INDEX || action.type === GOTO_NEXT_CARD_INDEX) {
-        console.log(`%c[goto card] Resetting MathJax hasStartedProcessing and hasFinishedProcessing`, 'color:blue;font-weight:blue', defaultMathJax);
         return defaultMathJax;
     }
     if (action.type === UPDATE_SELECTED_DECK) {
-        console.log(`%c[update deck] Resetting MathJax hasStartedProcessing and hasFinishedProcessing`, 'color:blue;font-weight:blue', defaultMathJax);
         return defaultMathJax;
     }
     
