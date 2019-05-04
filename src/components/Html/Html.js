@@ -11,29 +11,46 @@ import config from '../../config';
 function Html({ title, description, body, debug, timestamp }) {
     // The HTML-CSS and SVG options are irrelevant since we're using the
     // CommonHTML output processor. Leaving them in for reference though.
-    const mathjaxConfig = `MathJax.Hub.Config({
-        asciimath2jax: {
-            // Array of pairs of strings that are to be used as math delimiters.
-            // The first in each pair is the initial delimiter and the second is
-            // the terminal delimiter. You can have as many pairs as you want.
-            // For example,
-            delimiters: [['%%', '%%'], ['$$', '$$']],
+    const mathjaxConfig = `
+        MathJax.Hub.Config({
+            asciimath2jax: {
+                // Array of pairs of strings that are to be used as math delimiters.
+                // The first in each pair is the initial delimiter and the second is
+                // the terminal delimiter. You can have as many pairs as you want.
+                // For example,
+                delimiters: [['%%', '%%'], ['$$', '$$']],
 
-            // This controls whether asciimath2jax inserts MathJax_Preview spans
-            // to make a preview available, and what preview to use, when it
-            // locates in-line or display mathematics in the page. The default is
-            // "AsciiMath", which means use the ASCIIMath code as the preview
-            // (which will be visible until it is processed by MathJax). Set to
-            // "none" to prevent previews from being inserted (the math will
-            // simply disappear until it is typeset). Set to an array containing
-            // the description of an HTML snippet in order to use the same preview
-            // for all equations on the page.
-            preview: 'none',
-        },
-        CommonHTML: { linebreaks: { automatic: true } },
-        "HTML-CSS": { linebreaks: { automatic: true } },
-        SVG: { linebreaks: { automatic: true } }
-    })`;
+                // This controls whether asciimath2jax inserts MathJax_Preview spans
+                // to make a preview available, and what preview to use, when it
+                // locates in-line or display mathematics in the page. The default is
+                // "AsciiMath", which means use the ASCIIMath code as the preview
+                // (which will be visible until it is processed by MathJax). Set to
+                // "none" to prevent previews from being inserted (the math will
+                // simply disappear until it is typeset). Set to an array containing
+                // the description of an HTML snippet in order to use the same preview
+                // for all equations on the page.
+                preview: 'none',
+            },
+            CommonHTML: { linebreaks: { automatic: true } },
+            "HTML-CSS": { linebreaks: { automatic: true } },
+            SVG: { linebreaks: { automatic: true } }
+        });
+
+        // -- MathJax.Hub.Register.MessageHook("New Math", function (message) {
+        // --     var script = MathJax.Hub.getJaxFor(message[1]).SourceElement();
+        // --     // console.log("%c" + message.join(" ") + ": '" + script.text + "'", "color:blue;font-size:20pt");
+        // --     // console.log("%cArgs", "color:red", arguments);
+        // -- });
+
+        // -- MathJax.Hub.Register.MessageHook("End Process", function (message) {
+        // --     // console.log("%c" + message.join(" ") + ": '" + script.text + "'", "color:blue;font-size:20pt");
+        // --     console.log("%cArgs", "color:red", arguments);
+        // -- });
+
+        // -- MathJax.Hub.signal.Interest(function (message) {
+        // --     console.log("%cHub", "color:green", message)
+        // -- });
+    `;
 
     return (
         <html manifest="offline.appcache" className="no-js" lang="">

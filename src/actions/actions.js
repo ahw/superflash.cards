@@ -12,7 +12,7 @@ export const UPDATE_CARD_FAIL           = 'UPDATE_CARD_FAIL'
 export const UPDATE_CARD_DONE           = 'UPDATE_CARD_DONE'
 
 export const GOTO_NEXT_CARD_INDEX       = 'GOTO_NEXT_CARD_INDEX'
-// export const GOTO_CARD_INDEX            = 'GOTO_CARD_INDEX'
+export const GOTO_CARD_INDEX            = 'GOTO_CARD_INDEX'
 
 // export const FETCH_CARDS                = 'FETCH_CARDS'
 export const FETCH_CARDS_SUCCESS        = 'FETCH_CARDS_SUCCESS'
@@ -20,6 +20,10 @@ export const FETCH_CARDS_FAIL           = 'FETCH_CARDS_FAIL'
 export const FETCH_CARDS_DONE           = 'FETCH_CARDS_DONE'
 
 export const UPDATE_SELECTED_DECK       = 'UPDATE_SELECTED_DECK'
+
+export const MATHJAX_PROCESS_BEGIN      = 'MATHJAX_PROCESS_BEGIN';
+export const MATHJAX_PROCESS_END        = 'MATHJAX_PROCESS_END';
+export const CARD_FLIP                  = 'CARD_FLIP';
 
 export function generateId(card) {
   let shasum = crypto.createHash('sha1')
@@ -245,4 +249,16 @@ export function fetchCards(googleSheetId) {
       dispatch(fetchCardsDone(googleSheetId))
     })
   }
+}
+
+export function mathJaxProcessBegin() {
+    return { type: MATHJAX_PROCESS_BEGIN };
+}
+
+export function mathJaxProcessEnd() {
+    return { type: MATHJAX_PROCESS_END };
+}
+
+export function cardFlip(cardId) {
+  return { type: CARD_FLIP, payload: { cardId } };
 }

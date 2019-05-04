@@ -1,5 +1,9 @@
 {
   "selectedDeck": "javascript",
+  "mathJax": {
+      "hasStartedProcessing": false,
+      "hasFinishedProcessing": false,
+  },
   "decks": {
     "javascript": {
       "currentCardIndex": 1,

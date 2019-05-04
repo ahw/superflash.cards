@@ -55,7 +55,7 @@ export default class Card extends React.Component {
     }
 
     flipCard(e) {
-        if (e.target.tagName !== 'A') {
+        if (e && e.target && e.target.tagName !== 'A') {
             this.props.onFlip();
             this.setState({
                 isShowingQuestion: !this.state.isShowingQuestion,
@@ -94,9 +94,9 @@ export default class Card extends React.Component {
         else if (e.code === 'ArrowLeft') this.props.onAnsweredIncorrectly();
         else if (e.code === 'ArrowRight') this.props.onAnsweredCorrectly();
         else if (e.code === 'ArrowDown') this.props.onSkip();
-        else if (e.code === 'Space') this.flipCard();
+        else if (e.code === 'Space') this.flipCard(e);
         else if (e.code === 'Escape') this.props.onBackToAllDecks();
-        else this.flipCard();
+        else this.flipCard(e);
     }
 
     componentDidMount() {
@@ -104,15 +104,13 @@ export default class Card extends React.Component {
         this._keyDownListener = this.onKeyDown.bind(this);
         document.addEventListener('keydown', this._keyDownListener);
 
-        // Search again for math on the page to typeset
+        // Search for math on the page to typeset
         // See http://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
         MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
     }
 
-    componentDidUpdate() {
-        // Search again for math on the page to typeset
-        // See http://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
-        MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+    componentDidUpdate(prevProps, prevState) {
+        // Nothing.
     }
 
     componentWillUnmount() {
@@ -123,14 +121,12 @@ export default class Card extends React.Component {
         const color = this.state.isShowingQuestion ? 'black' : answerColor;
 
         const style = {
-            // height: window.document.documentElement.clientHeight - 20 - 15, // to account for padding + navigation
             color,
             backgroundColor: (this.state.backgroundColor || 'transparent'),
+            visibility: (this.props.mathJaxHasStartedProcessing && this.props.mathJaxHasFinishedProcessing) ? 'visible' : 'hidden',
         };
 
         const { question: questionHtml, answer: answerHtml } = getHtml(this.props);
-        const html = this.state.isShowingQuestion ? questionHtml : answerHtml;
-        const dangerousHtml = { __html: html };
 
         return (
             <div
@@ -148,8 +144,21 @@ export default class Card extends React.Component {
                 </h1>
                 <div
                     className="flashcard-content"
-                    dangerouslySetInnerHTML={dangerousHtml}
-                    style={{ margin: 'auto', width: '85%' }}
+                    dangerouslySetInnerHTML={{ __html: questionHtml }}
+                    style={{
+                        margin: 'auto',
+                        width: '85%',
+                        display: this.state.isShowingQuestion ? 'block': 'none',
+                    }}
+                />
+                <div
+                    className="flashcard-content"
+                    dangerouslySetInnerHTML={{ __html: answerHtml }}
+                    style={{
+                        margin: 'auto',
+                        width: '85%',
+                        display: !this.state.isShowingQuestion ? 'block' : 'none',
+                    }}
                 />
                 <span style={{
                     fontSize: 24, position: 'absolute', display: 'block', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: this.state.skipOpacity,

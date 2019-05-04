@@ -4,7 +4,10 @@ import {
   UPDATE_CARD_SUCCESS,
   UPDATE_SELECTED_DECK,
   GOTO_NEXT_CARD_INDEX,
-  GOTO_CARD_INDEX
+  GOTO_CARD_INDEX,
+  CARD_FLIP,
+  MATHJAX_PROCESS_BEGIN,
+  MATHJAX_PROCESS_END,
 } from '../actions';
 import { combineReducers } from 'redux';
 
@@ -76,9 +79,51 @@ function selectedDeckReducer(selectedDeck = null, action) {
   return selectedDeck;
 }
 
+const defaultMathJax = {
+    "hasStartedProcessing": false,
+    "hasFinishedProcessing": false,
+};
+
+function mathJaxReducer(mathJax = defaultMathJax, action) {
+    if (action.type === MATHJAX_PROCESS_BEGIN) {
+        const result = Object.assign({}, mathJax, {
+            hasStartedProcessing: true,
+            hasFinishedProcessing: false,
+        });
+        console.log(`%cSetting MathJax hasStartedProcessing`, 'color:blue;font-weight:blue', result);
+        return result;
+    }
+
+    if (action.type === MATHJAX_PROCESS_END) {
+        const result = Object.assign({}, mathJax, {
+            hasStartedProcessing: true,
+            hasFinishedProcessing: true,
+        });
+        console.log(`%cSetting MathJax hasFinishedProcessing`, 'color:blue;font-weight:blue', result);
+        return result;
+    }
+
+    if (action.type === GOTO_CARD_INDEX || action.type === GOTO_NEXT_CARD_INDEX) {
+        console.log(`%c[goto card] Resetting MathJax hasStartedProcessing and hasFinishedProcessing`, 'color:blue;font-weight:blue', defaultMathJax);
+        return defaultMathJax;
+    }
+    if (action.type === UPDATE_SELECTED_DECK) {
+        console.log(`%c[update deck] Resetting MathJax hasStartedProcessing and hasFinishedProcessing`, 'color:blue;font-weight:blue', defaultMathJax);
+        return defaultMathJax;
+    }
+    
+    // -- if (action.type === CARD_FLIP) {
+    // --     console.log(`%c[card flip] Resetting MathJax hasStartedProcessing and hasFinishedProcessing`, 'color:blue;font-weight:blue', defaultMathJax);
+    // --     return defaultMathJax;
+    // -- }
+
+    return mathJax;
+}
+
 const rootReducer = combineReducers({
   decks: decksReducer,
-  selectedDeck: selectedDeckReducer
+  selectedDeck: selectedDeckReducer,
+  mathJax: mathJaxReducer,
 });
 
 export default rootReducer;

@@ -31,11 +31,35 @@ class App extends Component {
     super(props)
     this.state = {
       decks: {},
-      selectedDeck: null
+      selectedDeck: null,
+      mathJax: {
+          hasStartedProcessing: false,
+          hasFinishedProcessing: false,
+      }
     }
   }
 
   componentDidMount() {
+      /*
+      MathJax.Hub.Register.MessageHook("Begin PreProcess", (message) => {
+          console.log("%c> Begin PreProcess", "color:blue;", arguments);
+      });
+
+      MathJax.Hub.Register.MessageHook("End PreProcess", (message) => {
+          console.log("%c< End PreProcess", "color:blue;", arguments);
+      });
+      */
+
+      MathJax.Hub.Register.MessageHook("Begin Process", (message) => {
+          this.props.dispatch(Actions.mathJaxProcessBegin());
+          console.log("%c> Begin Process", "color:blue;");
+      });
+
+      MathJax.Hub.Register.MessageHook("End Process", (message) => {
+          this.props.dispatch(Actions.mathJaxProcessEnd());
+          console.log("%c< End Process", "color:blue;");
+      });
+
 
     let query = url.parse(window.location.toString(), true).query
     let googleSheetId = query.id || '1gjMUw1XFuFAhU1DFCEcIg7HY980pnc6fFy7OKSKV09U'
@@ -66,7 +90,8 @@ class App extends Component {
       }
 
       function onFlip() {
-        this.props.dispatch(Actions.markAsSeen(card.id))
+        this.props.dispatch(Actions.markAsSeen(card.id));
+        this.props.dispatch(Actions.cardFlip());
       }
 
       function onSeen() {
@@ -105,7 +130,12 @@ class App extends Component {
                     cardIndex={deck.currentCardIndex}
                     totalCards={deck.cards.length}
                     hasAnsweredAllCorrectly={hasAnsweredAllCorrectly}
-                    onFlip={() => {this.props.dispatch(Actions.markAsSeen(card.id))}}
+                    mathJaxHasStartedProcessing={this.props.mathJax.hasStartedProcessing}
+                    mathJaxHasFinishedProcessing={this.props.mathJax.hasFinishedProcessing}
+                    onFlip={() => {
+                      this.props.dispatch(Actions.markAsSeen(card.id));
+                      this.props.dispatch(Actions.cardFlip(card.id));
+                    }}
                     onSeen={console.log.bind(console, 'Card@onSeen')}
                     onAnsweredCorrectly={onAnsweredCorrectly.bind(this)}
                     onAnsweredIncorrectly={onAnsweredIncorrectly.bind(this)}
