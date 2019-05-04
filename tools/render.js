@@ -44,8 +44,10 @@ async function renderManifest() {
     3p-libraries/fastclick.js
     3p-libraries/inobounce.js
     tile.png
-    https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML
-    https://cdn.mathjax.org/mathjax/2.7-latest/config/AM_CHTML.js?V=2.7.0
+    # cdn.mathjax.org is deprecated
+    # https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML
+    # https://cdn.mathjax.org/mathjax/2.7-latest/config/AM_CHTML.js?V=2.7.0
+    https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=AM_CHTML
     app.js?${timestamp}
     1.app.js
     2.app.js

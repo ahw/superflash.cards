@@ -58,7 +58,7 @@ function Html({ title, description, body, debug, timestamp }) {
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: body }} />
         <script type="text/x-mathjax-config" dangerouslySetInnerHTML={{ __html: mathjaxConfig }} />
-        <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML'/>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=AM_CHTML'/>
       </body>
     </html>
   );
