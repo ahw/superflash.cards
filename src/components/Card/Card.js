@@ -2,8 +2,6 @@ import React, { PropTypes } from 'react';
 import './Card.scss';
 import { getHtml } from '../../utils/text-conversion';
 
-const answerColor = 'gray'; // '#3E96FF' // 'rgb(0, 62, 136)' // #0678FE'
-
 function linearTransform(domain, range, x) {
     // rise / run
     const slope = (range[1] - range[0]) / (domain[1] - domain[0]);
@@ -114,11 +112,10 @@ export default class Card extends React.Component {
     }
 
     render() {
-        const color = this.state.isShowingQuestion ? 'black' : answerColor;
+        const backgroundColor = this.state.isShowingQuestion ? 'white' : '#fffcce';
 
         const style = {
-            color,
-            backgroundColor: (this.state.backgroundColor || 'transparent'),
+            backgroundColor: (this.state.backgroundColor || backgroundColor),
             visibility: (this.props.mathJaxHasStartedProcessing && this.props.mathJaxHasFinishedProcessing) ? 'visible' : 'hidden',
         };
 
